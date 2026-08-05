@@ -1,2 +1,6 @@
 # Documentacion
 *.md
+
+# Skills de IA
+.agents/
+skills-lock.json
