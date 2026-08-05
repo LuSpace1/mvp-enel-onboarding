@@ -3,8 +3,7 @@ from rest_framework.permissions import BasePermission
 
 class IsPlatformAdmin(BasePermission):
     """
-    Permiso personalizado que permite acceso únicamente a usuarios
-    autenticados que tengan la marca is_platform_admin=True.
+    Permite el acceso solo a los administradores de la plataforma.
     """
 
     def has_permission(self, request, view):

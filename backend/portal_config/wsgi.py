@@ -1,9 +1,9 @@
 """
-WSGI config for portal_config project.
+Configuración WSGI para el proyecto portal_config.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
+Expone el objeto WSGI como una variable de módulo llamada ``application``.
 
-For more information on this file, see
+Para más información sobre este archivo, consulta:
 https://docs.djangoproject.com/en/6.0/howto/deployment/wsgi/
 """
 

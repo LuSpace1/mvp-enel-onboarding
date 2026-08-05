@@ -8,8 +8,8 @@ from .serializers import VideoLinkSerializer
 
 class AdminVideoListCreateView(generics.ListCreateAPIView):
     """
-    GET /api/admin/videos/ - Lista los enlaces de videos para administración.
-    POST /api/admin/videos/ - Crea un nuevo registro de enlace de video.
+    GET /api/admin/videos/ - Muestra los videos de la plataforma.
+    POST /api/admin/videos/ - Agrega un video nuevo.
     """
 
     permission_classes = [IsPlatformAdmin]
@@ -19,8 +19,8 @@ class AdminVideoListCreateView(generics.ListCreateAPIView):
 
 class AdminVideoDetailView(generics.RetrieveUpdateAPIView):
     """
-    GET /api/admin/videos/<id>/ - Obtiene el detalle de un video.
-    PATCH/PUT /api/admin/videos/<id>/ - Actualiza un enlace de YouTube.
+    GET /api/admin/videos/<id>/ - Muestra el detalle de un video.
+    PATCH/PUT /api/admin/videos/<id>/ - Actualiza el enlace de YouTube.
     """
 
     permission_classes = [IsPlatformAdmin]

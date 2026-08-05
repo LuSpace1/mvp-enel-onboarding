@@ -1,23 +1,23 @@
 """
-Django settings for portal_config project.
+Configuraciones de Django para el proyecto portal_config.
 """
 
 from datetime import timedelta
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Ruta base del proyecto.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# ADVERTENCIA DE SEGURIDAD: mantén la clave secreta protegida en producción.
 SECRET_KEY = 'django-insecure-%uz)&8o68yx8yhtxat_ye5+#47fp*$**4w^fpwpo$kj*l8^pe)'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# ADVERTENCIA DE SEGURIDAD: no usar modo debug en producción.
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
+# Aplicaciones del proyecto.
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,11 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third party apps
+    # Aplicaciones de terceros
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    # Local apps
+    # Aplicaciones propias
     'users',
     'content',
     'gamification',
@@ -67,7 +67,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portal_config.wsgi.application'
 
 
-# Database
+# Base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -76,11 +76,11 @@ DATABASES = {
 }
 
 
-# Custom User Model
+# Modelo de usuario personalizado
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
-# Django REST Framework Configuration
+# Configuración de Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -91,7 +91,7 @@ REST_FRAMEWORK = {
 }
 
 
-# Simple JWT Configuration
+# Configuración de tokens de acceso
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
@@ -99,11 +99,11 @@ SIMPLE_JWT = {
 }
 
 
-# CORS Configuration
+# Configuración de CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-# Password validation
+# Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# Internacionalización
 LANGUAGE_CODE = 'es-cl'
 
 TIME_ZONE = 'America/Santiago'
@@ -130,7 +130,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Archivos estáticos (CSS, JavaScript, imágenes)
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

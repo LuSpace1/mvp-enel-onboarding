@@ -9,8 +9,8 @@ from .serializers import AnonymousAuthSerializer
 class AnonymousAuthView(APIView):
     """
     POST /api/auth/anonymous/
-    Recibe un UUID de LocalStorage, crea o recupera el usuario anónimo
-    y retorna tokens JWT.
+    Recibe el identificador del navegador, crea o recupera al trabajador
+    y devuelve los datos de acceso.
     """
 
     permission_classes = []
@@ -25,7 +25,7 @@ class AnonymousAuthView(APIView):
 class AdminAuthView(TokenObtainPairView):
     """
     POST /api/auth/admin/
-    Login tradicional por usuario y contraseña exclusivo para administradores.
+    Entrada con usuario y contraseña exclusiva para administradores.
     """
 
     permission_classes = []

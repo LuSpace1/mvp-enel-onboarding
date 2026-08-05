@@ -29,4 +29,4 @@ class GameRecord(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"User {self.user.username} - Juego {self.game_id} (Score: {self.score})"
+        return f"Usuario {self.user.username} - Juego {self.game_id} (Puntaje: {self.score})"

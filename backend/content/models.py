@@ -9,7 +9,7 @@ class VideoLink(models.Model):
         unique=True,
         db_index=True,
         verbose_name="Identificador de Sección",
-        help_text="Clave única para identificar el video en la interfaz (Ej: 'hero_main', 'hseq_popup').",
+        help_text="Nombre que identifica el video en la página (Ej: 'hero_main').",
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

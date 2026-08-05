@@ -13,7 +13,7 @@ from .serializers import GameSubmitSerializer
 class GameSubmitView(generics.CreateAPIView):
     """
     POST /api/games/submit/
-    Recibe el resultado del juego y lo asocia al usuario anónimo autenticado.
+    Guarda el resultado del juego y lo relaciona con el trabajador.
     """
 
     permission_classes = [IsAuthenticated]
@@ -26,10 +26,10 @@ class GameSubmitView(generics.CreateAPIView):
 class AdminKPIView(APIView):
     """
     GET /api/admin/kpis/
-    Endpoint analítico que devuelve la data agregada de los UUIDs para RRHH:
-    1. Índice de Preparación Global (promedio score).
-    2. Precisión al Primer Intento (agrupado por game_id).
-    3. Mapeo de Fricción / Drop-off (usuarios únicos completados por juego).
+    Entrega los datos resumidos de los trabajadores para Recursos Humanos:
+    1. Índice de Preparación Global (puntaje promedio de los juegos).
+    2. Precisión al Primer Intento (si lo lograron a la primera, por juego).
+    3. Mapeo de Fricción (cuántos llegaron a cada juego).
     """
 
     permission_classes = [IsPlatformAdmin]
@@ -39,7 +39,7 @@ class AdminKPIView(APIView):
         avg_score = GameRecord.objects.aggregate(avg=Avg('score'))['avg']
         global_readiness_index = round(avg_score, 2) if avg_score is not None else 0.0
 
-        # 2. Precisión al Primer Intento por game_id
+        # 2. Precisión al Primer Intento por juego
         first_attempt_accuracy = {}
         for game_id in range(1, 5):
             records = GameRecord.objects.filter(game_id=game_id)
@@ -53,7 +53,7 @@ class AdminKPIView(APIView):
                 'first_try_percentage': round((first_try / total) * 100, 2) if total > 0 else 0.0,
             }
 
-        # 3. Mapeo de Fricción (Drop-off)
+        # 3. Mapeo de Fricción (abandono)
         friction_map = {}
         for game_id in range(1, 5):
             unique_completed = (

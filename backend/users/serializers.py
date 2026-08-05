@@ -13,7 +13,7 @@ class AnonymousAuthSerializer(serializers.Serializer):
         try:
             uuid.UUID(str(value))
         except ValueError:
-            raise serializers.ValidationError("Formato de UUID inválido.")
+            raise serializers.ValidationError("El identificador enviado no es válido.")
         return str(value)
 
     def create(self, validated_data):
