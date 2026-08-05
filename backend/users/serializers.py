@@ -1,52 +1,33 @@
+import uuid
+
 from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import CustomUser
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = [
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'second_last_name',
-            'is_platform_admin',
-            'worker_type',
-            'is_active',
-        ]
-        read_only_fields = ['id']
+class AnonymousAuthSerializer(serializers.Serializer):
+    uuid = serializers.CharField(max_length=150)
 
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = [
-            'username',
-            'first_name',
-            'last_name',
-            'second_last_name',
-            'worker_type',
-            'is_platform_admin',
-        ]
+    def validate_uuid(self, value):
+        try:
+            uuid.UUID(str(value))
+        except ValueError:
+            raise serializers.ValidationError("Formato de UUID inválido.")
+        return str(value)
 
     def create(self, validated_data):
-        generated_password = CustomUser.generate_random_password()
-        user = CustomUser(**validated_data)
-        user.set_password(generated_password)
-        user.save()
-        return user, generated_password
-
-
-class UserUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = [
-            'first_name',
-            'last_name',
-            'second_last_name',
-            'worker_type',
-            'is_platform_admin',
-            'is_active',
-        ]
+        uuid_str = validated_data['uuid']
+        user, _ = CustomUser.objects.get_or_create(
+            id=uuid_str,
+            defaults={
+                'username': uuid_str,
+                'is_platform_admin': False,
+            },
+        )
+        refresh = RefreshToken.for_user(user)
+        return {
+            'user_id': str(user.id),
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+        }

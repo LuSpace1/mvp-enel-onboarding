@@ -6,40 +6,11 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = (
-        'username',
-        'first_name',
-        'last_name',
-        'second_last_name',
-        'worker_type',
-        'is_platform_admin',
-        'is_active',
-    )
-    list_filter = ('is_platform_admin', 'worker_type', 'is_active')
-    search_fields = ('username', 'first_name', 'last_name')
-    fieldsets = UserAdmin.fieldsets + (
-        (
-            'Información Adicional',
-            {
-                'fields': (
-                    'second_last_name',
-                    'worker_type',
-                    'is_platform_admin',
-                )
-            },
-        ),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        (
-            'Información Adicional',
-            {
-                'fields': (
-                    'first_name',
-                    'last_name',
-                    'second_last_name',
-                    'worker_type',
-                    'is_platform_admin',
-                )
-            },
-        ),
+    list_display = ('id', 'username', 'is_platform_admin', 'is_active')
+    list_filter = ('is_platform_admin', 'is_active')
+    search_fields = ('id', 'username')
+    ordering = ('-date_joined',)
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Permisos', {'fields': ('is_platform_admin', 'is_active', 'is_staff', 'is_superuser')}),
     )
