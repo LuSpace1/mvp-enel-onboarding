@@ -9,6 +9,7 @@ class GameRecord(models.Model):
         (2, "Juego 2"),
         (3, "Juego 3"),
         (4, "Juego 4"),
+        (5, "Juego 5"),
     ]
 
     user = models.ForeignKey(

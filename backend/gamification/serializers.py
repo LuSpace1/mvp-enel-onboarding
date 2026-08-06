@@ -9,8 +9,8 @@ class GameSubmitSerializer(serializers.ModelSerializer):
         fields = ['game_id', 'score', 'attempts', 'completed']
 
     def validate_game_id(self, value):
-        if value not in [1, 2, 3, 4]:
-            raise serializers.ValidationError("El juego debe ser 1, 2, 3 o 4.")
+        if value not in [1, 2, 3, 4, 5]:
+            raise serializers.ValidationError("El juego debe ser 1, 2, 3, 4 o 5.")
         return value
 
     def validate_score(self, value):

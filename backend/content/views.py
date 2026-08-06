@@ -6,6 +6,17 @@ from .models import VideoLink
 from .serializers import VideoLinkSerializer
 
 
+class PublicVideoListView(generics.ListAPIView):
+    """
+    GET /api/videos/ - Lista los videos públicos del portal (hero y subgerencias).
+    No requiere autenticación: alimenta el viaje del trabajador.
+    """
+
+    permission_classes = []
+    queryset = VideoLink.objects.all()
+    serializer_class = VideoLinkSerializer
+
+
 class AdminVideoListCreateView(generics.ListCreateAPIView):
     """
     GET /api/admin/videos/ - Muestra los videos de la plataforma.

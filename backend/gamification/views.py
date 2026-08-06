@@ -41,7 +41,7 @@ class AdminKPIView(APIView):
 
         # 2. Precisión al Primer Intento por juego
         first_attempt_accuracy = {}
-        for game_id in range(1, 5):
+        for game_id in range(1, 6):
             records = GameRecord.objects.filter(game_id=game_id)
             total = records.count()
             first_try = records.filter(attempts=1).count()
@@ -55,7 +55,7 @@ class AdminKPIView(APIView):
 
         # 3. Mapeo de Fricción (abandono)
         friction_map = {}
-        for game_id in range(1, 5):
+        for game_id in range(1, 6):
             unique_completed = (
                 GameRecord.objects.filter(game_id=game_id, completed=True)
                 .values('user')
