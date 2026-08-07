@@ -2,12 +2,12 @@ import type { VideoLink } from '@/types/api'
 
 import { useVideosStore } from '@/store/useVideosStore'
 
-const VIDEO_MUESTRA = 'https://www.youtube.com/watch?v=aqz-KE-bpKQ'
+const VIDEO_MUESTRA = 'https://www.youtube.com/watch?v=wJuVq1sBDMM'
 
 export const videosMock: VideoLink[] = [
   {
     id: 1,
-    title: 'Mensaje de bienvenida de la Gerente General Mónica Hodor',
+    title: 'Mensaje de la Gerente General Mónica Hodor',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'hero_main',
     created_at: '',
@@ -15,7 +15,7 @@ export const videosMock: VideoLink[] = [
   },
   {
     id: 2,
-    title: 'Bienvenida de Francisco Evans — Subgerencia Industrial P&C',
+    title: 'Presentación de Francisco Evans · Subgerencia Industrial P&C',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'subgerencia_pc',
     created_at: '',
@@ -23,7 +23,7 @@ export const videosMock: VideoLink[] = [
   },
   {
     id: 3,
-    title: 'Bienvenida de Ximena León — Subgerencia HSEQ',
+    title: 'Presentación de Ximena León · Subgerencia HSEQ',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'subgerencia_hseq',
     created_at: '',
@@ -31,7 +31,7 @@ export const videosMock: VideoLink[] = [
   },
   {
     id: 4,
-    title: 'Bienvenida de Giovanni Zanchetta — Subgerencia RCO',
+    title: 'Presentación de Giovanni Zanchetta · Subgerencia RCO',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'subgerencia_rco',
     created_at: '',
@@ -39,7 +39,7 @@ export const videosMock: VideoLink[] = [
   },
   {
     id: 5,
-    title: 'Bienvenida de Francisco Messen — Subgerencia COM',
+    title: 'Presentación de Francisco Messen · Subgerencia COM',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'subgerencia_com',
     created_at: '',
@@ -47,7 +47,7 @@ export const videosMock: VideoLink[] = [
   },
   {
     id: 6,
-    title: 'Bienvenida de Marco Castro — Subgerencia Network Development',
+    title: 'Presentación de Marco Castro · Subgerencia Network Development',
     youtube_url: VIDEO_MUESTRA,
     section_identifier: 'subgerencia_nd',
     created_at: '',

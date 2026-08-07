@@ -25,6 +25,7 @@ export interface Subgerencia {
   nombre: string
   sigla: string
   subgerente: string
+  foto: string
   proposito: string
   procesos: string[]
   videoSection: string

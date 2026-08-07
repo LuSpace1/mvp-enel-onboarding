@@ -1,3 +1,6 @@
+import placeholderHombre from '@/assets/images/placeholder_hombre.webp'
+import placeholderMujer from '@/assets/images/placeholder_mujer.jpg'
+
 export const numerosClave = [
   { valor: '14,5', unidad: 'TWh', etiqueta: 'Energía distribuida al año' },
   { valor: '2', unidad: 'M', etiqueta: 'Clientes en la Región Metropolitana' },
@@ -19,15 +22,12 @@ export const fotosMeOffice = [
 ]
 
 export const fotosEquipos = [
-  { src: 'https://picsum.photos/seed/equipo-terreno/900/600', alt: 'Cuadrilla en terreno' },
-  { src: 'https://picsum.photos/seed/equipo-red/900/600', alt: 'Equipo de operación de red' },
-  { src: 'https://picsum.photos/seed/equipo-oficina/900/600', alt: 'Equipo en oficina' },
-  { src: 'https://picsum.photos/seed/equipo-ceo/900/600', alt: 'Centro de Excelencia Operacional' },
-  { src: 'https://picsum.photos/seed/equipo-hseq/900/600', alt: 'Equipo HSEQ en capacitación' },
-  {
-    src: 'https://picsum.photos/seed/equipo-atencion/900/600',
-    alt: 'Equipo de atención a clientes',
-  },
+  { src: placeholderMujer, alt: 'Integrante del equipo de operaciones' },
+  { src: placeholderHombre, alt: 'Integrante del equipo de red' },
+  { src: placeholderMujer, alt: 'Integrante del equipo de oficina' },
+  { src: placeholderHombre, alt: 'Integrante del Centro de Excelencia Operacional' },
+  { src: placeholderMujer, alt: 'Integrante del equipo HSEQ' },
+  { src: placeholderHombre, alt: 'Integrante del equipo de atención a clientes' },
 ]
 
 export const centroExcelencia = {
