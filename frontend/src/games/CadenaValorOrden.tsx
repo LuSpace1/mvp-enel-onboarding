@@ -198,7 +198,7 @@ export function CadenaValorOrden() {
           type="button"
           onClick={comprobar}
           disabled={completado}
-          className="bg-enel-red hover:bg-enel-red-dark inline-flex h-10 items-center rounded-full px-5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50"
+          className="bg-enel-pink hover:bg-enel-pink/80 border-enel-pink inline-flex h-10 items-center rounded-full border-2 px-5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50"
         >
           Comprobar orden
         </button>

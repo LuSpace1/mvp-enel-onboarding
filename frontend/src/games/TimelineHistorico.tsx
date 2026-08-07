@@ -106,7 +106,7 @@ export function TimelineHistorico() {
       </div>
 
       <p className="mb-2 text-[11px] font-semibold tracking-[0.18em] text-neutral-400 uppercase">
-        Hitos pendientes — toca el más antiguo
+        Hitos pendientes · toca el más antiguo
       </p>
       <div className="flex flex-wrap gap-2">
         {hitos
