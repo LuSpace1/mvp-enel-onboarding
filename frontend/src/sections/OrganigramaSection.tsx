@@ -3,9 +3,10 @@ import { VideoCamera, X } from '@phosphor-icons/react'
 
 import { Modal } from '@/components/ui/Modal'
 import { Reveal } from '@/components/ui/Reveal'
+import { SectionShell } from '@/components/ui/SectionShell'
 import { VideoEmbed } from '@/components/ui/VideoEmbed'
 import { track } from '@/lib/analytics'
-import { areasStaff, subgerencias } from '@/lib/data/organizacion'
+import { areasStaff, gerenteGeneral, subgerencias } from '@/lib/data/organizacion'
 import { videoDeSeccion } from '@/lib/data/videos'
 import type { Subgerencia } from '@/types/api'
 
@@ -13,74 +14,121 @@ export function OrganigramaSection() {
   const [seleccionada, setSeleccionada] = useState<Subgerencia | null>(null)
 
   return (
-    <section id="organigrama" className="bg-enel-mist py-20 md:py-28">
-      <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
-            ¿Quién lidera el cambio?
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
-            Las subgerencias que hacen posible que la energía llegue, de forma segura y confiable, a
-            la ciudad.
-          </p>
-        </Reveal>
+    <SectionShell id="organigrama" className="bg-enel-mist" innerClassName="py-6">
+      <Reveal className="max-w-2xl">
+        <h2 className="text-enel-navy text-2xl font-semibold tracking-tight md:text-4xl">
+          Quienes hacen posible la energía
+        </h2>
+      </Reveal>
 
-        <Reveal delay={0.05} className="mt-14">
-          <div className="mx-auto max-w-md text-center">
-            <div className="border-enel-red bg-enel-red/5 rounded-2xl border-2 px-6 py-5 text-center">
-              <p className="text-enel-red text-xs font-semibold tracking-[0.2em] uppercase">
-                Gerente General
-              </p>
-              <p className="text-enel-navy mt-1 text-xl font-semibold">Mónica Hodor</p>
-              <p className="text-sm text-neutral-500">Enel Distribución Chile</p>
+      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:items-start">
+        <div>
+          <Reveal delay={0.05}>
+            <div className="border-enel-red shadow-enel-red/10 hover:shadow-enel-red/20 group relative overflow-hidden rounded-3xl border-2 bg-white shadow-xl transition">
+              <div className="grid sm:grid-cols-[auto_1fr]">
+                <div className="relative h-full min-h-56 w-full self-stretch sm:w-44">
+                  <img
+                    src={gerenteGeneral.foto}
+                    alt={`${gerenteGeneral.nombre}, ${gerenteGeneral.cargo}`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  <span className="bg-enel-red absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase">
+                    Liderazgo
+                  </span>
+                </div>
+                <div className="flex flex-col justify-center p-6 md:p-8">
+                  <p className="text-enel-red text-xs font-semibold tracking-[0.2em] uppercase">
+                    {gerenteGeneral.cargo}
+                  </p>
+                  <h3 className="text-enel-navy mt-1 text-2xl font-semibold tracking-tight md:text-3xl">
+                    {gerenteGeneral.nombre}
+                  </h3>
+                  <p className="mt-1 text-sm font-medium text-neutral-500">
+                    {gerenteGeneral.empresa}
+                  </p>
+                  <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-600">
+                    Lidera la subsidiaria de distribución más grande de Chile, con el compromiso de
+                    acercar la energía a más de dos millones de clientes con seguridad y cercanía.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="bg-enel-fog mx-auto h-10 w-px" />
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-8">
             <p className="mb-3 text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase">
               Áreas staff
             </p>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap gap-2">
               {areasStaff.map((area) => (
                 <span
                   key={area.id}
-                  className="border-enel-fog bg-enel-mist text-enel-navy rounded-full border px-3.5 py-1.5 text-xs font-medium"
+                  className="border-enel-fog text-enel-navy hover:border-enel-red/50 inline-flex items-center gap-1.5 rounded-full border bg-white px-3.5 py-1.5 text-xs font-medium transition"
                   title={area.detalle}
                 >
                   {area.nombre}
                 </span>
               ))}
             </div>
-            <div className="bg-enel-fog mx-auto h-10 w-px" />
-          </div>
-        </Reveal>
+            <div className="mt-5 rounded-2xl border border-dashed border-neutral-300 bg-white/60 p-4 text-sm text-neutral-500">
+              Las áreas staff dependen directamente de la Gerencia General y dan soporte transversal
+              a todas las subgerencias.
+            </div>
+          </Reveal>
+        </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {subgerencias.map((subgerencia, indice) => (
-            <Reveal key={subgerencia.id} delay={indice * 0.05}>
+        <Reveal
+          delay={0.15}
+          className="border-enel-fog bg-enel-mist/20 self-start rounded-3xl border p-5"
+        >
+          <p className="mb-4 flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase">
+            <span className="bg-enel-red h-1.5 w-1.5 rounded-full" />
+            Subgerencias de la división
+          </p>
+          <div className="grid gap-3">
+            {subgerencias.map((subgerencia) => (
               <button
+                key={subgerencia.id}
                 type="button"
                 onClick={() => {
                   setSeleccionada(subgerencia)
                   track('organigrama.subgerencia', { id: subgerencia.id })
                 }}
-                className="group border-enel-fog hover:border-enel-red/50 hover:shadow-enel-red/10 flex h-full w-full flex-col rounded-2xl border bg-white p-5 text-left transition hover:-translate-y-1 hover:shadow-xl"
+                className="group border-enel-fog hover:border-enel-red/50 hover:shadow-enel-red/10 flex w-full items-center gap-4 rounded-2xl border bg-white p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
                 data-analytics-component="organigrama"
                 data-analytics-seccion={subgerencia.id}
               >
-                <span className="bg-enel-navy inline-flex w-fit rounded-lg px-2.5 py-1 text-xs font-bold tracking-wide text-white">
+                <img
+                  src={subgerencia.foto}
+                  alt={`${subgerencia.subgerente}, Subgerencia ${subgerencia.sigla}`}
+                  className="ring-enel-fog group-hover:ring-enel-red/50 h-14 w-14 shrink-0 rounded-full object-cover ring-2 transition"
+                  loading="lazy"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="text-enel-navy block truncate text-base leading-snug font-semibold">
+                    {subgerencia.subgerente}
+                  </span>
+                  <span className="block truncate text-sm text-neutral-500">
+                    {subgerencia.nombre}
+                  </span>
+                </span>
+                <span className="bg-enel-navy hidden rounded-lg px-2 py-1 text-[10px] font-bold tracking-wide text-white sm:inline-block">
                   {subgerencia.sigla}
                 </span>
-                <span className="text-enel-navy mt-3 text-base leading-snug font-semibold">
-                  {subgerencia.nombre}
-                </span>
-                <span className="mt-1 text-sm text-neutral-500">{subgerencia.subgerente}</span>
-                <span className="text-enel-red mt-4 inline-flex items-center gap-1.5 text-xs font-semibold opacity-0 transition group-hover:opacity-100">
-                  <VideoCamera size={14} weight="duotone" />
-                  Ver video de bienvenida
-                </span>
+                <VideoCamera
+                  size={18}
+                  weight="duotone"
+                  className="text-enel-red shrink-0 opacity-0 transition group-hover:opacity-100"
+                  aria-hidden="true"
+                />
               </button>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+          <p className="mt-4 text-center text-xs text-neutral-400">
+            Toca una subgerencia para conocer su propósito y mensaje.
+          </p>
+        </Reveal>
       </div>
 
       <Modal
@@ -91,14 +139,21 @@ export function OrganigramaSection() {
         {seleccionada && (
           <div>
             <div className="bg-enel-navy flex items-start justify-between gap-4 p-6">
-              <div>
-                <p className="text-enel-red text-xs font-semibold tracking-[0.2em] uppercase">
-                  Subgerencia {seleccionada.sigla}
-                </p>
-                <h3 className="mt-1 text-xl font-semibold text-white md:text-2xl">
-                  {seleccionada.nombre}
-                </h3>
-                <p className="mt-0.5 text-sm text-white/60">{seleccionada.subgerente}</p>
+              <div className="flex items-center gap-4">
+                <img
+                  src={seleccionada.foto}
+                  alt=""
+                  className="h-16 w-16 rounded-full object-cover ring-2 ring-white/20"
+                />
+                <div>
+                  <p className="text-enel-red text-xs font-semibold tracking-[0.2em] uppercase">
+                    Subgerencia {seleccionada.sigla}
+                  </p>
+                  <h3 className="mt-1 text-xl font-semibold text-white md:text-2xl">
+                    {seleccionada.nombre}
+                  </h3>
+                  <p className="mt-0.5 text-sm text-white/60">{seleccionada.subgerente}</p>
+                </div>
               </div>
               <button
                 type="button"
@@ -143,6 +198,6 @@ export function OrganigramaSection() {
           </div>
         )}
       </Modal>
-    </section>
+    </SectionShell>
   )
 }
