@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactNode } from 'react'
+import type { PropsWithChildren } from 'react'
 import { GameController, Trophy } from '@phosphor-icons/react'
 
 export interface JuegoProps {
@@ -43,20 +43,6 @@ export function GameShell({
       <p className="mt-4 text-sm leading-relaxed text-neutral-600">{instruccion}</p>
 
       <div className="mt-6">{children}</div>
-    </div>
-  )
-}
-
-export function RutaEntreJuegos({
-  children,
-  tono = 'neblina',
-}: {
-  children: ReactNode
-  tono?: 'claro' | 'neblina'
-}) {
-  return (
-    <div className={tono === 'neblina' ? 'bg-enel-mist py-20 md:py-28' : 'bg-white py-20 md:py-28'}>
-      <div className="mx-auto w-full max-w-6xl px-5 md:px-8">{children}</div>
     </div>
   )
 }

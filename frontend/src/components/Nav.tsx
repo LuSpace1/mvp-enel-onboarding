@@ -1,10 +1,12 @@
-import { Lightning } from '@phosphor-icons/react'
-import { motion, useScroll, useSpring, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
 
-import { useActiveSection } from '@/hooks/useActiveSection'
+import { useViajeStore } from '@/store/useViajeStore'
+import { PASOS_VIAJE } from '@/lib/data/viaje'
+
+import logoEnel from '@/assets/icons/Enel_Group_logo.svg'
 
 interface NavItem {
   id: string
@@ -12,9 +14,10 @@ interface NavItem {
 }
 
 const ITEMS: NavItem[] = [
-  { id: 'inicio', etiqueta: 'Inicio' },
+  { id: 'portada', etiqueta: 'Inicio' },
   { id: 'historia', etiqueta: 'Historia' },
-  { id: 'organigrama', etiqueta: 'Organización' },
+  { id: 'cultura', etiqueta: 'Cultura' },
+  { id: 'organigrama', etiqueta: 'Equipos' },
   { id: 'mapa', etiqueta: 'Concesión' },
   { id: 'cadena', etiqueta: 'Cadena' },
   { id: 'politicas', etiqueta: 'Políticas' },
@@ -24,22 +27,25 @@ const ITEMS: NavItem[] = [
 
 export function Nav() {
   const reduce = useReducedMotion()
-  const { scrollYProgress } = useScroll()
-  const progreso = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
-  const activa = useActiveSection({ ids: ITEMS.map((item) => item.id) })
+  const pasoActual = useViajeStore((estado) => estado.pasoActual)
+  const navegar = useViajeStore((estado) => estado.navegar)
+
+  const indiceActual = PASOS_VIAJE.findIndex((paso) => paso.id === pasoActual)
+  const progreso = pasoActual === 'portada' ? 0 : (indiceActual + 1) / PASOS_VIAJE.length
 
   return (
     <header className="border-enel-fog/70 fixed inset-x-0 top-0 z-40 h-16 border-b bg-white/80 backdrop-blur-md">
       <nav className="mx-auto flex h-full w-full max-w-6xl items-center justify-between px-5 md:px-8">
-        <a
-          href="#inicio"
+        <button
+          type="button"
+          onClick={() => {
+            navegar('portada')
+            track('nav.inicio')
+          }}
           className="flex items-center gap-2"
-          onClick={() => track('nav.inicio')}
           aria-label="Volver al inicio"
         >
-          <span className="bg-enel-red flex h-8 w-8 items-center justify-center rounded-md text-white">
-            <Lightning size={20} weight="fill" />
-          </span>
+          <img src={logoEnel} alt="Logo Enel" className="mr-1 h-8 w-auto" />
           <span className="flex flex-col leading-tight">
             <span className="text-enel-navy text-sm font-semibold tracking-tight">
               Enel Distribución
@@ -48,38 +54,43 @@ export function Nav() {
               Portal Interactivo
             </span>
           </span>
-        </a>
+        </button>
 
         <ul className="hidden items-center gap-1 lg:flex">
           {ITEMS.map((item) => (
             <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                onClick={() => track('nav.clic', { seccion: item.id })}
+              <button
+                type="button"
+                onClick={() => {
+                  navegar(item.id)
+                  track('nav.clic', { paso: item.id })
+                }}
                 className={clsx(
                   'rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors',
-                  activa === `#${item.id}`
+                  pasoActual === item.id
                     ? 'bg-enel-red/10 text-enel-red'
                     : 'hover:text-enel-navy text-neutral-600',
                 )}
-                aria-current={activa === `#${item.id}` ? 'page' : undefined}
+                aria-current={pasoActual === item.id ? 'page' : undefined}
               >
                 {item.etiqueta}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
 
         <span className="border-enel-fog hidden items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-neutral-500 uppercase sm:flex">
           <span className="bg-enel-red h-1.5 w-1.5 rounded-full" />
-          Máxima interactivo
+          Experiencia interactiva
         </span>
       </nav>
 
       {!reduce && (
         <motion.div
-          className="bg-enel-red absolute inset-x-0 bottom-0 h-0.5 origin-left"
-          style={{ scaleX: progreso }}
+          className="bg-enel-pink absolute inset-x-0 bottom-0 h-0.5 origin-left"
+          initial={false}
+          animate={{ scaleX: progreso }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         />
       )}
     </header>
