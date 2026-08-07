@@ -8,6 +8,12 @@
   --color-enel-navy-soft: #12263f;
   --color-enel-mist: #eef1f5;
   --color-enel-fog: #d9dfe8;
+  --color-enel-pink: #eb0053;
+
+  /* Regla de radios (shape lock): interactivos = full-pill,
+     tarjetas = 16px (rounded-2xl), bandas destacadas = 24px (rounded-3xl). */
+  --radius-card: 1rem;
+  --radius-banda: 1.5rem;
 
   --font-sans:
     'Outfit Variable', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;

@@ -4,6 +4,15 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 
 import { etapasCadena } from '@/lib/data/organizacion'
 
+const ETIQUETAS_ETAPA: Record<string, string> = {
+  customer: 'Relación con el cliente',
+  strategy: 'Estrategia',
+  supply: 'Abastecimiento',
+  engineering: 'Ingeniería',
+  construction: 'Construcción y operación',
+  cash: 'Servicio a cliente',
+}
+
 function EtapaCard({ indice }: { indice: number }) {
   const etapa = etapasCadena[indice]
   if (!etapa) return null
@@ -25,7 +34,7 @@ function EtapaCard({ indice }: { indice: number }) {
         </p>
       </div>
       <span className="text-enel-red flex items-center gap-1.5 text-xs font-semibold tracking-[0.14em] uppercase">
-        Etapa {indice + 1}
+        {ETIQUETAS_ETAPA[etapa.id] ?? `Etapa ${indice + 1}`}
         <ArrowRight
           size={14}
           weight="bold"
@@ -45,23 +54,19 @@ export function CadenaValorSection() {
   return (
     <section id="cadena" className="bg-white">
       <div className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-28">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-xl">
-            <p className="text-enel-red text-sm font-semibold tracking-[0.2em] uppercase">
-              Cadena de valor
-            </p>
-            <h2 className="text-enel-navy mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
-              Cómo creamos valor, de punta a punta
-            </h2>
-          </div>
-          <p className="max-w-sm text-sm leading-relaxed text-neutral-500 md:text-base">
-            Sigue desplazándote: las etapas de la cadena se mueven mientras avanzas.
+        <div className="max-w-2xl">
+          <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
+            Cómo creamos valor, de punta a punta
+          </h2>
+          <p className="mt-4 max-w-[65ch] text-base leading-relaxed text-neutral-600 md:text-lg">
+            Seis etapas que llevan la energía desde la estrategia hasta el cliente, en un recorrido
+            continuo de creación de valor.
           </p>
         </div>
       </div>
 
       <div ref={contenedor} className="relative mt-10 h-[300vh]">
-        <div className="sticky top-16 flex h-[calc(100vh-4rem)] flex-col justify-center overflow-hidden">
+        <div className="sticky top-16 flex h-[calc(100dvh-4rem)] flex-col justify-center overflow-hidden">
           {reduce ? (
             <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 md:px-8">
               {etapasCadena.map((etapa, indice) => (
