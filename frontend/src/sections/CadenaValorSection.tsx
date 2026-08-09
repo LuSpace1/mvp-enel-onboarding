@@ -1,6 +1,5 @@
-import { useRef } from 'react'
 import { ArrowRight } from '@phosphor-icons/react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { motion } from 'motion/react'
 
 import { etapasCadena } from '@/lib/data/organizacion'
 
@@ -18,7 +17,7 @@ function EtapaCard({ indice }: { indice: number }) {
   if (!etapa) return null
   return (
     <article
-      className="group border-enel-fog hover:border-enel-red/40 hover:shadow-enel-red/10 relative flex h-64 w-full flex-col justify-between overflow-hidden rounded-2xl border bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"
+      className="group border-enel-fog hover:border-enel-red/40 hover:shadow-enel-red/10 relative flex h-64 w-full flex-col justify-between overflow-hidden rounded-2xl border bg-white p-6 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
       data-analytics-component="cadena-valor"
       data-analytics-etapa={etapa.id}
     >
@@ -46,14 +45,37 @@ function EtapaCard({ indice }: { indice: number }) {
 }
 
 export function CadenaValorSection() {
-  const reduce = useReducedMotion()
-  const contenedor = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: contenedor })
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-78%'])
-
   return (
-    <section id="cadena" className="bg-white">
-      <div className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-28">
+    <section id="cadena" className="bg-[#f0eee6] relative overflow-hidden">
+      <style>{`
+        @keyframes float-continuous {
+          0%, 100% { transform: translateY(-12px); }
+          50% { transform: translateY(12px); }
+        }
+        .animate-float-card {
+          animation: float-continuous 3s ease-in-out infinite;
+        }
+        
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 35s linear infinite;
+        }
+      `}</style>
+      
+      {/* Fondo Cuadernillo Global */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-32 md:px-8 md:pt-40">
         <div className="max-w-2xl">
           <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
             Cómo creamos valor, de punta a punta
@@ -65,25 +87,24 @@ export function CadenaValorSection() {
         </div>
       </div>
 
-      <div ref={contenedor} className="relative mt-10 h-[300vh]">
-        <div className="sticky top-16 flex h-[calc(100dvh-4rem)] flex-col justify-center overflow-hidden">
-          {reduce ? (
-            <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 md:px-8">
-              {etapasCadena.map((etapa, indice) => (
-                <div key={etapa.id} className="w-[min(85vw,420px)] shrink-0 snap-start">
-                  <EtapaCard indice={indice} />
-                </div>
-              ))}
+      {/* Carrusel Horizontal Infinito (Marquee) */}
+      <div 
+        className="relative z-10 mx-auto mt-20 w-full max-w-[80vw] overflow-hidden pb-40 pt-10"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+          maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+        }}
+      >
+        <div className="flex w-max animate-scroll gap-8 px-4 hover:[animation-play-state:paused]">
+          {[...etapasCadena, ...etapasCadena].map((etapa, idx) => (
+            <div 
+              key={`${etapa.id}-${idx}`} 
+              className="w-[320px] md:w-[380px] shrink-0 animate-float-card"
+              style={{ animationDelay: `${(idx % 2) * 1.5}s` }}
+            >
+              <EtapaCard indice={idx % etapasCadena.length} />
             </div>
-          ) : (
-            <motion.div className="flex gap-5 px-5 will-change-transform md:px-8" style={{ x }}>
-              {etapasCadena.map((etapa, indice) => (
-                <div key={etapa.id} className="w-[min(85vw,420px)] shrink-0">
-                  <EtapaCard indice={indice} />
-                </div>
-              ))}
-            </motion.div>
-          )}
+          ))}
         </div>
       </div>
     </section>
