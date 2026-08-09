@@ -125,11 +125,11 @@ export function Viaje() {
   const paso = PASOS_VIAJE.find((item) => item.id === pasoActual)
 
   return (
-    <div className="text-enel-navy min-h-svh bg-white font-sans">
+    <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
       <main ref={mainRef} className="h-dvh overflow-y-auto pt-16">
         {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           <motion.div
             key={pasoActual}
             initial={reduce ? false : { opacity: 0, y: 20 }}

@@ -55,4 +55,5 @@ export interface Comuna {
   id: string
   nombre: string
   path: string
+  esEnel?: boolean
 }

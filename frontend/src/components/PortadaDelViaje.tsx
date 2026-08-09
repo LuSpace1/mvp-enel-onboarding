@@ -40,7 +40,7 @@ const STICKERS = {
 }
 
 const STAMPAS = [
-  'border-enel-navy/80 bg-white text-enel-navy',
+  'border-enel-navy/80 bg-[#f0eee6] text-enel-navy',
   'border-enel-navy bg-enel-navy text-white',
   'border-enel-red bg-enel-red/10 text-enel-navy',
   'border-amber-400 bg-amber-100 text-enel-navy',
@@ -57,79 +57,97 @@ export function PortadaDelViaje() {
     <>
       <section className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-16 md:min-h-[80dvh] md:py-24">
         <div className="pointer-events-none absolute inset-0">
-          <img
+          <motion.img
             src={fotoMUT}
             alt=""
             aria-hidden="true"
             className="h-full w-full object-cover opacity-[0.55]"
+            initial={reduce ? false : { scale: 1.15, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.55 }}
+            transition={{ duration: 2.0, ease: [0.25, 1, 0.5, 1] }}
           />
-          <div className="from-enel-navy via-enel-navy/70 to-enel-navy-soft/30 absolute inset-0 bg-gradient-to-b" />
+          <motion.div
+            className="from-enel-navy via-enel-navy/70 to-enel-navy-soft/30 absolute inset-0 bg-gradient-to-b"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 7, ease: 'easeInOut', repeat: Infinity }}
+          />
         </div>
 
-        <div className="relative mx-auto w-full max-w-6xl px-5 md:px-8">
-          <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
-            <div>
-              <p
-                className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold tracking-[0.22em] text-white/70 uppercase"
-                data-analytics-component="portada"
-              >
-                <span className="bg-enel-red h-1.5 w-1.5 rounded-full" />
-                Enel Distribución · Chile
-              </p>
-              <h1 className="max-w-xl text-4xl leading-[1.05] font-semibold tracking-tight text-white sm:text-5xl md:text-6xl">
-                Bienvenido a <span className="text-enel-red">Enel Distribución</span>.
-              </h1>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70 md:text-lg">
-                Bienvenido a Enel Distribución. En este sitio, encontrarás todo lo que necesitas
-                saber sobre el negocio, nuestra cultura organizacional, quiénes somos y cómo
-                trabajamos para ser la empresa de distribución de energía eléctrica más grande de
-                Chile.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    navegar('historia')
-                    track('portada.cta.iniciar')
-                  }}
-                  className="bg-enel-pink hover:bg-enel-pink/80 shadow-enel-pink/30 border-enel-pink inline-flex h-12 items-center gap-2 rounded-full border-2 px-6 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5"
-                  data-analytics-component="portada"
-                  data-analytics-accion="iniciar"
-                >
-                  Comenzar el viaje
-                  <ArrowDown size={18} weight="bold" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navegar('organigrama')
-                    track('portada.cta.equipo')
-                  }}
-                  className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
-                  data-analytics-component="portada"
-                  data-analytics-accion="conocer-equipo"
-                >
-                  <PlayCircle size={18} weight="duotone" />
-                  Conocer el equipo
-                </button>
-              </div>
-            </div>
+        <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-5 text-center md:px-8">
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.3, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center"
+          >
+            <h1 className="w-full text-4xl leading-[1.05] font-semibold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4rem] xl:whitespace-nowrap">
+              Bienvenido a <span className="text-enel-red">Enel Distribución</span>.
+            </h1>
+          </motion.div>
 
-            {video && (
+          {video && (
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.3, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 w-full"
+            >
               <VideoEmbed
                 youtubeUrl={video.youtube_url}
                 titulo={video.title}
                 posterSeed="portada-enel-bienvenida"
                 analiticaId="hero_main"
               />
-            )}
-          </div>
+            </motion.div>
+          )}
+
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.3, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 flex flex-col items-center"
+          >
+            <p className="max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+              Bienvenido a Enel Distribución. En este sitio, encontrarás todo lo que necesitas
+              saber sobre el negocio, nuestra cultura organizacional, quiénes somos y cómo
+              trabajamos para ser la empresa de distribución de energía eléctrica más grande de
+              Chile.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  navegar('historia')
+                  track('portada.cta.iniciar')
+                }}
+                className="bg-enel-pink hover:bg-enel-pink/80 shadow-enel-pink/30 border-enel-pink inline-flex h-12 items-center gap-2 rounded-full border-2 px-6 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5"
+                data-analytics-component="portada"
+                data-analytics-accion="iniciar"
+              >
+                Comenzar el viaje
+                <ArrowDown size={18} weight="bold" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  navegar('organigrama')
+                  track('portada.cta.equipo')
+                }}
+                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
+                data-analytics-component="portada"
+                data-analytics-accion="conocer-equipo"
+              >
+                <PlayCircle size={18} weight="duotone" />
+                Conocer el equipo
+              </button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       <section
         id="mapa-del-viaje"
-        className="relative overflow-hidden bg-[#FBF7EF] py-20 md:py-28"
+        className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28"
       >
         <div
           aria-hidden="true"
