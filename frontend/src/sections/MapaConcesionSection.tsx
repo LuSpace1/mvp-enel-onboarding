@@ -35,21 +35,20 @@ export function MapaConcesionSection() {
         />
       </div>
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 md:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <Reveal>
+      <div className="relative mx-auto w-full max-w-5xl px-5 md:px-8">
+        <div className="flex flex-col items-center text-center">
+          <Reveal className="max-w-2xl mb-12">
             <p className="text-enel-red text-sm font-semibold tracking-[0.2em] uppercase">
               Nuestra concesión
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
               33 comunas que se encienden con nosotros
             </h2>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">
-              Cubrimos la Región Metropolitana, incluyendo la zona de nuestra subsidiaria Enel
-              Colina S.A. Pasa sobre cada comuna para iluminarla.
+            <p className="mt-5 text-base leading-relaxed text-white/70">
+              Cubrimos gran parte de la Región Metropolitana, incluyendo la zona de nuestra subsidiaria Enel Colina S.A. Las comunas iluminadas en rojo representan nuestra área de servicio.
             </p>
 
-            <div className="mt-8 flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+            <div className="mt-8 mx-auto flex max-w-xs items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
               <MapPin size={18} className="text-enel-red shrink-0" weight="duotone" />
               {comunaActiva ? (
                 <span className="font-semibold text-white">{comunaActiva.nombre}</span>
@@ -59,18 +58,23 @@ export function MapaConcesionSection() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="w-full flex justify-center mt-6">
             <svg
-              viewBox="0 0 640 700"
-              className="w-full max-w-xl"
+              viewBox="0 0 730 730"
+              className="w-full max-w-4xl drop-shadow-2xl"
               role="img"
-              aria-label="Mapa de las 33 comunas de la zona de concesión de Enel Distribución Chile"
+              aria-label="Mapa de la Región Metropolitana con las 33 comunas de Enel Distribución encendidas"
             >
               <defs>
                 <linearGradient id="cordillera" x1="0" y1="0" x2="1" y2="0">
                   <stop offset="0%" stopColor="#12263f" />
                   <stop offset="100%" stopColor="#0b1b2f" />
                 </linearGradient>
+                <radialGradient id="foco-encendido" cx="50%" cy="50%" r="75%">
+                  <stop offset="0%" stopColor="#fef08a" /> {/* Amarillo centro ampolleta */}
+                  <stop offset="40%" stopColor="#f59e0b" /> {/* Naranjo amarillento */}
+                  <stop offset="100%" stopColor="#1e3a8a" /> {/* Azul oscuro bordes */}
+                </radialGradient>
               </defs>
 
               <path
@@ -79,53 +83,70 @@ export function MapaConcesionSection() {
               />
 
               {comunas.map((comuna) => {
-                const resaltada = activa === comuna.id || seleccionada === comuna.id
+                const isEnel = comuna.esEnel !== false
+                const resaltada = (activa === comuna.id || seleccionada === comuna.id) && isEnel
+
                 return (
                   <motion.path
                     key={comuna.id}
                     d={comuna.path}
-                    fill={resaltada ? '#ef1e25' : 'rgba(255,255,255,0.10)'}
-                    stroke="#0b1b2f"
-                    strokeWidth={2}
+                    fill={isEnel ? 'url(#foco-encendido)' : 'rgba(255,255,255,0.03)'}
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth={isEnel ? 2 : 1.5}
                     strokeLinejoin="round"
                     initial={false}
                     animate={{
-                      fill: resaltada ? '#ef1e25' : 'rgba(255,255,255,0.10)',
+                      fillOpacity: isEnel ? (resaltada ? 1 : 0.35) : 1,
                     }}
-                    whileHover={{
-                      fill: '#ef1e25',
-                      filter: 'drop-shadow(0 0 10px rgba(239,30,37,0.9))',
-                    }}
+                    whileHover={isEnel ? {
+                      fillOpacity: 1,
+                      filter: 'drop-shadow(0 0 12px rgba(245,158,11,0.7))',
+                    } : {}}
                     onHoverStart={() => {
+                      if (!isEnel) return
                       setActiva(comuna.id)
                       track('mapa.comuna.hover', { comuna: comuna.id })
                     }}
-                    onHoverEnd={() => setActiva((actual) => (actual === comuna.id ? null : actual))}
+                    onHoverEnd={() => {
+                      if (!isEnel) return
+                      setActiva((actual) => (actual === comuna.id ? null : actual))
+                    }}
                     onTap={() => {
+                      if (!isEnel) return
                       setSeleccionada((actual) => (actual === comuna.id ? null : comuna.id))
                       track('mapa.comuna.seleccion', { comuna: comuna.id })
                     }}
-                    className="cursor-pointer"
+                    className={isEnel ? "cursor-pointer" : ""}
+                    style={{ pointerEvents: isEnel ? 'auto' : 'none' }}
                   />
                 )
               })}
 
-              {comunas
-                .filter((comuna) => COMUNAS_CON_LABEL.has(comuna.id))
-                .map((comuna) => {
-                  const centro = comuna.path.match(/M([\d.]+),([\d.]+)/)
-                  return (
-                    <text
-                      key={`label-${comuna.id}`}
-                      x={centro?.[1] ?? '0'}
-                      y={centro?.[2] ?? '0'}
-                      textAnchor="middle"
-                      className="pointer-events-none fill-white/40 text-[9px] font-medium"
-                    >
-                      {comuna.nombre}
-                    </text>
-                  )
-                })}
+              {comunas.map((comuna) => {
+                const isEnel = comuna.esEnel !== false
+                // @ts-ignore - usamos cx/cy añadidos en comunas.ts
+                const { cx, cy } = comuna
+                
+                // Nombres muy largos los acortamos para el hexágono
+                const nombreCorto = comuna.nombre
+                  .replace('San José de Maipo', 'S.J. Maipo')
+                  .replace('Estación Central', 'Est. Central')
+                  .replace('Pedro Aguirre Cerda', 'P.A.C.')
+
+                return (
+                  <text
+                    key={`label-${comuna.id}`}
+                    x={cx}
+                    y={cy + 3} // +3 para centrar visualmente con la altura de la fuente
+                    textAnchor="middle"
+                    className={`pointer-events-none text-[10px] font-bold tracking-tight ${
+                      isEnel ? 'fill-white/80' : 'fill-white/30'
+                    }`}
+                  >
+                    {nombreCorto}
+                  </text>
+                )
+              })}
             </svg>
           </Reveal>
         </div>
