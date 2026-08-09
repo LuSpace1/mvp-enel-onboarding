@@ -1,12 +1,31 @@
-import { ArrowUp, Heart } from '@phosphor-icons/react'
+import { ArrowUp, Heart, Lightbulb } from '@phosphor-icons/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { track } from '@/lib/analytics'
+import fotoMUT from '@/assets/images/MUT.jpg'
 
 export function CierreSection() {
+  const reduce = useReducedMotion()
+
   return (
-    <section id="cierre" className="bg-enel-navy relative overflow-hidden py-24 md:py-36">
-      <div className="bg-enel-red/20 pointer-events-none absolute inset-x-0 -top-40 mx-auto h-96 w-[42rem] rounded-[50%] blur-[130px]" />
+    <section id="cierre" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-24 md:min-h-[80dvh] md:py-36">
+      <div className="pointer-events-none absolute inset-0">
+        <motion.img
+          src={fotoMUT}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover opacity-[0.55]"
+          initial={reduce ? false : { scale: 1.15, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.55 }}
+          transition={{ duration: 2.0, ease: [0.25, 1, 0.5, 1] }}
+        />
+        <motion.div
+          className="from-enel-navy via-enel-navy/70 to-enel-navy-soft/30 absolute inset-0 bg-gradient-to-t"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 7, ease: 'easeInOut', repeat: Infinity }}
+        />
+      </div>
 
       <div className="relative mx-auto w-full max-w-4xl px-5 text-center md:px-8">
         <Reveal>
@@ -17,7 +36,16 @@ export function CierreSection() {
             Cada proyecto, cada persona y cada proceso de esta página forma parte de la transición
             energética que impulsa al país. Sigue explorando y comparte lo que aprendas.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          
+          <motion.div 
+            className="mx-auto mt-12 flex justify-center text-amber-400"
+            animate={{ opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}
+          >
+            <Lightbulb size={56} weight="duotone" />
+          </motion.div>
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#inicio"
               onClick={() => track('cierre.volver')}
