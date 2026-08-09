@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     # Aplicaciones propias
     'users',
     'content',
-    'gamification',
 ]
 
 MIDDLEWARE = [
