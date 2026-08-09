@@ -1,4 +1,6 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
+import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
+import { List, X } from '@phosphor-icons/react'
 
 import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
@@ -26,6 +28,7 @@ const ITEMS: NavItem[] = [
 ]
 
 export function Nav() {
+  const [menuAbierto, setMenuAbierto] = useState(false)
   const reduce = useReducedMotion()
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
   const navegar = useViajeStore((estado) => estado.navegar)
@@ -34,7 +37,12 @@ export function Nav() {
   const progreso = pasoActual === 'portada' ? 0 : (indiceActual + 1) / PASOS_VIAJE.length
 
   return (
-    <header className="border-enel-fog/70 fixed inset-x-0 top-0 z-40 h-16 border-b bg-white/80 backdrop-blur-md">
+    <motion.header
+      className="fixed inset-x-0 top-0 z-40 h-16 border-b border-white/60 bg-[#f0eee6]/40 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+      initial={reduce ? false : { y: '-100%' }}
+      animate={{ y: 0 }}
+      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+    >
       <nav className="mx-auto flex h-full w-full max-w-6xl items-center justify-between px-5 md:px-8">
         <button
           type="button"
@@ -79,11 +87,48 @@ export function Nav() {
           ))}
         </ul>
 
-        <span className="border-enel-fog hidden items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-neutral-500 uppercase sm:flex">
-          <span className="bg-enel-red h-1.5 w-1.5 rounded-full" />
-          Experiencia interactiva
-        </span>
+        {/* Botón menú hamburguesa (móvil/tablet) */}
+        <button
+          type="button"
+          onClick={() => setMenuAbierto(!menuAbierto)}
+          className="lg:hidden p-2 text-enel-navy hover:bg-black/5 rounded-full transition-colors"
+          aria-label="Alternar menú"
+        >
+          {menuAbierto ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
+        </button>
       </nav>
+
+      {/* Dropdown Móvil */}
+      <AnimatePresence>
+        {menuAbierto && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-16 left-0 right-0 bg-[#f0eee6] border-b border-enel-fog/70 shadow-2xl lg:hidden flex flex-col p-4 z-30 max-h-[70vh] overflow-y-auto"
+          >
+            {ITEMS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  navegar(item.id)
+                  track('nav.clic', { paso: item.id })
+                  setMenuAbierto(false)
+                }}
+                className={clsx(
+                  'w-full text-left rounded-xl px-5 py-4 text-base font-semibold transition-colors border-b border-black/5 last:border-0',
+                  pasoActual === item.id
+                    ? 'bg-enel-red/10 text-enel-red'
+                    : 'text-enel-navy hover:bg-white/50'
+                )}
+              >
+                {item.etiqueta}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {!reduce && (
         <motion.div
@@ -93,6 +138,6 @@ export function Nav() {
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         />
       )}
-    </header>
+    </motion.header>
   )
 }

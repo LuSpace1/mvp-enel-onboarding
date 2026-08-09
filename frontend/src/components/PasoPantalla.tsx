@@ -17,9 +17,17 @@ export function PasoHeader({ paso }: { paso: PasoViaje }) {
   const navegar = useViajeStore((estado) => estado.navegar)
 
   return (
-    <div className="border-enel-fog/70 sticky top-16 z-20 border-b bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-5 py-3 md:px-8">
-        <div className="flex min-w-0 items-center gap-3">
+    <div className="sticky top-0 z-20 border-b border-white/60 bg-[#f0eee6]/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
+      <div className="mx-auto flex w-full max-w-6xl items-start justify-between gap-3 px-5 py-3 md:px-8 relative z-10">
+        <div className="flex min-w-0 items-start gap-3">
           <span
             className={clsx(
               'shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase',
