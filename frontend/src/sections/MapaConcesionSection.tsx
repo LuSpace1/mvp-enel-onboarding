@@ -6,16 +6,6 @@ import { Reveal } from '@/components/ui/Reveal'
 import { comunas } from '@/lib/data/comunas'
 import { track } from '@/lib/analytics'
 
-const COMUNAS_CON_LABEL = new Set([
-  'maipu',
-  'las-condes',
-  'santiago',
-  'pudahuel',
-  'la-florida',
-  'colina',
-  'lo-barnechea',
-])
-
 export function MapaConcesionSection() {
   const [activa, setActiva] = useState<string | null>(null)
   const [seleccionada, setSeleccionada] = useState<string | null>(null)
@@ -37,7 +27,7 @@ export function MapaConcesionSection() {
 
       <div className="relative mx-auto w-full max-w-5xl px-5 md:px-8">
         <div className="flex flex-col items-center text-center">
-          <Reveal className="max-w-2xl mb-12">
+          <Reveal className="mb-12 max-w-2xl">
             <p className="text-enel-red text-sm font-semibold tracking-[0.2em] uppercase">
               Nuestra concesión
             </p>
@@ -45,10 +35,12 @@ export function MapaConcesionSection() {
               33 comunas que se encienden con nosotros
             </h2>
             <p className="mt-5 text-base leading-relaxed text-white/70">
-              Cubrimos gran parte de la Región Metropolitana, incluyendo la zona de nuestra subsidiaria Enel Colina S.A. Las comunas iluminadas en rojo representan nuestra área de servicio.
+              Cubrimos gran parte de la Región Metropolitana, incluyendo la zona de nuestra
+              subsidiaria Enel Colina S.A. Las comunas iluminadas en rojo representan nuestra área
+              de servicio.
             </p>
 
-            <div className="mt-8 mx-auto flex max-w-xs items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+            <div className="mx-auto mt-8 flex max-w-xs items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
               <MapPin size={18} className="text-enel-red shrink-0" weight="duotone" />
               {comunaActiva ? (
                 <span className="font-semibold text-white">{comunaActiva.nombre}</span>
@@ -58,7 +50,7 @@ export function MapaConcesionSection() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="w-full flex justify-center mt-6">
+          <Reveal delay={0.1} className="mt-6 flex w-full justify-center">
             <svg
               viewBox="0 0 730 730"
               className="w-full max-w-4xl drop-shadow-2xl"
@@ -98,10 +90,14 @@ export function MapaConcesionSection() {
                     animate={{
                       fillOpacity: isEnel ? (resaltada ? 1 : 0.35) : 1,
                     }}
-                    whileHover={isEnel ? {
-                      fillOpacity: 1,
-                      filter: 'drop-shadow(0 0 12px rgba(245,158,11,0.7))',
-                    } : {}}
+                    whileHover={
+                      isEnel
+                        ? {
+                            fillOpacity: 1,
+                            filter: 'drop-shadow(0 0 12px rgba(245,158,11,0.7))',
+                          }
+                        : {}
+                    }
                     onHoverStart={() => {
                       if (!isEnel) return
                       setActiva(comuna.id)
@@ -116,7 +112,7 @@ export function MapaConcesionSection() {
                       setSeleccionada((actual) => (actual === comuna.id ? null : comuna.id))
                       track('mapa.comuna.seleccion', { comuna: comuna.id })
                     }}
-                    className={isEnel ? "cursor-pointer" : ""}
+                    className={isEnel ? 'cursor-pointer' : ''}
                     style={{ pointerEvents: isEnel ? 'auto' : 'none' }}
                   />
                 )
@@ -126,7 +122,7 @@ export function MapaConcesionSection() {
                 const isEnel = comuna.esEnel !== false
                 // @ts-ignore - usamos cx/cy añadidos en comunas.ts
                 const { cx, cy } = comuna
-                
+
                 // Nombres muy largos los acortamos para el hexágono
                 const nombreCorto = comuna.nombre
                   .replace('San José de Maipo', 'S.J. Maipo')

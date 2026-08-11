@@ -1,5 +1,4 @@
 import { ArrowRight } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
 
 import { etapasCadena } from '@/lib/data/organizacion'
 
@@ -46,7 +45,7 @@ function EtapaCard({ indice }: { indice: number }) {
 
 export function CadenaValorSection() {
   return (
-    <section id="cadena" className="bg-[#f0eee6] relative overflow-hidden">
+    <section id="cadena" className="relative overflow-hidden bg-[#f0eee6]">
       <style>{`
         @keyframes float-continuous {
           0%, 100% { transform: translateY(-12px); }
@@ -64,7 +63,7 @@ export function CadenaValorSection() {
           animation: scroll 35s linear infinite;
         }
       `}</style>
-      
+
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
@@ -88,18 +87,19 @@ export function CadenaValorSection() {
       </div>
 
       {/* Carrusel Horizontal Infinito (Marquee) */}
-      <div 
-        className="relative z-10 mx-auto mt-20 w-full max-w-[80vw] overflow-hidden pb-40 pt-10"
+      <div
+        className="relative z-10 mx-auto mt-20 w-full max-w-[80vw] overflow-hidden pt-10 pb-40"
         style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-          maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+          maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         }}
       >
-        <div className="flex w-max animate-scroll gap-8 px-4 hover:[animation-play-state:paused]">
+        <div className="animate-scroll flex w-max gap-8 px-4 hover:[animation-play-state:paused]">
           {[...etapasCadena, ...etapasCadena].map((etapa, idx) => (
-            <div 
-              key={`${etapa.id}-${idx}`} 
-              className="w-[320px] md:w-[380px] shrink-0 animate-float-card"
+            <div
+              key={`${etapa.id}-${idx}`}
+              className="animate-float-card w-[320px] shrink-0 md:w-[380px]"
               style={{ animationDelay: `${(idx % 2) * 1.5}s` }}
             >
               <EtapaCard indice={idx % etapasCadena.length} />
