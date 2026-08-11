@@ -104,8 +104,9 @@ export function PortadaDelViaje() {
               <button
                 type="button"
                 onClick={() => {
-                  navegar('historia')
                   track('portada.cta.iniciar')
+                  const el = document.getElementById('historia')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
                 }}
                 className="bg-enel-pink hover:bg-enel-pink/80 shadow-enel-pink/30 border-enel-pink inline-flex h-12 items-center gap-2 rounded-full border-2 px-6 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5"
                 data-analytics-component="portada"
@@ -117,8 +118,9 @@ export function PortadaDelViaje() {
               <button
                 type="button"
                 onClick={() => {
-                  navegar('organigrama')
                   track('portada.cta.equipo')
+                  const el = document.getElementById('organigrama')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
                 }}
                 className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
                 data-analytics-component="portada"
@@ -135,10 +137,10 @@ export function PortadaDelViaje() {
       <section id="mapa-del-viaje" className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
           style={{
-            backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.07) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
+            backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+            backgroundSize: '16px 16px',
           }}
         />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -178,8 +180,9 @@ export function PortadaDelViaje() {
                   <motion.button
                     type="button"
                     onClick={() => {
-                      navegar(paso.id)
                       track('viaje.nodo', { paso: paso.id })
+                      const el = document.getElementById(paso.id)
+                      if (el) el.scrollIntoView({ behavior: 'smooth' })
                     }}
                     initial={reduce ? false : { rotate: pieza.rot }}
                     whileHover={reduce ? undefined : { rotate: 0, scale: 1.02, y: -4 }}

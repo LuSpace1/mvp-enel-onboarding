@@ -47,8 +47,9 @@ export function Nav() {
         <button
           type="button"
           onClick={() => {
-            navegar('portada')
             track('nav.inicio')
+            const el = document.getElementById('portada')
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
           }}
           className="flex items-center gap-2"
           aria-label="Volver al inicio"
@@ -70,8 +71,9 @@ export function Nav() {
               <button
                 type="button"
                 onClick={() => {
-                  navegar(item.id)
                   track('nav.clic', { paso: item.id })
+                  const el = document.getElementById(item.id)
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
                 }}
                 className={clsx(
                   'rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors',
@@ -112,8 +114,9 @@ export function Nav() {
               <button
                 key={item.id}
                 onClick={() => {
-                  navegar(item.id)
                   track('nav.clic', { paso: item.id })
+                  const el = document.getElementById(item.id)
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
                   setMenuAbierto(false)
                 }}
                 className={clsx(

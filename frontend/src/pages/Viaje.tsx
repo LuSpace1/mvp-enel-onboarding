@@ -3,7 +3,7 @@ import { Toaster } from 'sonner'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Nav } from '@/components/Nav'
-import { PasoHeader, PasoPantalla } from '@/components/PasoPantalla'
+import { PasoHeader } from '@/components/PasoPantalla'
 import { PortadaDelViaje } from '@/components/PortadaDelViaje'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useVideosStore } from '@/store/useVideosStore'
@@ -18,32 +18,33 @@ import { OrganigramaSection } from '@/sections/OrganigramaSection'
 import { PoliticasISOSection } from '@/sections/PoliticasISOSection'
 import { CadenaValorSection } from '@/sections/CadenaValorSection'
 
-function contenidoDelPaso(id: string): ReactNode {
-  switch (id) {
-    case 'historia':
-      return <HistoriaSection />
-    case 'cultura':
-      return <CulturaSection />
-    case 'organigrama':
-      return <OrganigramaSection />
-    case 'mapa':
-      return <MapaConcesionSection />
-    case 'cadena':
-      return <CadenaValorSection />
-    case 'politicas':
-      return <PoliticasISOSection />
-    case 'galerias':
-      return <GaleriasSection />
-    case 'cierre':
-      return (
-        <>
-          <CierreSection />
-          <Footer />
-        </>
-      )
-    default:
-      return null
-  }
+// Se eliminó contenidoDelPaso ya que renderizaremos todo el contenido de forma continua.
+
+function SectionObserver({ id, children }: { id: string; children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const navegar = useViajeStore((estado) => estado.navegar)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navegar(id)
+          }
+        })
+      },
+      { root: null, rootMargin: '-40% 0px -60% 0px' }
+    )
+
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [id, navegar])
+
+  return (
+    <div id={id} ref={ref} className="scroll-mt-32">
+      {children}
+    </div>
+  )
 }
 
 export function Viaje() {
@@ -58,32 +59,53 @@ export function Viaje() {
     void cargarVideos()
   }, [initAnonymous, cargarVideos])
 
-  useEffect(() => {
-    mainRef.current?.scrollTo({ top: 0, behavior: 'instant' })
-  }, [pasoActual])
-
   const paso = PASOS_VIAJE.find((item) => item.id === pasoActual)
 
   return (
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
-      <main ref={mainRef} className="h-dvh overflow-y-auto pt-16">
-        {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pasoActual}
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -20 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {pasoActual === PASO_INICIAL ? (
-              <PortadaDelViaje />
-            ) : paso ? (
-              <PasoPantalla paso={paso}>{contenidoDelPaso(paso.id)}</PasoPantalla>
-            ) : null}
-          </motion.div>
-        </AnimatePresence>
+      <main ref={mainRef} className="min-h-screen pt-16">
+        <SectionObserver id="portada">
+          <PortadaDelViaje />
+        </SectionObserver>
+
+        {/* Esta barra se pegará al top al hacer scroll más allá de la portada */}
+        <div className="sticky top-16 z-20 md:top-16">
+          {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
+        </div>
+
+        <SectionObserver id="historia">
+          <HistoriaSection />
+        </SectionObserver>
+        
+        <SectionObserver id="cultura">
+          <CulturaSection />
+        </SectionObserver>
+        
+        <SectionObserver id="organigrama">
+          <OrganigramaSection />
+        </SectionObserver>
+
+        <SectionObserver id="mapa">
+          <MapaConcesionSection />
+        </SectionObserver>
+
+        <SectionObserver id="cadena">
+          <CadenaValorSection />
+        </SectionObserver>
+
+        <SectionObserver id="politicas">
+          <PoliticasISOSection />
+        </SectionObserver>
+
+        <SectionObserver id="galerias">
+          <GaleriasSection />
+        </SectionObserver>
+
+        <SectionObserver id="cierre">
+          <CierreSection />
+          <Footer />
+        </SectionObserver>
       </main>
       <Toaster position="bottom-right" richColors />
     </div>
