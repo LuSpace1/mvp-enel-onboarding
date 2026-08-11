@@ -12,8 +12,17 @@ export function CulturaSection() {
   }
 
   return (
-    <SectionShell id="cultura" className="bg-[#f0eee6]">
-      <Reveal className="max-w-2xl">
+    <SectionShell id="cultura" className="bg-[#f0eee6] relative overflow-hidden">
+      {/* Fondo Cuadernillo Global */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
+      <Reveal className="max-w-2xl relative z-10">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Cómo trabajamos
         </h2>
@@ -23,7 +32,7 @@ export function CulturaSection() {
         </p>
       </Reveal>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-2">
+      <div className="mt-12 grid gap-5 lg:grid-cols-2 relative z-10">
         {pilaresCultura.map((pilar, indice) => (
           <Reveal
             key={pilar.id}
@@ -62,7 +71,7 @@ export function CulturaSection() {
         ))}
       </div>
 
-      <Reveal delay={0.1} className="mt-16">
+      <Reveal delay={0.1} className="mt-16 relative z-10">
         <div className="bg-enel-navy flex flex-col items-center justify-center rounded-3xl px-8 py-10 text-center">
           <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl max-w-2xl">
             Construir el futuro a través de la energía sustentable
@@ -71,7 +80,7 @@ export function CulturaSection() {
       </Reveal>
 
       {/* Tarjetas Interactivas Volteables (Valores) */}
-      <Reveal delay={0.2} className="mt-12 mb-10">
+      <Reveal delay={0.2} className="mt-12 mb-10 relative z-10">
         <div className="flex flex-col items-center">
           <p className="mb-8 text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">
             Construimos el futuro a base de

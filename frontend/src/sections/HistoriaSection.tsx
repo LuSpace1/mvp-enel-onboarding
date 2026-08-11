@@ -89,8 +89,17 @@ export function HistoriaSection() {
   const [isBulbOn, setIsBulbOn] = useState(false)
 
   return (
-    <SectionShell id="historia" className="bg-[#f0eee6]">
-      <Reveal className="mx-auto max-w-3xl text-center">
+    <SectionShell id="historia" className="bg-[#f0eee6] relative overflow-hidden">
+      {/* Fondo Cuadernillo Global */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
+      <Reveal className="mx-auto max-w-3xl text-center relative z-10">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           El grupo que impulsa la energía del país
         </h2>
@@ -111,7 +120,7 @@ export function HistoriaSection() {
         </div>
       </Reveal>
 
-      <Reveal delay={0.1} className="mt-20">
+      <Reveal delay={0.1} className="mt-20 relative z-10">
         {/* CARD PADRE */}
         <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] border-4 border-amber-500 bg-white p-10 md:p-16 shadow-2xl">
           {/* Fondo Cuadernillo del Card Padre */}

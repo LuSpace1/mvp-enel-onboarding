@@ -11,7 +11,16 @@ export function PoliticasISOSection() {
   const resto = politicasISO.slice(1)
 
   return (
-    <SectionShell id="politicas" className="bg-[#f0eee6]">
+    <SectionShell id="politicas" className="bg-[#f0eee6] relative overflow-hidden">
+      {/* Fondo Cuadernillo Global */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
       <style>{`
         @keyframes march-politicas {
           from { stroke-dashoffset: 20; }
@@ -21,7 +30,7 @@ export function PoliticasISOSection() {
           animation: march-politicas 1.5s linear infinite;
         }
       `}</style>
-      <Reveal className="max-w-2xl">
+      <Reveal className="max-w-2xl relative z-10">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Nuestro marco de actuación
         </h2>
@@ -32,7 +41,7 @@ export function PoliticasISOSection() {
       </Reveal>
 
       {/* Layout Desktop (Zigzag) */}
-      <div className="hidden md:flex flex-col relative mx-auto w-full max-w-5xl px-5 md:px-8 pb-20 pt-10">
+      <div className="hidden md:flex flex-col relative z-10 mx-auto w-full max-w-5xl px-5 md:px-8 pb-20 pt-10">
         {[
           // Bloque 0: Principal
           principal && (
@@ -206,7 +215,7 @@ export function PoliticasISOSection() {
       </div>
 
       {/* Layout Móvil (Lista simple vertical) */}
-      <div className="flex md:hidden flex-col gap-6 mt-10 px-5">
+      <div className="flex md:hidden flex-col gap-6 mt-10 px-5 relative z-10">
         {[
           principal && (
             <a
