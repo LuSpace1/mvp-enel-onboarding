@@ -8,35 +8,23 @@ import { useViajeStore } from '@/store/useViajeStore'
 import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
 
-const TIPO_LABEL: Record<PasoViaje['tipo'], string> = {
-  editorial: 'Capítulo',
-  reto: 'Reto',
-}
-
 export function PasoHeader({ paso }: { paso: PasoViaje }) {
   const navegar = useViajeStore((estado) => estado.navegar)
 
   return (
-    <div className="sticky top-0 z-20 border-b border-white/60 bg-[#f0eee6]/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+    <div className="sticky top-0 z-20 border-b border-white/60 bg-[#f0eee6]/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] backdrop-blur-xl">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
         style={{
           backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
           backgroundSize: '16px 16px',
         }}
       />
-      <div className="mx-auto flex w-full max-w-6xl items-start justify-between gap-3 px-5 py-3 md:px-8 relative z-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl items-start justify-between gap-3 px-5 py-3 md:px-8">
         <div className="flex min-w-0 items-start gap-3">
-          <span
-            className={clsx(
-              'shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase',
-              paso.tipo === 'reto'
-                ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-enel-red/10 text-enel-red',
-            )}
-          >
-            {TIPO_LABEL[paso.tipo]}
+          <span className="bg-enel-red/10 text-enel-red shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase">
+            Capítulo
           </span>
           <h1 className="text-enel-navy truncate text-sm font-semibold tracking-tight md:text-base">
             {paso.nombre}
@@ -65,7 +53,6 @@ export function PasoPantalla({ paso, children }: PropsWithChildren<{ paso: PasoV
 
   const indice = PASOS_VIAJE.findIndex((item) => item.id === paso.id)
   const esInicioDeViaje = indice === 0
-  const esReto = paso.tipo === 'reto'
 
   return (
     <div data-analytics-paso={paso.id}>
@@ -114,7 +101,7 @@ export function PasoPantalla({ paso, children }: PropsWithChildren<{ paso: PasoV
             }}
             className="bg-enel-pink hover:bg-enel-pink/80 border-enel-pink inline-flex h-11 items-center gap-2 rounded-full border-2 px-5 text-sm font-semibold text-white transition-colors duration-150 will-change-transform active:scale-[0.97]"
           >
-            {esReto ? 'Continuar' : 'Siguiente'}
+            Siguiente
             <ArrowRight size={16} weight="bold" />
           </button>
         </div>

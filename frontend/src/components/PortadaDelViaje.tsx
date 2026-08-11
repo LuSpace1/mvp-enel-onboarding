@@ -1,11 +1,4 @@
-import {
-  ArrowDown,
-  BookOpen,
-  CaretRight,
-  GameController,
-  PlayCircle,
-  Trophy,
-} from '@phosphor-icons/react'
+import { ArrowDown, BookOpen, CaretRight, PlayCircle } from '@phosphor-icons/react'
 
 import { motion, useReducedMotion } from 'motion/react'
 import { Reveal } from '@/components/ui/Reveal'
@@ -33,11 +26,7 @@ const PIEZAS = [
   { col: 'lg:col-span-6', start: 'lg:col-start-1', rot: 0.6, topo: 'lg:mt-14' },
 ]
 
-const STICKERS = {
-  reto: 'bg-emerald-600 text-white',
-  editorial: 'bg-amber-300 text-enel-navy',
-  superado: 'bg-emerald-600 text-white',
-}
+const STICKER_EDITORIAL = 'bg-amber-300 text-enel-navy'
 
 const STAMPAS = [
   'border-enel-navy/80 bg-[#f0eee6] text-enel-navy',
@@ -48,7 +37,6 @@ const STAMPAS = [
 
 export function PortadaDelViaje() {
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
-  const superados = useViajeStore((estado) => estado.superados)
   const navegar = useViajeStore((estado) => estado.navegar)
   const video = videoDeSeccion('hero_main')
   const reduce = useReducedMotion()
@@ -108,12 +96,11 @@ export function PortadaDelViaje() {
             className="mt-8 flex flex-col items-center"
           >
             <p className="max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
-              Bienvenido a Enel Distribución. En este sitio, encontrarás todo lo que necesitas
-              saber sobre el negocio, nuestra cultura organizacional, quiénes somos y cómo
-              trabajamos para ser la empresa de distribución de energía eléctrica más grande de
-              Chile.
+              Bienvenido a Enel Distribución. En este sitio, encontrarás todo lo que necesitas saber
+              sobre el negocio, nuestra cultura organizacional, quiénes somos y cómo trabajamos para
+              ser la empresa de distribución de energía eléctrica más grande de Chile.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <button
                 type="button"
                 onClick={() => {
@@ -145,10 +132,7 @@ export function PortadaDelViaje() {
         </div>
       </section>
 
-      <section
-        id="mapa-del-viaje"
-        className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28"
-      >
+      <section id="mapa-del-viaje" className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
@@ -159,8 +143,8 @@ export function PortadaDelViaje() {
         />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="bg-enel-red/10 absolute -top-28 -left-28 h-96 w-96 rounded-full blur-3xl" />
-          <div className="bg-emerald-300/25 absolute top-1/3 -right-32 h-[26rem] w-[26rem] rounded-full blur-3xl" />
-          <div className="bg-amber-200/60 absolute -bottom-24 left-1/4 h-80 w-80 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 -right-32 h-[26rem] w-[26rem] rounded-full bg-emerald-300/25 blur-3xl" />
+          <div className="absolute -bottom-24 left-1/4 h-80 w-80 rounded-full bg-amber-200/60 blur-3xl" />
         </div>
 
         <div className="relative mx-auto w-full max-w-6xl px-5 md:px-8">
@@ -169,17 +153,14 @@ export function PortadaDelViaje() {
               Elige tu ruta<span className="text-enel-red"> por el portal</span>
             </h2>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 md:text-lg">
-              No hay un único camino. Salta entre capítulos y retos en el orden que se te antoje.
+              No hay un único camino. Salta entre capítulos en el orden que se te antoje.
             </p>
           </Reveal>
 
           <div className="mt-16 grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-6">
             {PASOS_VIAJE.map((paso, indice) => {
               const pieza = PIEZAS[indice % PIEZAS.length] ?? PIEZAS[0]!
-              const superado =
-                paso.juegoId !== undefined && superados.includes(paso.juegoId)
-              const esReto = paso.tipo === 'reto'
-              const esOscura = !esReto && indice % STAMPAS.length === 1
+              const esOscura = indice % STAMPAS.length === 1
               return (
                 <motion.div
                   key={paso.id}
@@ -207,10 +188,8 @@ export function PortadaDelViaje() {
                     className={clsx(
                       'group relative flex h-full w-full flex-col rounded-[20px] border-2 text-left shadow-[6px_6px_0_0_rgba(10,25,47,0.07)] transition-shadow hover:shadow-[8px_8px_0_0_rgba(235,0,83,0.14)]',
                       pieza.grande ? 'p-6 md:p-7' : 'p-5',
-                      esReto
-                        ? 'border-emerald-500/60 bg-emerald-50 text-emerald-950'
-                        : STAMPAS[indice % STAMPAS.length],
-                      pasoActual === paso.id && 'ring-2 ring-enel-pink/70 ring-offset-4',
+                      STAMPAS[indice % STAMPAS.length],
+                      pasoActual === paso.id && 'ring-enel-pink/70 ring-2 ring-offset-4',
                     )}
                     aria-current={pasoActual === paso.id ? 'page' : undefined}
                     data-analytics-component="mapa-viaje"
@@ -219,28 +198,12 @@ export function PortadaDelViaje() {
                     <span
                       className={clsx(
                         'inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.14em] uppercase shadow-sm',
-                        esReto ? STICKERS.reto : STICKERS.editorial,
+                        STICKER_EDITORIAL,
                       )}
                     >
-                      {esReto ? (
-                        <GameController size={11} weight="fill" />
-                      ) : (
-                        <BookOpen size={11} weight="fill" />
-                      )}
-                      {esReto ? 'Reto' : 'Capítulo'}
+                      <BookOpen size={11} weight="fill" />
+                      Capítulo
                     </span>
-
-                    {superado && (
-                      <span
-                        className={clsx(
-                          'absolute -top-3 -right-3 grid h-11 w-11 rotate-12 place-items-center rounded-full text-white shadow-md',
-                          STICKERS.superado,
-                        )}
-                        title="Reto superado"
-                      >
-                        <Trophy size={18} weight="fill" />
-                      </span>
-                    )}
 
                     <h3
                       className={clsx(
@@ -253,26 +216,13 @@ export function PortadaDelViaje() {
                     <p
                       className={clsx(
                         'mt-1.5 flex-1 text-[13px] leading-relaxed md:text-sm',
-                        esReto
-                          ? 'text-emerald-900/70'
-                          : esOscura
-                            ? 'text-white/60'
-                            : 'text-neutral-500',
+                        esOscura ? 'text-white/60' : 'text-neutral-500',
                       )}
                     >
                       {paso.descripcion}
                     </p>
-                    <span
-                      className={clsx(
-                        'mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase',
-                        esReto ? 'text-emerald-700' : 'text-enel-red',
-                      )}
-                    >
-                      {pasoActual === paso.id
-                        ? 'Estás aquí'
-                        : esReto
-                          ? 'Jugar'
-                          : 'Ir'}
+                    <span className="text-enel-red mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase">
+                      {pasoActual === paso.id ? 'Estás aquí' : 'Ir'}
                       <CaretRight
                         size={12}
                         weight="bold"

@@ -13,13 +13,6 @@ export interface AnonymousAuthResponse {
   refresh: string
 }
 
-export interface GameSubmitPayload {
-  game_id: number
-  score: number
-  attempts: number
-  completed: boolean
-}
-
 export interface Subgerencia {
   id: string
   nombre: string
