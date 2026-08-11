@@ -6,24 +6,23 @@ import { PASO_INICIAL, PASOS_VIAJE, indiceDePaso } from '@/lib/data/viaje'
 interface EstadoViaje {
   pasoActual: string
   visitados: string[]
-  superados: number[]
   navegar: (paso: string) => void
   irSiguiente: () => void
   irAnterior: () => void
   marcarVisitado: (paso: string) => void
-  marcarSuperado: (juegoId: number) => void
 }
 
 function pasoEntre(indice: number): string | null {
   return PASOS_VIAJE[indice]?.id ?? null
 }
 
+const IDS_VALIDOS = new Set<string>([PASO_INICIAL, ...PASOS_VIAJE.map((paso) => paso.id)])
+
 export const useViajeStore = create<EstadoViaje>()(
   persist(
     (set, get) => ({
       pasoActual: PASO_INICIAL,
       visitados: [],
-      superados: [],
       navegar: (paso) =>
         set((estado) => ({
           pasoActual: paso,
@@ -52,13 +51,21 @@ export const useViajeStore = create<EstadoViaje>()(
         set((estado) =>
           estado.visitados.includes(paso) ? estado : { visitados: [...estado.visitados, paso] },
         ),
-      marcarSuperado: (juegoId) =>
-        set((estado) =>
-          estado.superados.includes(juegoId)
-            ? estado
-            : { superados: [...estado.superados, juegoId] },
-        ),
     }),
-    { name: 'enel-viaje' },
+    {
+      name: 'enel-viaje',
+      version: 2,
+      merge: (persistido, estadoActual) => {
+        const datos = persistido as Partial<EstadoViaje> | undefined
+        return {
+          ...estadoActual,
+          pasoActual:
+            datos && datos.pasoActual && IDS_VALIDOS.has(datos.pasoActual)
+              ? datos.pasoActual
+              : PASO_INICIAL,
+          visitados: (datos?.visitados ?? []).filter((id) => IDS_VALIDOS.has(id)),
+        }
+      },
+    },
   ),
 )
