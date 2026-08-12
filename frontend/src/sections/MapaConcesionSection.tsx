@@ -13,38 +13,38 @@ export function MapaConcesionSection() {
   const comunaActiva = comunas.find((comuna) => comuna.id === activa)
 
   return (
-    <section id="mapa" className="bg-[#f0eee6] relative overflow-hidden py-14 md:py-20">
+    <section id="mapa" className="relative overflow-hidden bg-[#f0eee6] py-14 md:py-20">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
         style={{
           backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
           backgroundSize: '16px 16px',
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-5xl px-5 md:px-8 z-10">
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-5 md:px-8">
         <div className="flex flex-col items-center text-center">
           <Reveal className="mb-12 max-w-2xl">
             <p className="text-enel-red text-sm font-bold tracking-[0.2em] uppercase">
               Nuestra concesión
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-enel-navy md:text-5xl">
+            <h2 className="text-enel-navy mt-4 text-3xl font-bold tracking-tight md:text-5xl">
               33 comunas que se encienden con nosotros
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-neutral-600 font-medium">
+            <p className="mt-5 text-base leading-relaxed font-medium text-neutral-600">
               Cubrimos gran parte de la Región Metropolitana, incluyendo la zona de nuestra
-              subsidiaria Enel Colina S.A. Las comunas iluminadas representan nuestra área
-              de servicio.
+              subsidiaria Enel Colina S.A. Las comunas iluminadas representan nuestra área de
+              servicio.
             </p>
 
-            <div className="mx-auto mt-8 flex max-w-xs items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white/70 px-4 py-3 text-sm text-enel-navy shadow-sm backdrop-blur-sm">
+            <div className="text-enel-navy mx-auto mt-8 flex max-w-xs items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white/70 px-4 py-3 text-sm shadow-sm backdrop-blur-sm">
               <MapPin size={18} className="text-enel-red shrink-0" weight="fill" />
               {comunaActiva ? (
-                <span className="font-bold text-enel-navy">{comunaActiva.nombre}</span>
+                <span className="text-enel-navy font-bold">{comunaActiva.nombre}</span>
               ) : (
-                <span className="italic font-serif text-neutral-500">Explora el mapa…</span>
+                <span className="font-serif text-neutral-500 italic">Explora el mapa…</span>
               )}
             </div>
           </Reveal>
@@ -63,7 +63,6 @@ export function MapaConcesionSection() {
                   <stop offset="100%" stopColor="#ea580c" /> {/* Naranjo oscuro bordes */}
                 </radialGradient>
               </defs>
-
 
               {comunas.map((comuna) => {
                 const isEnel = comuna.esEnel !== false
@@ -111,8 +110,6 @@ export function MapaConcesionSection() {
 
               {comunas.map((comuna) => {
                 const isEnel = comuna.esEnel !== false
-                // @ts-ignore - usamos cx/cy añadidos en comunas.ts
-                const { cx, cy } = comuna
 
                 // Nombres muy largos los acortamos para el hexágono
                 const nombreCorto = comuna.nombre
@@ -123,8 +120,8 @@ export function MapaConcesionSection() {
                 return (
                   <text
                     key={`label-${comuna.id}`}
-                    x={cx}
-                    y={cy + 3} // +3 para centrar visualmente con la altura de la fuente
+                    x={comuna.cx}
+                    y={comuna.cy + 3} // +3 para centrar visualmente con la altura de la fuente
                     textAnchor="middle"
                     className={`pointer-events-none text-[10px] font-bold tracking-tight ${
                       isEnel ? 'fill-white' : 'fill-enel-navy/40'

@@ -68,3 +68,47 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Marquee infinito de la cadena de valor */
+@keyframes float-continuous {
+  0%,
+  100% {
+    transform: translateY(-12px);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+.animate-float-card {
+  animation: float-continuous 3s ease-in-out infinite;
+}
+
+@keyframes cadena-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-cadena-scroll {
+  animation: cadena-scroll 35s linear infinite;
+}
+
+/* Línea punteada animada de ISO */
+@keyframes march-politicas {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.animate-march-politicas {
+  animation: march-politicas 1.5s linear infinite;
+}
+
+/* Ocultar scrollbars en carruseles horizontales */
+::-webkit-scrollbar {
+  display: none;
+}

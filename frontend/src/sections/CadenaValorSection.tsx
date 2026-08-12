@@ -46,24 +46,6 @@ function EtapaCard({ indice }: { indice: number }) {
 export function CadenaValorSection() {
   return (
     <section id="cadena" className="relative overflow-hidden bg-[#f0eee6]">
-      <style>{`
-        @keyframes float-continuous {
-          0%, 100% { transform: translateY(-12px); }
-          50% { transform: translateY(12px); }
-        }
-        .animate-float-card {
-          animation: float-continuous 3s ease-in-out infinite;
-        }
-        
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-scroll {
-          animation: scroll 35s linear infinite;
-        }
-      `}</style>
-
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
@@ -95,7 +77,7 @@ export function CadenaValorSection() {
           maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         }}
       >
-        <div className="animate-scroll flex w-max gap-8 px-4 hover:[animation-play-state:paused]">
+        <div className="animate-cadena-scroll flex w-max gap-8 px-4 hover:[animation-play-state:paused]">
           {[...etapasCadena, ...etapasCadena].map((etapa, idx) => (
             <div
               key={`${etapa.id}-${idx}`}

@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, Buildings, Image as ImageIcon, CaretLeft, CaretRight } from '@phosphor-icons/react'
+import {
+  ArrowUpRight,
+  Buildings,
+  Image as ImageIcon,
+  CaretLeft,
+  CaretRight,
+} from '@phosphor-icons/react'
 import { motion, useAnimationFrame, useInView, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
@@ -35,17 +41,20 @@ export function GaleriasSection() {
     if (!scrollRef.current) return
     setPausado(true)
     const amount = 300
-    scrollRef.current.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' })
+    scrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    })
     window.clearTimeout(resumeTimeout.current)
     resumeTimeout.current = window.setTimeout(() => setPausado(false), 2500)
   }
 
   return (
-    <SectionShell id="galerias" className="bg-[#f0eee6] relative overflow-hidden">
+    <SectionShell id="galerias" className="relative overflow-hidden bg-[#f0eee6]">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
         style={{
           backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
           backgroundSize: '16px 16px',
@@ -54,40 +63,40 @@ export function GaleriasSection() {
 
       <div className="relative z-10 w-full">
         <Reveal className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border-2 border-enel-red bg-enel-red/10 px-4 py-1.5 text-sm font-bold text-enel-red uppercase tracking-wider mb-6 shadow-sm">
+          <div className="border-enel-red bg-enel-red/10 text-enel-red mb-6 inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-sm font-bold tracking-wider uppercase shadow-sm">
             <ImageIcon size={18} weight="bold" /> Galería Visual
           </div>
           <h2 className="text-enel-navy text-4xl font-bold tracking-tight md:text-6xl">
             Un espacio pensado para el equipo
           </h2>
-          <p className="mt-6 text-base leading-relaxed text-neutral-600 md:text-xl font-medium">
+          <p className="mt-6 text-base leading-relaxed font-medium text-neutral-600 md:text-xl">
             Conoce las oficinas donde el equipo construye el día a día del negocio.
           </p>
         </Reveal>
 
         {/* Polaroids - Me Office */}
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 px-2 md:px-6">
+        <div className="mt-16 grid gap-8 px-2 sm:grid-cols-2 md:px-6 lg:grid-cols-3">
           {fotosMeOffice.map((foto, indice) => {
             const rot = ROTATIONS[indice % ROTATIONS.length]
             return (
               <Reveal key={foto.src} delay={indice * 0.1}>
-                <motion.figure 
+                <motion.figure
                   whileHover={{ scale: 1.05, rotate: 0, zIndex: 30 }}
                   className={clsx(
-                    "group relative bg-white p-4 pb-16 shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 rounded-md cursor-pointer origin-center border border-neutral-200",
-                    rot
+                    'group relative origin-center cursor-pointer rounded-md border border-neutral-200 bg-white p-4 pb-16 shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300',
+                    rot,
                   )}
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-inner bg-enel-mist">
+                  <div className="bg-enel-mist relative aspect-[4/3] overflow-hidden rounded-sm shadow-inner">
                     <img
                       src={foto.src}
                       alt={foto.alt}
                       loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-110 grayscale-[15%] group-hover:grayscale-0"
+                      className="h-full w-full object-cover grayscale-[15%] transition duration-700 group-hover:scale-110 group-hover:grayscale-0"
                     />
-                    <div className="absolute inset-0 bg-enel-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="bg-enel-red/10 absolute inset-0 opacity-0 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
-                  <figcaption className="absolute bottom-5 left-0 w-full text-center font-serif italic text-lg font-medium text-enel-navy/80 px-4">
+                  <figcaption className="text-enel-navy/80 absolute bottom-5 left-0 w-full px-4 text-center font-serif text-lg font-medium italic">
                     {foto.alt}
                   </figcaption>
                 </motion.figure>
@@ -96,53 +105,52 @@ export function GaleriasSection() {
           })}
         </div>
 
-        <Reveal delay={0.1} className="mt-36 relative">
-          <div className="flex flex-col md:flex-row md:items-end justify-between px-6 md:px-12 mb-10 gap-6">
+        <Reveal delay={0.1} className="relative mt-36">
+          <div className="mb-10 flex flex-col justify-between gap-6 px-6 md:flex-row md:items-end md:px-12">
             <div>
               <h2 className="text-enel-navy text-3xl font-bold tracking-tight md:text-5xl">
                 Descubre al equipo
               </h2>
-              <p className="mt-4 text-neutral-600 md:text-lg font-medium">
+              <p className="mt-4 font-medium text-neutral-600 md:text-lg">
                 La energía que mueve a Chile tiene rostros e historias.
               </p>
             </div>
-            
+
             {/* Controles del Carrusel */}
             <div className="flex items-center gap-3">
-              <button 
+              <button
                 onClick={() => scroll('left')}
-                className="bg-white border border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red p-3 rounded-full shadow-sm transition-colors"
+                className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red rounded-full border bg-white p-3 shadow-sm transition-colors"
                 aria-label="Anterior foto"
               >
                 <CaretLeft size={20} weight="bold" />
               </button>
-              <button 
+              <button
                 onClick={() => scroll('right')}
-                className="bg-white border border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red p-3 rounded-full shadow-sm transition-colors"
+                className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red rounded-full border bg-white p-3 shadow-sm transition-colors"
                 aria-label="Siguiente foto"
               >
                 <CaretRight size={20} weight="bold" />
               </button>
             </div>
           </div>
-          
+
           {/* Carrusel Horizontal de Polaroids (infinito) */}
-          <div 
+          <div
             ref={scrollRef}
             onMouseEnter={() => setPausado(true)}
             onMouseLeave={() => setPausado(false)}
-            className="flex gap-8 overflow-x-auto pb-20 px-6 md:px-12 pt-6"
+            className="flex gap-8 overflow-x-auto px-6 pt-6 pb-20 md:px-12"
             style={{ scrollbarWidth: 'none' }}
           >
-            <style>{`::-webkit-scrollbar { display: none; }`}</style>
             {[...fotosEquipos, ...fotosEquipos].map((foto, idx) => (
-              <motion.figure 
-                key={`${foto.src}-${idx}`} 
-                className="w-[min(65vw,260px)] shrink-0 relative bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)] rounded-md origin-bottom border border-neutral-200"
+              <motion.figure
+                key={`${foto.src}-${idx}`}
+                className="relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
                 whileHover={{ scale: 1.08, y: -10, rotate: idx % 2 === 0 ? 3 : -3, zIndex: 40 }}
                 initial={{ rotate: idx % 2 === 0 ? -4 : 4 }}
               >
-                <div className="relative aspect-4/5 overflow-hidden rounded-sm shadow-inner bg-enel-mist">
+                <div className="bg-enel-mist relative aspect-4/5 overflow-hidden rounded-sm shadow-inner">
                   <img
                     src={foto.src}
                     alt={foto.alt}
@@ -150,7 +158,7 @@ export function GaleriasSection() {
                     className="h-full w-full object-cover transition duration-700 hover:scale-105"
                   />
                 </div>
-                <figcaption className="absolute bottom-4 left-0 w-full text-center font-serif italic text-base font-medium text-neutral-700 px-3">
+                <figcaption className="absolute bottom-4 left-0 w-full px-3 text-center font-serif text-base font-medium text-neutral-700 italic">
                   {foto.alt}
                 </figcaption>
               </motion.figure>
@@ -168,13 +176,15 @@ export function GaleriasSection() {
           style={{ transformOrigin: 'bottom center' }}
         >
           <div className="relative overflow-visible rounded-[2rem] border-4 border-white/70 bg-gradient-to-br from-[#eef5fc] to-[#d3e3f4] px-8 py-12 shadow-[0_24px_60px_rgba(20,50,90,0.18)] md:px-16 md:py-16">
-            <div className="bg-[#f3d9de]/60 pointer-events-none absolute -top-32 -right-32 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
+            <div className="pointer-events-none absolute -top-32 -right-32 h-[30rem] w-[30rem] rounded-full bg-[#f3d9de]/60 blur-[120px]" />
             <div className="relative grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-center">
               <div className="relative z-10">
-                <h3 className="text-enel-navy text-3xl font-bold tracking-tight leading-tight md:text-5xl">
+                <h3 className="text-enel-navy text-3xl leading-tight font-bold tracking-tight md:text-5xl">
                   {centroExcelencia.titulo}
                 </h3>
-                <p className="text-enel-red-dark mt-4 text-xl font-semibold">{centroExcelencia.subtitulo}</p>
+                <p className="text-enel-red-dark mt-4 text-xl font-semibold">
+                  {centroExcelencia.subtitulo}
+                </p>
                 <p className="text-enel-navy/75 mt-6 max-w-xl text-base leading-relaxed">
                   {centroExcelencia.descripcion}
                 </p>
@@ -183,7 +193,7 @@ export function GaleriasSection() {
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => track('ceo.abrir')}
-                  className="bg-enel-navy hover:bg-enel-red-dark text-white mt-10 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm uppercase tracking-wide font-bold transition-all duration-300 shadow-xl hover:shadow-enel-red/40 hover:-translate-y-1"
+                  className="bg-enel-navy hover:bg-enel-red-dark hover:shadow-enel-red/40 mt-10 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                   <Buildings size={20} weight="fill" />
                   Centro de Excelencia
@@ -191,12 +201,12 @@ export function GaleriasSection() {
                 </a>
               </div>
               <motion.div
-                className="group relative z-20 md:-mr-24 md:-my-24"
+                className="group relative z-20 md:-my-24 md:-mr-24"
                 initial={reduce ? false : { opacity: 0, scale: 0.85, y: 28 }}
                 animate={reduce || !bannerInView ? {} : { opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="bg-[#f3d9de]/50 absolute inset-0 rounded-3xl opacity-60 blur-3xl transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="absolute inset-0 rounded-3xl bg-[#f3d9de]/50 opacity-60 blur-3xl transition-opacity duration-300 group-hover:opacity-100" />
                 <motion.img
                   whileHover={{ scale: 1.05, rotate: 2 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 20 }}
