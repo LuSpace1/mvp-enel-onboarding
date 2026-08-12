@@ -83,8 +83,6 @@ export function PortadaDelViaje() {
               <VideoEmbed
                 youtubeUrl={video.youtube_url}
                 titulo={video.title}
-                posterSeed="portada-enel-bienvenida"
-                analiticaId="hero_main"
               />
             </motion.div>
           )}
