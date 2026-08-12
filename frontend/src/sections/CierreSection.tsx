@@ -3,13 +3,13 @@ import { motion, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { track } from '@/lib/analytics'
-import fotoMUT from '@/assets/images/MUT.jpg'
+import fotoMUT from '@/assets/images/MUT-02.jpg'
 
 export function CierreSection() {
   const reduce = useReducedMotion()
 
   return (
-    <section id="cierre" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-24 md:min-h-[80dvh] md:py-36">
+    <section id="cierre" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-20 md:min-h-[80dvh] md:py-28">
       <div className="pointer-events-none absolute inset-0">
         <motion.img
           src={fotoMUT}
