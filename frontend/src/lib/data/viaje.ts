@@ -48,7 +48,3 @@ export const PASOS_VIAJE: PasoViaje[] = [
 ]
 
 export const PASO_INICIAL = 'portada'
-
-export function indiceDePaso(id: string): number {
-  return PASOS_VIAJE.findIndex((paso) => paso.id === id)
-}

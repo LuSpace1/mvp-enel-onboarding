@@ -1,14 +1,6 @@
 import placeholderHombre from '@/assets/images/placeholder_hombre.webp'
 import placeholderMujer from '@/assets/images/placeholder_mujer.jpg'
 
-export const numerosClave = [
-  { valor: '14,5', unidad: 'TWh', etiqueta: 'Energía distribuida al año' },
-  { valor: '2', unidad: 'M', etiqueta: 'Clientes en la Región Metropolitana' },
-  { valor: '18.248', unidad: 'km', etiqueta: 'Red de distribución eléctrica' },
-  { valor: '538', unidad: '', etiqueta: 'Personas que hacen posible el servicio' },
-  { valor: '33', unidad: '', etiqueta: 'Comunas en nuestra zona de concesión' },
-]
-
 export const fotosMeOffice = [
   { src: 'https://picsum.photos/seed/meoffice-lobby/900/600', alt: 'Lobby de Me Office' },
   { src: 'https://picsum.photos/seed/meoffice-sala/900/600', alt: 'Sala de reuniones Me Office' },

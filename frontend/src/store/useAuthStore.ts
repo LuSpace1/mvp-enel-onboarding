@@ -13,7 +13,6 @@ interface AuthState {
   refresh: string | null
   status: AuthStatus
   initAnonymous: () => Promise<void>
-  logout: () => void
 }
 
 function generarUuid(): string {
@@ -55,8 +54,6 @@ export const useAuthStore = create<AuthState>()(
           track('auth.anonyma.fallida')
         }
       },
-
-      logout: () => set({ uuid: null, access: null, refresh: null, status: 'idle' }),
     }),
     {
       name: 'portal-enel-auth',

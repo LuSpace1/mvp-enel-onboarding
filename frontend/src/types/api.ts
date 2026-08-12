@@ -24,13 +24,6 @@ export interface Subgerencia {
   videoSection: string
 }
 
-export interface Hito {
-  id: number
-  anio: string
-  titulo: string
-  descripcion: string
-}
-
 export interface EtapaCadena {
   id: string
   titulo: string

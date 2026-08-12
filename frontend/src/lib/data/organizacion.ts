@@ -126,26 +126,3 @@ export const etapasCadena: EtapaCadena[] = [
     descripcion: 'Convertimos el servicio en valor sostenible.',
   },
 ]
-
-export const cadenaEnergia = [
-  {
-    numero: '1',
-    titulo: 'Se genera la energía',
-    descripcion: 'Centrales de generación producen la electricidad.',
-  },
-  {
-    numero: '2',
-    titulo: 'Se transporta',
-    descripcion: 'Líneas de transmisión llevan la energía por el país.',
-  },
-  {
-    numero: '3',
-    titulo: 'Nosotros la distribuimos',
-    descripcion: 'Enel Distribución la hace llegar a hogares y empresas.',
-  },
-  {
-    numero: '4',
-    titulo: 'Los clientes la utilizan',
-    descripcion: 'La energía impulsa la vida de la ciudad.',
-  },
-]
