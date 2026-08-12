@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
-import { Lightning } from '@phosphor-icons/react'
+import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
+import { Lightning, CaretLeft, CaretRight } from '@phosphor-icons/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
@@ -100,12 +100,46 @@ function RayoBurst({
 
 export function CulturaSection() {
   const reduce = useReducedMotion()
+  const [slide, setSlide] = useState(0)
+  const [direction, setDirection] = useState(1)
   const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({})
   const [spark, setSpark] = useState<Record<string, number>>({})
 
   const pulsar = (palabra: string) => {
     setFlippedCards((prev) => ({ ...prev, [palabra]: !prev[palabra] }))
     setSpark((prev) => ({ ...prev, [palabra]: (prev[palabra] ?? 0) + 1 }))
+  }
+
+  const nextSlide = () => {
+    setDirection(1)
+    setSlide((s) => (s + 1) % pilaresCultura.length)
+  }
+
+  const prevSlide = () => {
+    setDirection(-1)
+    setSlide((s) => (s - 1 + pilaresCultura.length) % pilaresCultura.length)
+  }
+
+  const goToSlide = (i: number) => {
+    setDirection(i > slide ? 1 : -1)
+    setSlide(i)
+  }
+
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? '50%' : '-50%',
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir: number) => ({
+      zIndex: 0,
+      x: dir < 0 ? '50%' : '-50%',
+      opacity: 0,
+    }),
   }
 
   return (
@@ -119,7 +153,7 @@ export function CulturaSection() {
           backgroundSize: '16px 16px',
         }}
       />
-      <Reveal className="relative z-10 max-w-2xl">
+      <Reveal className="relative z-10 max-w-2xl mx-auto text-center">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Cómo trabajamos
         </h2>
@@ -129,45 +163,103 @@ export function CulturaSection() {
         </p>
       </Reveal>
 
-      <div className="relative z-10 mt-12 grid gap-5 lg:grid-cols-2">
-        {pilaresCultura.map((pilar, indice) => (
-          <Reveal
-            key={pilar.id}
-            delay={indice * 0.06}
-            className={indice === pilaresCultura.length - 1 ? 'lg:col-span-2' : ''}
+      <Reveal delay={0.1} className="relative z-10 mt-12 w-full max-w-4xl mx-auto">
+        
+        {/* Controles y Barras de Progreso (Estilo Stories) */}
+        <div className="flex items-center gap-4 mb-6 px-4">
+          <button 
+            onClick={prevSlide} 
+            className="shrink-0 p-2 text-enel-navy hover:text-enel-red hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
+            aria-label="Anterior pilar"
           >
-            <article className="group bg-enel-fog/40 relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl">
-              {/* Capa giratoria del borde eléctrico (Chispa) */}
-              <div
-                className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{
-                  backgroundImage:
-                    'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)',
-                }}
-              />
-
-              {/* Contenedor Interior (La Máscara) */}
-              <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7">
-                <span className="bg-enel-red block h-1 w-8 rounded-full transition-all group-hover:w-12" />
-                <h3 className="text-enel-navy mt-3 text-xl font-semibold tracking-tight">
-                  {pilar.titulo}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{pilar.descripcion}</p>
-                <ul className="mt-auto flex flex-wrap gap-2 pt-5">
-                  {pilar.puntos.map((punto) => (
-                    <li
-                      key={punto}
-                      className="bg-enel-mist text-enel-navy group-hover:bg-enel-red/10 group-hover:text-enel-red-dark rounded-full px-3 py-1 text-xs font-medium transition"
-                    >
-                      {punto}
-                    </li>
-                  ))}
-                </ul>
+            <CaretLeft size={20} weight="bold" />
+          </button>
+          
+          <div className="flex-1 flex gap-2 h-1.5 rounded-full overflow-hidden">
+            {pilaresCultura.map((_, i) => (
+              <div 
+                key={i} 
+                className="flex-1 h-full bg-white border border-neutral-300 overflow-hidden relative cursor-pointer" 
+                onClick={() => goToSlide(i)}
+              >
+                {i === slide && !reduce && (
+                  <motion.div
+                    key={`progress-${slide}`}
+                    className="absolute left-0 top-0 h-full bg-enel-pink"
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 7, ease: 'linear' }}
+                    onAnimationComplete={nextSlide}
+                  />
+                )}
+                {/* Fallback de tiempo o completados */}
+                {(i < slide || reduce) && i !== slide && (
+                  <div className="absolute left-0 top-0 h-full w-full bg-enel-pink" />
+                )}
+                {reduce && i === slide && (
+                  <div className="absolute left-0 top-0 h-full w-full bg-enel-pink" />
+                )}
               </div>
-            </article>
-          </Reveal>
-        ))}
-      </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={nextSlide} 
+            className="shrink-0 p-2 text-enel-navy hover:text-enel-red hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
+            aria-label="Siguiente pilar"
+          >
+            <CaretRight size={20} weight="bold" />
+          </button>
+        </div>
+
+        {/* Contenedor del Carrusel */}
+        <div className="relative overflow-hidden w-full h-[400px] md:h-[350px] px-2 md:px-0">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={slide}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
+              className="absolute inset-x-2 md:inset-x-0 h-full flex"
+            >
+              <article className="group bg-enel-fog/40 w-full relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl">
+                {/* Capa giratoria del borde eléctrico (Chispa) */}
+                <div
+                  className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    backgroundImage:
+                      'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)',
+                  }}
+                />
+
+                {/* Contenedor Interior (La Máscara) */}
+                <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7 md:p-10">
+                  <span className="bg-enel-red block h-1 w-8 rounded-full transition-all group-hover:w-12" />
+                  <h3 className="text-enel-navy mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+                    {pilaresCultura[slide]?.titulo}
+                  </h3>
+                  <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
+                    {pilaresCultura[slide]?.descripcion}
+                  </p>
+                  <ul className="mt-auto flex flex-wrap gap-2 pt-6">
+                    {pilaresCultura[slide]?.puntos.map((punto) => (
+                      <li
+                        key={punto}
+                        className="bg-enel-mist text-enel-navy group-hover:bg-enel-red/10 group-hover:text-enel-red-dark rounded-full px-4 py-1.5 text-sm font-medium transition"
+                      >
+                        {punto}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </Reveal>
 
       {/* Titular rosa pálido con electricidad */}
       <Reveal delay={0.1} className="relative z-10 mt-16">
