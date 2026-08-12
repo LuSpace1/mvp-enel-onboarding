@@ -74,7 +74,7 @@ export function CadenaValorSection() {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-32 md:px-8 md:pt-40">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-24 md:px-8 md:pt-32">
         <div className="max-w-2xl">
           <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
             Cómo creamos valor, de punta a punta
@@ -88,7 +88,7 @@ export function CadenaValorSection() {
 
       {/* Carrusel Horizontal Infinito (Marquee) */}
       <div
-        className="relative z-10 mx-auto mt-20 w-full max-w-[80vw] overflow-hidden pt-10 pb-40"
+        className="relative z-10 mx-auto mt-16 w-full max-w-[80vw] overflow-hidden pt-10 pb-28"
         style={{
           WebkitMaskImage:
             'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',

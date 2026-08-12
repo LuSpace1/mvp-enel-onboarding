@@ -13,7 +13,7 @@ export function MapaConcesionSection() {
   const comunaActiva = comunas.find((comuna) => comuna.id === activa)
 
   return (
-    <section id="mapa" className="bg-[#f0eee6] relative overflow-hidden py-20 md:py-28">
+    <section id="mapa" className="bg-[#f0eee6] relative overflow-hidden py-14 md:py-20">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"

@@ -9,6 +9,8 @@
   --color-enel-mist: #eef1f5;
   --color-enel-fog: #d9dfe8;
   --color-enel-pink: #eb0053;
+  --color-enel-violeta: #cec4f8;
+  --color-enel-violeta-soft: #b1a3f0;
 
   /* Regla de radios (shape lock): interactivos = full-pill,
      tarjetas = 16px (rounded-2xl), bandas destacadas = 24px (rounded-3xl). */

@@ -15,7 +15,7 @@ export function SectionShell({
   children,
 }: PropsWithChildren<SectionShellProps>) {
   return (
-    <section id={id} className={clsx('relative overflow-hidden py-20 md:py-28', className)}>
+    <section id={id} className={clsx('relative overflow-hidden py-14 md:py-20', className)}>
       <div className={clsx('mx-auto w-full max-w-6xl px-5 md:px-8', innerClassName)}>
         {children}
       </div>
