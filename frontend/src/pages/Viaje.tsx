@@ -56,11 +56,11 @@ export function Viaje() {
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
       <main className="min-h-screen pt-16">
+        {paso && <PasoHeader paso={paso} />}
+
         <SectionObserver id="portada">
           <PortadaDelViaje />
         </SectionObserver>
-
-        {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
 
         <SectionObserver id="historia">
           <HistoriaSection />

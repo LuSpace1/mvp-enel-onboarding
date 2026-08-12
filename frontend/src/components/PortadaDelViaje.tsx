@@ -42,7 +42,7 @@ export function PortadaDelViaje() {
 
   return (
     <>
-      <section className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-16 md:min-h-[80dvh] md:py-24">
+      <section id="portada" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-16 md:min-h-[80dvh] md:py-24">
         <div className="pointer-events-none absolute inset-0">
           <motion.img
             src={fotoMUT}
@@ -154,7 +154,7 @@ export function PortadaDelViaje() {
           </Reveal>
 
           <div className="mt-16 grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-6">
-            {PASOS_VIAJE.map((paso, indice) => {
+            {PASOS_VIAJE.filter(p => p.id !== 'portada').map((paso, indice) => {
               const pieza = PIEZAS[indice % PIEZAS.length] ?? PIEZAS[0]!
               const esOscura = indice % STAMPAS.length === 1
               return (

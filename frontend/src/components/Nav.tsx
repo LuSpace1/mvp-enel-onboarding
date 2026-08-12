@@ -33,7 +33,7 @@ export function Nav() {
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
 
   const indiceActual = PASOS_VIAJE.findIndex((paso) => paso.id === pasoActual)
-  const progreso = pasoActual === 'portada' ? 0 : (indiceActual + 1) / PASOS_VIAJE.length
+  const progreso = Math.max(0, indiceActual / (PASOS_VIAJE.length - 1))
 
   return (
     <motion.header
