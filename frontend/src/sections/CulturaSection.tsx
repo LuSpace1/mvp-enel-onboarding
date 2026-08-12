@@ -1,28 +1,125 @@
 import { useState } from 'react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
+import { Lightning } from '@phosphor-icons/react'
+
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { pilaresCultura, valoresCultura } from '@/lib/data/cultura'
 
-export function CulturaSection() {
-  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({})
+const RAYOS = {
+  grande: 'M14 2.5 L4.5 14.5 H10 L8 22 L20 9 H12.5 Z',
+  mediano: 'M11 3.5 L5 12 H8.5 L6.5 19.5 L16 8.5 H11 Z',
+  chico: 'M12.5 4 L8 11 H10.5 L9 17 L15 6.5 H11.5 Z',
+}
 
-  const toggleFlip = (palabra: string) => {
+const COLORES_PREGUNTA = [
+  'text-enel-red',
+  'text-enel-pink',
+  'text-enel-navy',
+  'text-amber-500',
+  'text-enel-violeta-soft',
+]
+
+function Rayo({
+  d,
+  className = '',
+  size = 48,
+  delay = 0,
+  velocidad = 1.9,
+}: {
+  d: string
+  className?: string
+  size?: number
+  delay?: number
+  velocidad?: number
+}) {
+  return (
+    <motion.svg
+      aria-hidden="true"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      className={className}
+      animate={{
+        opacity: [0.5, 1, 0.15, 1, 0.7, 0.95],
+        scale: [0.92, 1.08, 0.98, 1.12, 1, 1.02],
+      }}
+      transition={{
+        duration: velocidad,
+        repeat: Infinity,
+        times: [0, 0.18, 0.35, 0.55, 0.72, 1],
+        delay,
+        ease: 'easeInOut',
+      }}
+    >
+      <motion.path
+        d={d}
+        fill="#ffd54a"
+        stroke="#ffb300"
+        strokeWidth={0.9}
+        strokeLinejoin="round"
+        style={{ filter: 'drop-shadow(0 0 6px rgba(255, 200, 60, 0.85))' }}
+      />
+    </motion.svg>
+  )
+}
+
+function RayoBurst({
+  d,
+  className = '',
+  rotar = 0,
+}: {
+  d: string
+  className?: string
+  rotar?: number
+}) {
+  return (
+    <motion.span aria-hidden="true" className={`pointer-events-none absolute ${className ?? ''}`}>
+      <motion.svg
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        style={{ transform: `rotate(${rotar}deg)` }}
+        animate={{ opacity: [0, 1, 1, 0], scale: [0.5, 1.15, 1, 0.8] }}
+        transition={{ duration: 0.65, times: [0, 0.25, 0.7, 1], ease: 'easeOut' }}
+      >
+        <motion.path
+          d={d}
+          fill="#ffd54a"
+          stroke="#ffb300"
+          strokeWidth={0.8}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          style={{ filter: 'drop-shadow(0 0 5px rgba(255, 200, 60, 0.9))' }}
+        />
+      </motion.svg>
+    </motion.span>
+  )
+}
+
+export function CulturaSection() {
+  const reduce = useReducedMotion()
+  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({})
+  const [spark, setSpark] = useState<Record<string, number>>({})
+
+  const pulsar = (palabra: string) => {
     setFlippedCards((prev) => ({ ...prev, [palabra]: !prev[palabra] }))
+    setSpark((prev) => ({ ...prev, [palabra]: (prev[palabra] ?? 0) + 1 }))
   }
 
   return (
-    <SectionShell id="cultura" className="bg-[#f0eee6] relative overflow-hidden">
+    <SectionShell id="cultura" className="relative overflow-hidden bg-[#f0eee6] pb-10 md:pb-14">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
         style={{
           backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
           backgroundSize: '16px 16px',
         }}
       />
-      <Reveal className="max-w-2xl relative z-10">
+      <Reveal className="relative z-10 max-w-2xl">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Cómo trabajamos
         </h2>
@@ -32,22 +129,23 @@ export function CulturaSection() {
         </p>
       </Reveal>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-2 relative z-10">
+      <div className="relative z-10 mt-12 grid gap-5 lg:grid-cols-2">
         {pilaresCultura.map((pilar, indice) => (
           <Reveal
             key={pilar.id}
             delay={indice * 0.06}
             className={indice === pilaresCultura.length - 1 ? 'lg:col-span-2' : ''}
           >
-            <article className="group relative h-full overflow-hidden rounded-2xl bg-enel-fog/40 p-[2px] shadow-sm transition-shadow hover:shadow-xl">
+            <article className="group bg-enel-fog/40 relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl">
               {/* Capa giratoria del borde eléctrico (Chispa) */}
-              <div 
+              <div
                 className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{ 
-                  backgroundImage: 'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)' 
-                }} 
+                style={{
+                  backgroundImage:
+                    'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)',
+                }}
               />
-              
+
               {/* Contenedor Interior (La Máscara) */}
               <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7">
                 <span className="bg-enel-red block h-1 w-8 rounded-full transition-all group-hover:w-12" />
@@ -55,7 +153,7 @@ export function CulturaSection() {
                   {pilar.titulo}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-neutral-600">{pilar.descripcion}</p>
-                <ul className="mt-auto pt-5 flex flex-wrap gap-2">
+                <ul className="mt-auto flex flex-wrap gap-2 pt-5">
                   {pilar.puntos.map((punto) => (
                     <li
                       key={punto}
@@ -71,47 +169,202 @@ export function CulturaSection() {
         ))}
       </div>
 
-      <Reveal delay={0.1} className="mt-16 relative z-10">
-        <div className="bg-enel-navy flex flex-col items-center justify-center rounded-3xl px-8 py-10 text-center">
-          <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl max-w-2xl">
-            Construir el futuro a través de la energía sustentable
+      {/* Titular rosa pálido con electricidad */}
+      <Reveal delay={0.1} className="relative z-10 mt-16">
+        <div className="border-enel-pink/25 relative overflow-hidden rounded-3xl border-2 bg-[#fdeff4] px-6 py-12 text-center shadow-[0_18px_50px_-22px_rgba(235,0,83,0.4)] backdrop-blur-sm md:px-10">
+          {/* Puntos de circuito */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-60"
+            style={{
+              backgroundImage: 'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
+              backgroundSize: '18px 18px',
+            }}
+          />
+
+          {/* Corriente barriendo el borde superior */}
+          {!reduce && (
+            <motion.span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[3px]"
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent, rgba(255, 213, 74, 0.95) 50%, transparent)',
+                backgroundSize: '200% 100%',
+              }}
+              animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
+            />
+          )}
+
+          {/* Rayos decorativos en esquinas */}
+          {!reduce && (
+            <>
+              <Rayo d={RAYOS.mediano} size={30} delay={0.9} className="absolute top-5 left-5" />
+              <Rayo
+                d={RAYOS.chico}
+                size={24}
+                delay={1.7}
+                velocidad={2.4}
+                className="absolute top-3 right-7"
+              />
+              <Rayo
+                d={RAYOS.chico}
+                size={22}
+                delay={0.4}
+                velocidad={2.8}
+                className="absolute bottom-6 left-10"
+              />
+              <Rayo
+                d={RAYOS.mediano}
+                size={28}
+                delay={1.2}
+                velocidad={2.1}
+                className="absolute right-8 bottom-8"
+              />
+            </>
+          )}
+
+          {/* Rayo central flotante */}
+          {!reduce && (
+            <motion.div
+              aria-hidden="true"
+              className="relative mx-auto mb-2 w-fit"
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Rayo d={RAYOS.grande} size={62} velocidad={1.4} />
+              <span className="bg-enel-pink/15 absolute inset-0 -z-10 m-auto h-16 w-16 rounded-full blur-2xl" />
+            </motion.div>
+          )}
+
+          <h3 className="text-enel-navy relative text-2xl font-semibold tracking-tight md:text-3xl">
+            Construir el futuro a través de la{' '}
+            <span className="from-enel-pink via-enel-red bg-gradient-to-r to-amber-500 bg-clip-text text-transparent">
+              energía sustentable
+            </span>
           </h3>
         </div>
       </Reveal>
 
-      {/* Tarjetas Interactivas Volteables (Valores) */}
-      <Reveal delay={0.2} className="mt-12 mb-10 relative z-10">
+      {/* Tarjetas Interactivas Volteables flotantes (Valores) */}
+      <Reveal delay={0.2} className="relative z-10 mt-12 mb-10">
         <div className="flex flex-col items-center">
-          <p className="mb-8 text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">
+          <p className="mb-12 text-sm font-semibold tracking-[0.2em] text-neutral-400 uppercase">
             Construimos el futuro a base de
           </p>
-          <div className="flex flex-wrap justify-center gap-5">
-            {valoresCultura.map((valor) => {
+          <div className="flex flex-wrap justify-center gap-7">
+            {valoresCultura.map((valor, indice) => {
               const isFlipped = flippedCards[valor.palabra]
+              const sparkId = spark[valor.palabra] ?? 0
               return (
-                <div 
-                  key={valor.palabra} 
-                  className="relative h-32 w-32 cursor-pointer [perspective:1000px]" 
-                  onClick={() => toggleFlip(valor.palabra)}
+                <motion.div
+                  key={valor.palabra}
+                  className="relative h-36 w-36 cursor-pointer [perspective:1000px]"
+                  onClick={() => pulsar(valor.palabra)}
+                  animate={reduce ? undefined : { y: [0, -9, 0] }}
+                  transition={{
+                    duration: 3.4,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: indice * 0.18,
+                  }}
                 >
-                  <motion.div 
-                    className="relative h-full w-full rounded-2xl shadow-sm transition-shadow hover:shadow-lg [transform-style:preserve-3d]"
+                  {/* Sombra flotante */}
+                  <motion.span
+                    aria-hidden="true"
+                    className="bg-enel-navy/25 absolute -bottom-5 left-1/2 h-2.5 w-16 rounded-full blur-[6px]"
+                    animate={
+                      reduce
+                        ? undefined
+                        : { scaleX: [1, 0.7, 1], opacity: [0.45, 0.2, 0.45], x: '-50%' }
+                    }
+                    transition={{
+                      duration: 3.4,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: indice * 0.18,
+                    }}
+                  />
+
+                  {/* Anillo de descarga */}
+                  {sparkId > 0 && !reduce && (
+                    <motion.span
+                      key={sparkId}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -inset-[7px] rounded-[1.4rem] border-2 border-amber-400/80"
+                      initial={{ opacity: 0.9, scale: 0.9 }}
+                      animate={{ opacity: 0, scale: 1.2 }}
+                      transition={{ duration: 0.6, ease: 'easeOut' }}
+                    />
+                  )}
+
+                  {/* Descarga al apretar */}
+                  {sparkId > 0 && !reduce && (
+                    <motion.div
+                      key={`sparks-${sparkId}`}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -inset-5 z-30"
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 0 }}
+                      transition={{ duration: 0.7, ease: 'easeOut' }}
+                    >
+                      <RayoBurst d={RAYOS.grande} className="-top-6 left-1/2 -ml-3" />
+                      <RayoBurst d={RAYOS.mediano} rotar={70} className="top-8 -right-4" />
+                      <RayoBurst d={RAYOS.chico} rotar={-60} className="bottom-9 -left-5" />
+                    </motion.div>
+                  )}
+
+                  <motion.div
+                    className="relative h-full w-full"
+                    style={{ transformStyle: 'preserve-3d' }}
                     initial={false}
-                    animate={{ rotateY: isFlipped ? 180 : 0 }}
+                    animate={{ rotateY: isFlipped ? 180 : 0, scale: isFlipped ? 1.14 : 1 }}
                     transition={{ duration: 0.6, type: 'spring', stiffness: 220, damping: 20 }}
                   >
-                    {/* Frente (Signo de interrogación) */}
-                    <div className="absolute inset-0 flex items-center justify-center rounded-2xl border-2 border-enel-fog/70 bg-white [backface-visibility:hidden]">
-                      <span className="text-5xl font-extrabold text-enel-red drop-shadow-sm">?</span>
-                    </div>
-                    {/* Dorso (Palabra) */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border-2 border-enel-navy bg-enel-navy p-3 [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-inner">
-                      <span className="text-center text-sm font-bold uppercase tracking-wide text-white drop-shadow-md">
+                    {/* Frente */}
+                    <motion.div
+                      className="to-enel-mist border-enel-navy/25 absolute inset-0 grid place-items-center overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-[#fbf9f2] via-[#f4f1e8] [backface-visibility:hidden]"
+                      whileHover={reduce ? undefined : { scale: 1.04 }}
+                      whileTap={reduce ? undefined : { scale: 0.96 }}
+                    >
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 opacity-60"
+                        style={{
+                          backgroundImage:
+                            'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
+                          backgroundSize: '10px 10px',
+                        }}
+                      />
+                      {!reduce && (
+                        <motion.span
+                          className={`${COLORES_PREGUNTA[indice % COLORES_PREGUNTA.length]} text-5xl font-extrabold drop-shadow-sm`}
+                          animate={{ scale: [1, 1.1, 1], opacity: [0.85, 1, 0.85] }}
+                          transition={{
+                            duration: 2.6,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                            delay: indice * 0.35,
+                          }}
+                        >
+                          ?
+                        </motion.span>
+                      )}
+                      <span className="text-enel-navy/40 absolute bottom-2 text-[9px] font-bold tracking-[0.25em] uppercase">
+                        Toca
+                      </span>
+                    </motion.div>
+
+                    {/* Dorso */}
+                    <div className="from-enel-violeta to-enel-violeta-soft border-enel-violeta/60 absolute inset-0 flex [transform:rotateY(180deg)] flex-col items-center justify-center gap-1 rounded-2xl border-2 bg-gradient-to-br p-3 text-center shadow-xl [backface-visibility:hidden]">
+                      <Lightning size={16} weight="fill" className="text-amber-400" />
+                      <span className="text-sm font-extrabold tracking-wide text-white uppercase drop-shadow-md">
                         {valor.palabra}
                       </span>
                     </div>
                   </motion.div>
-                </div>
+                </motion.div>
               )
             })}
           </div>
