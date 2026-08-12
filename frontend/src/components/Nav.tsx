@@ -31,14 +31,13 @@ export function Nav() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const reduce = useReducedMotion()
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
-  const navegar = useViajeStore((estado) => estado.navegar)
 
   const indiceActual = PASOS_VIAJE.findIndex((paso) => paso.id === pasoActual)
   const progreso = pasoActual === 'portada' ? 0 : (indiceActual + 1) / PASOS_VIAJE.length
 
   return (
     <motion.header
-      className="fixed inset-x-0 top-0 z-40 h-16 border-b border-white/60 bg-[#f0eee6]/40 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+      className="fixed inset-x-0 top-0 z-40 h-16 border-b border-white/60 bg-[#f0eee6]/40 shadow-[0_4px_20px_rgba(0,0,0,0.03)] backdrop-blur-xl"
       initial={reduce ? false : { y: '-100%' }}
       animate={{ y: 0 }}
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
@@ -93,7 +92,7 @@ export function Nav() {
         <button
           type="button"
           onClick={() => setMenuAbierto(!menuAbierto)}
-          className="lg:hidden p-2 text-enel-navy hover:bg-black/5 rounded-full transition-colors"
+          className="text-enel-navy rounded-full p-2 transition-colors hover:bg-black/5 lg:hidden"
           aria-label="Alternar menú"
         >
           {menuAbierto ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
@@ -108,7 +107,7 @@ export function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-16 left-0 right-0 bg-[#f0eee6] border-b border-enel-fog/70 shadow-2xl lg:hidden flex flex-col p-4 z-30 max-h-[70vh] overflow-y-auto"
+            className="border-enel-fog/70 absolute top-16 right-0 left-0 z-30 flex max-h-[70vh] flex-col overflow-y-auto border-b bg-[#f0eee6] p-4 shadow-2xl lg:hidden"
           >
             {ITEMS.map((item) => (
               <button
@@ -120,10 +119,10 @@ export function Nav() {
                   setMenuAbierto(false)
                 }}
                 className={clsx(
-                  'w-full text-left rounded-xl px-5 py-4 text-base font-semibold transition-colors border-b border-black/5 last:border-0',
+                  'w-full rounded-xl border-b border-black/5 px-5 py-4 text-left text-base font-semibold transition-colors last:border-0',
                   pasoActual === item.id
                     ? 'bg-enel-red/10 text-enel-red'
-                    : 'text-enel-navy hover:bg-white/50'
+                    : 'text-enel-navy hover:bg-white/50',
                 )}
               >
                 {item.etiqueta}

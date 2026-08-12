@@ -1,6 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect } from 'react'
 import { Toaster } from 'sonner'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Nav } from '@/components/Nav'
 import { PasoHeader } from '@/components/PasoPantalla'
@@ -18,10 +17,7 @@ import { OrganigramaSection } from '@/sections/OrganigramaSection'
 import { PoliticasISOSection } from '@/sections/PoliticasISOSection'
 import { CadenaValorSection } from '@/sections/CadenaValorSection'
 
-// Se eliminó contenidoDelPaso ya que renderizaremos todo el contenido de forma continua.
-
-function SectionObserver({ id, children }: { id: string; children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
+function SectionObserver({ id, children }: { id: string; children: React.ReactNode }) {
   const navegar = useViajeStore((estado) => estado.navegar)
 
   useEffect(() => {
@@ -33,26 +29,21 @@ function SectionObserver({ id, children }: { id: string; children: ReactNode }) 
           }
         })
       },
-      { root: null, rootMargin: '-40% 0px -60% 0px' }
+      { root: null, rootMargin: '-40% 0px -60% 0px' },
     )
 
-    if (ref.current) observer.observe(ref.current)
+    const nodo = document.getElementById(id)
+    if (nodo) observer.observe(nodo)
     return () => observer.disconnect()
   }, [id, navegar])
 
-  return (
-    <div id={id} ref={ref} className="scroll-mt-32">
-      {children}
-    </div>
-  )
+  return <div className="scroll-mt-32">{children}</div>
 }
 
 export function Viaje() {
-  const reduce = useReducedMotion()
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
   const initAnonymous = useAuthStore((estado) => estado.initAnonymous)
   const cargarVideos = useVideosStore((estado) => estado.cargar)
-  const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     void initAnonymous()
@@ -64,24 +55,21 @@ export function Viaje() {
   return (
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
-      <main ref={mainRef} className="min-h-screen pt-16">
+      <main className="min-h-screen pt-16">
         <SectionObserver id="portada">
           <PortadaDelViaje />
         </SectionObserver>
 
-        {/* Esta barra se pegará al top al hacer scroll más allá de la portada */}
-        <div className="sticky top-16 z-20 md:top-16">
-          {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
-        </div>
+        {pasoActual !== PASO_INICIAL && paso && <PasoHeader paso={paso} />}
 
         <SectionObserver id="historia">
           <HistoriaSection />
         </SectionObserver>
-        
+
         <SectionObserver id="cultura">
           <CulturaSection />
         </SectionObserver>
-        
+
         <SectionObserver id="organigrama">
           <OrganigramaSection />
         </SectionObserver>

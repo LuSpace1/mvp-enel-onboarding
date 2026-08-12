@@ -37,7 +37,6 @@ const STAMPAS = [
 
 export function PortadaDelViaje() {
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
-  const navegar = useViajeStore((estado) => estado.navegar)
   const video = videoDeSeccion('hero_main')
   const reduce = useReducedMotion()
 
@@ -80,10 +79,7 @@ export function PortadaDelViaje() {
               transition={{ duration: 1.3, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 w-full"
             >
-              <VideoEmbed
-                youtubeUrl={video.youtube_url}
-                titulo={video.title}
-              />
+              <VideoEmbed youtubeUrl={video.youtube_url} titulo={video.title} />
             </motion.div>
           )}
 
@@ -135,7 +131,7 @@ export function PortadaDelViaje() {
       <section id="mapa-del-viaje" className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+          className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
           style={{
             backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
             backgroundSize: '16px 16px',
