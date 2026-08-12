@@ -18,11 +18,28 @@ import fotoCEO from '@/assets/images/centro_de_exelencia_enel.jpg'
 
 const ROTATIONS = ['-rotate-3', 'rotate-2', '-rotate-6', 'rotate-6', '-rotate-2', 'rotate-3']
 
+const ORBIT_STEPS = 12
+const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
+  const offsetAngle = indice * (360 / fotosMeOffice.length)
+  const xPath = []
+  const yPath = []
+  const rotatePath = []
+  for (let i = 0; i <= ORBIT_STEPS; i++) {
+    const a = (offsetAngle + i * (360 / ORBIT_STEPS)) * (Math.PI / 180)
+    xPath.push(Math.cos(a) * 260)
+    yPath.push(Math.sin(a) * 120)
+    // Bamboleo suave para que parezcan flotar mientras orbitan
+    rotatePath.push(Math.sin(a * 2) * 8)
+  }
+  return { x: xPath, y: yPath, rotate: rotatePath }
+})
+
 export function GaleriasSection() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const bannerRef = useRef<HTMLDivElement>(null)
   const resumeTimeout = useRef<number | undefined>(undefined)
   const [pausado, setPausado] = useState(false)
+  const [activePhoto, setActivePhoto] = useState(0)
   const reduce = useReducedMotion()
   const bannerInView = useInView(bannerRef, { once: true, amount: 0.15 })
 
@@ -47,6 +64,14 @@ export function GaleriasSection() {
     })
     window.clearTimeout(resumeTimeout.current)
     resumeTimeout.current = window.setTimeout(() => setPausado(false), 2500)
+  }
+
+  const nextPhoto = () => {
+    setActivePhoto((prev) => (prev + 1) % fotosMeOffice.length)
+  }
+
+  const prevPhoto = () => {
+    setActivePhoto((prev) => (prev - 1 + fotosMeOffice.length) % fotosMeOffice.length)
   }
 
   return (
@@ -74,35 +99,79 @@ export function GaleriasSection() {
           </p>
         </Reveal>
 
-        {/* Polaroids - Me Office */}
-        <div className="mt-16 grid gap-8 px-2 sm:grid-cols-2 md:px-6 lg:grid-cols-3">
-          {fotosMeOffice.map((foto, indice) => {
-            const rot = ROTATIONS[indice % ROTATIONS.length]
-            return (
-              <Reveal key={foto.src} delay={indice * 0.1}>
+        {/* Mazo Flotante - Me Office */}
+        <div className="mt-16 w-full flex flex-col items-center">
+          <div className="relative w-full max-w-4xl h-[450px] md:h-[550px] flex items-center justify-center overflow-visible">
+            {fotosMeOffice.map((foto, indice) => {
+              const isActive = indice === activePhoto
+              
+              return (
                 <motion.figure
-                  whileHover={{ scale: 1.05, rotate: 0, zIndex: 30 }}
-                  className={clsx(
-                    'group relative origin-center cursor-pointer rounded-md border border-neutral-200 bg-white p-4 pb-16 shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300',
-                    rot,
-                  )}
+                  key={foto.src}
+                  className="absolute origin-center rounded-md border border-neutral-200 bg-white p-4 pb-16 shadow-[0_20px_40px_rgba(0,0,0,0.12)] cursor-pointer"
+                  style={{ width: 'min(75vw, 320px)', zIndex: isActive ? 50 : 10 + indice }}
+                  onClick={() => !isActive && setActivePhoto(indice)}
+                  animate={
+                    isActive
+                      ? { x: 0, y: 0, rotate: 0, scale: 1.15, opacity: 1 }
+                      : {
+                          x: reduce ? ORBIT_PATHS[indice].x[0] : ORBIT_PATHS[indice].x,
+                          y: reduce ? ORBIT_PATHS[indice].y[0] : ORBIT_PATHS[indice].y,
+                          rotate: reduce ? 0 : ORBIT_PATHS[indice].rotate,
+                          scale: 0.7,
+                          opacity: 0.65
+                        }
+                  }
+                  transition={
+                    isActive || reduce
+                      ? { type: 'spring', stiffness: 220, damping: 22 }
+                      : {
+                          duration: 12,
+                          repeat: Infinity,
+                          ease: 'linear',
+                        }
+                  }
+                  whileHover={!isActive ? { scale: 0.75, opacity: 0.95 } : {}}
                 >
                   <div className="bg-enel-mist relative aspect-[4/3] overflow-hidden rounded-sm shadow-inner">
                     <img
                       src={foto.src}
                       alt={foto.alt}
                       loading="lazy"
-                      className="h-full w-full object-cover grayscale-[15%] transition duration-700 group-hover:scale-110 group-hover:grayscale-0"
+                      className={clsx(
+                        "h-full w-full object-cover transition duration-700",
+                        isActive ? "grayscale-0" : "grayscale-[40%]"
+                      )}
                     />
-                    <div className="bg-enel-red/10 absolute inset-0 opacity-0 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
-                  <figcaption className="text-enel-navy/80 absolute bottom-5 left-0 w-full px-4 text-center font-serif text-lg font-medium italic">
+                  <figcaption className="text-enel-navy absolute bottom-5 left-0 w-full px-4 text-center font-serif text-lg font-medium italic">
                     {foto.alt}
                   </figcaption>
                 </motion.figure>
-              </Reveal>
-            )
-          })}
+              )
+            })}
+          </div>
+
+          {/* Controles del Mazo Flotante */}
+          <div className="flex items-center gap-4 mt-8 md:mt-2">
+            <button
+              onClick={prevPhoto}
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              aria-label="Foto anterior"
+            >
+              <CaretLeft size={20} weight="bold" />
+            </button>
+            <span className="text-sm font-bold text-neutral-500 tracking-widest uppercase">
+              {activePhoto + 1} / {fotosMeOffice.length}
+            </span>
+            <button
+              onClick={nextPhoto}
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              aria-label="Siguiente foto"
+            >
+              <CaretRight size={20} weight="bold" />
+            </button>
+          </div>
         </div>
 
         <Reveal delay={0.1} className="relative mt-36">
