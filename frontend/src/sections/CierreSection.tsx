@@ -9,7 +9,10 @@ export function CierreSection() {
   const reduce = useReducedMotion()
 
   return (
-    <section id="cierre" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-20 md:min-h-[80dvh] md:py-28">
+    <section
+      id="cierre"
+      className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-20 md:min-h-[80dvh] md:py-28"
+    >
       <div className="pointer-events-none absolute inset-0">
         <motion.img
           src={fotoMUT}
@@ -36,8 +39,8 @@ export function CierreSection() {
             Cada proyecto, cada persona y cada proceso de esta página forma parte de la transición
             energética que impulsa al país. Sigue explorando y comparte lo que aprendas.
           </p>
-          
-          <motion.div 
+
+          <motion.div
             className="mx-auto mt-12 flex justify-center text-amber-400"
             animate={{ opacity: [0.2, 1, 0.2] }}
             transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}

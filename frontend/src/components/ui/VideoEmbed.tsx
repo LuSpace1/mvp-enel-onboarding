@@ -11,7 +11,7 @@ export function VideoEmbed({ youtubeUrl, titulo }: VideoEmbedProps) {
   if (!videoId) return null
 
   return (
-    <div className="bg-black relative aspect-video w-full overflow-hidden rounded-2xl">
+    <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
       <iframe
         className="absolute inset-0 h-full w-full"
         src={`https://www.youtube.com/embed/${videoId}?rel=0`}

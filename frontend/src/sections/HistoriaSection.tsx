@@ -89,17 +89,17 @@ export function HistoriaSection() {
   const [isBulbOn, setIsBulbOn] = useState(false)
 
   return (
-    <SectionShell id="historia" className="bg-[#f0eee6] relative overflow-hidden">
+    <SectionShell id="historia" className="relative overflow-hidden bg-[#f0eee6]">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply z-0"
+        className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
         style={{
           backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
           backgroundSize: '16px 16px',
         }}
       />
-      <Reveal className="mx-auto max-w-3xl text-center relative z-10">
+      <Reveal className="relative z-10 mx-auto max-w-3xl text-center">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           El grupo que impulsa la energía del país
         </h2>
@@ -112,7 +112,7 @@ export function HistoriaSection() {
           {filiales.map((filial) => (
             <span
               key={filial}
-              className="border-enel-fog bg-white text-enel-navy rounded-full border px-4 py-1.5 text-sm font-medium shadow-sm"
+              className="border-enel-fog text-enel-navy rounded-full border bg-white px-4 py-1.5 text-sm font-medium shadow-sm"
             >
               {filial}
             </span>
@@ -120,9 +120,9 @@ export function HistoriaSection() {
         </div>
       </Reveal>
 
-      <Reveal delay={0.1} className="mt-20 relative z-10">
+      <Reveal delay={0.1} className="relative z-10 mt-20">
         {/* CARD PADRE */}
-        <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] border-4 border-amber-500 bg-white p-10 md:p-16 shadow-2xl">
+        <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] border-4 border-amber-500 bg-white p-10 shadow-2xl md:p-16">
           {/* Fondo Cuadernillo del Card Padre */}
           <div
             aria-hidden="true"
@@ -137,10 +137,10 @@ export function HistoriaSection() {
             {/* 1. TIMELINE SUPERIOR */}
             <div className="relative flex w-full flex-col items-start justify-between gap-12 md:flex-row md:gap-4">
               {/* Línea conectora horizontal (solo desktop) */}
-              <div className="absolute top-8 left-[10%] right-[10%] hidden h-0.5 bg-enel-fog/80 md:block" />
-              
+              <div className="bg-enel-fog/80 absolute top-8 right-[10%] left-[10%] hidden h-0.5 md:block" />
+
               {timelineSteps.map((step, idx) => (
-                <motion.div 
+                <motion.div
                   key={step.num}
                   className="relative flex flex-1 flex-col items-center text-center"
                   initial={{ opacity: 0, y: 20 }}
@@ -156,11 +156,13 @@ export function HistoriaSection() {
                   >
                     {step.num}
                   </div>
-                  
+
                   {/* Título y Descripción de la etapa */}
                   <div className={`mt-5 flex flex-col items-center ${step.color} drop-shadow-md`}>
                     <h3 className="text-lg font-bold tracking-tight">{step.titulo}</h3>
-                    <p className="mt-1.5 px-2 text-[13px] leading-snug font-medium drop-shadow-sm">{step.desc}</p>
+                    <p className="mt-1.5 px-2 text-[13px] leading-snug font-medium drop-shadow-sm">
+                      {step.desc}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -179,11 +181,13 @@ export function HistoriaSection() {
                   onMouseEnter={() => setIsBulbOn(true)}
                   onMouseLeave={() => setIsBulbOn(false)}
                 >
-                  <p className={`text-4xl font-extrabold tracking-tight drop-shadow-md ${stat.color}`}>
+                  <p
+                    className={`text-4xl font-extrabold tracking-tight drop-shadow-md ${stat.color}`}
+                  >
                     {stat.statVal}
                     {stat.statUnit && <span className="ml-1 text-2xl">{stat.statUnit}</span>}
                   </p>
-                  <p className="mt-2 text-[11px] font-bold uppercase tracking-wider text-enel-navy drop-shadow-sm">
+                  <p className="text-enel-navy mt-2 text-[11px] font-bold tracking-wider uppercase drop-shadow-sm">
                     {stat.statDesc}
                   </p>
                 </motion.div>
@@ -195,7 +199,7 @@ export function HistoriaSection() {
           <div className="absolute top-6 right-6 z-20 md:top-10 md:right-10">
             <Lightbulb
               size={56}
-              weight={isBulbOn ? "fill" : "duotone"}
+              weight={isBulbOn ? 'fill' : 'duotone'}
               className={`transition-all duration-500 ${
                 isBulbOn
                   ? 'scale-125 text-amber-400 drop-shadow-[0_0_45px_rgba(251,191,36,1)]'

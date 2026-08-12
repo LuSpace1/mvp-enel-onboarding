@@ -79,7 +79,10 @@ export const comunasGrid: ComunaGrid[] = [
   { id: 'paine', nombre: 'Paine', col: 3, row: 8, esEnel: false },
 ]
 
-export function generarPathHexagono(col: number, row: number): { path: string; cx: number; cy: number } {
+export function generarPathHexagono(
+  col: number,
+  row: number,
+): { path: string; cx: number; cy: number } {
   const R = 44 // Radio del hexágono
   const w = Math.sqrt(3) * R
   const h = 2 * R
