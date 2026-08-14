@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { Toaster } from 'sonner'
-
 import { Nav } from '@/components/Nav'
 import { PasoHeader } from '@/components/PasoPantalla'
 import { PortadaDelViaje } from '@/components/PortadaDelViaje'
+import { SplashScreen } from '@/components/SplashScreen'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useVideosStore } from '@/store/useVideosStore'
 import { useViajeStore } from '@/store/useViajeStore'
-import { PASO_INICIAL, PASOS_VIAJE } from '@/lib/data/viaje'
+import { PASOS_VIAJE } from '@/lib/data/viaje'
 import { CierreSection, Footer } from '@/sections/CierreSection'
 import { CulturaSection } from '@/sections/CulturaSection'
 import { GaleriasSection } from '@/sections/GaleriasSection'
@@ -55,6 +55,7 @@ export function Viaje() {
   return (
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
+      <SplashScreen />
       <main className="min-h-screen pt-16">
         {paso && <PasoHeader paso={paso} />}
 
