@@ -19,7 +19,7 @@ export const subgerencias: Subgerencia[] = [
     subgerente: 'Francisco Evans',
     foto: fotoHombre,
     proposito:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gestionamos la cadena de suministro y las compras estratégicas del negocio.',
+      'Gestionar de manera estratégica la cadena de suministro, el abastecimiento y las contrataciones de servicios y materiales del negocio.',
     procesos: ['Compras estratégicas', 'Abastecimiento', 'Contratos'],
     videoSection: 'subgerencia_pc',
   },
@@ -30,7 +30,7 @@ export const subgerencias: Subgerencia[] = [
     subgerente: 'Ximena León',
     foto: fotoMujer,
     proposito:
-      'Garantizar la gestión integral en salud, seguridad, medio ambiente y calidad, asegurando el cumplimiento de estándares globales y normativas locales, promoviendo una cultura preventiva y de mejora continua.',
+      'Garantizar la gestión integral en salud, seguridad, medio ambiente y calidad (HSEQ), asegurando el cumplimiento de estándares globales y normativas locales, promoviendo una cultura preventiva y de mejora continua.',
     procesos: ['SIG', 'Cumplimiento normativo', 'Inspección', 'Capacitación técnica'],
     videoSection: 'subgerencia_hseq',
   },

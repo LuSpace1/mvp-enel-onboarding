@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { X } from '@phosphor-icons/react'
-import { motion, useReducedMotion } from 'motion/react'
+import { X, Play } from '@phosphor-icons/react'
+import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
 import type { Variants } from 'motion/react'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
@@ -29,6 +29,7 @@ const cardsSubgerencias: Variants = {
 
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
+  const [videoActivo, setVideoActivo] = useState<{ url: string; titulo: string } | null>(null)
   const reduce = useReducedMotion()
 
   return (
@@ -197,18 +198,25 @@ export function OrganigramaSection() {
                     <h4 className="mt-1 text-[13px] leading-tight font-semibold text-white">
                       {sub.nombre}
                     </h4>
+                    <p className="text-[11px] text-neutral-300 font-medium mt-1">
+                      Líder: {sub.subgerente}
+                    </p>
                   </div>
                 </div>
 
                 {/* Cuerpo del Hover Modal */}
                 <div className="bg-white p-5 text-left">
                   {videoDeSeccion(sub.videoSection) && (
-                    <div className="border-enel-fog bg-enel-mist mb-4 overflow-hidden rounded-xl border shadow-sm">
-                      <VideoEmbed
-                        youtubeUrl={videoDeSeccion(sub.videoSection)!.youtube_url}
-                        titulo={videoDeSeccion(sub.videoSection)!.title}
-                      />
-                    </div>
+                    <button
+                      onClick={() => setVideoActivo({
+                        url: videoDeSeccion(sub.videoSection)!.youtube_url,
+                        titulo: videoDeSeccion(sub.videoSection)!.title
+                      })}
+                      className="group/btn w-full mb-4 flex items-center justify-center gap-2 bg-enel-red hover:bg-enel-red-dark text-white text-[11px] font-extrabold py-2.5 px-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform active:scale-[0.98] cursor-pointer"
+                    >
+                      <Play size={14} weight="fill" className="text-white group-hover/btn:scale-115 transition-transform duration-300" />
+                      Ver Video de Bienvenida
+                    </button>
                   )}
                   <p className="text-xs leading-relaxed text-neutral-600">{sub.proposito}</p>
 
@@ -235,6 +243,46 @@ export function OrganigramaSection() {
         </motion.div>
       </motion.div>
       </motion.div>
+
+      {/* Modal de Video (Pop-up) */}
+      <AnimatePresence>
+        {videoActivo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+            onClick={() => setVideoActivo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', duration: 0.4, bounce: 0.15 }}
+              className="bg-neutral-950 border border-neutral-800 relative w-full max-w-3xl overflow-hidden rounded-[2rem] p-3 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Botón Cerrar */}
+              <button
+                onClick={() => setVideoActivo(null)}
+                className="absolute top-4 right-4 z-50 rounded-full bg-black/60 p-2 text-white/70 transition hover:bg-black/80 hover:text-white"
+                aria-label="Cerrar video"
+              >
+                <X size={20} weight="bold" />
+              </button>
+
+              <div className="p-3 text-left">
+                <h3 className="text-white text-base font-semibold mb-3 pr-12 truncate">
+                  {videoActivo.titulo}
+                </h3>
+                <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-black">
+                  <VideoEmbed youtubeUrl={videoActivo.url} titulo={videoActivo.titulo} />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </SectionShell>
   )
 }
