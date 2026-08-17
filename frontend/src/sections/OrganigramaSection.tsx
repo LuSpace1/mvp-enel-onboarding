@@ -29,7 +29,7 @@ const cardsSubgerencias: Variants = {
 
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
-  const [staffAbierto, setStaffAbierto] = useState<string | null>(null)
+  const [staffActivo, setStaffActivo] = useState<typeof areasStaff[number] | null>(null)
   const [videoActivo, setVideoActivo] = useState<{ url: string; titulo: string } | null>(null)
   const reduce = useReducedMotion()
 
@@ -97,63 +97,23 @@ export function OrganigramaSection() {
             Áreas Staff
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {areasStaff.map((area) => {
-              const isOpen = staffAbierto === area.id
-              return (
-                <div key={area.id} className="relative">
-                  <button
-                    onClick={() => {
-                      setStaffAbierto(isOpen ? null : area.id)
-                      setNodoAbierto(null) // Cerrar subgerencias
-                    }}
-                    className={`group/staff border-neutral-200/80 bg-white hover:border-enel-red/50 hover:shadow-xs w-36 rounded-xl border py-2 px-3 text-center transition-all duration-300 flex items-center justify-center min-h-[48px] cursor-pointer ${
-                      isOpen ? 'border-enel-red shadow-sm' : ''
-                    }`}
-                  >
-                    <h4 className="text-[10px] font-extrabold text-enel-navy tracking-wide leading-snug group-hover/staff:text-enel-red transition-colors duration-300">
-                      {area.nombre}
-                    </h4>
-                  </button>
-
-                  {/* Popover de Área Staff (Orientado hacia arriba) */}
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: -8 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: -8 }}
-                        className="border-neutral-200 absolute left-1/2 bottom-[125%] z-50 mb-2 w-64 -translate-x-1/2 rounded-2xl border bg-white p-4 text-left shadow-lg"
-                      >
-                        {/* Pequeño indicador / flechita del popover */}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-[8px] border-t-[8px] border-x-transparent border-t-white" />
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-[8px] border-t-[8px] border-x-transparent border-t-neutral-200 -z-10 mt-[1px]" />
-
-                        <div className="flex items-center justify-between border-b pb-1.5 mb-2">
-                          <span className="text-enel-red text-[9px] font-extrabold tracking-wider uppercase">
-                            Soporte Staff
-                          </span>
-                          <button
-                            onClick={() => setStaffAbierto(null)}
-                            className="text-neutral-400 hover:text-neutral-600 transition"
-                          >
-                            <X size={12} weight="bold" />
-                          </button>
-                        </div>
-                        <h5 className="text-enel-navy text-xs font-bold mb-1 leading-snug">
-                          {area.nombre}
-                        </h5>
-                        <p className="text-[10px] leading-relaxed text-neutral-600 font-medium">
-                          {area.detalle}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )
-            })}
+            {areasStaff.map((area) => (
+              <button
+                key={area.id}
+                onClick={() => {
+                  setStaffActivo(area)
+                  setNodoAbierto(null) // Cerrar subgerencias
+                }}
+                className="group/staff border-neutral-200/80 bg-white hover:border-enel-red/50 hover:shadow-xs w-36 rounded-xl border py-2 px-3 text-center transition-all duration-300 flex items-center justify-center min-h-[48px] cursor-pointer active:scale-[0.97]"
+              >
+                <h4 className="text-[10px] font-extrabold text-enel-navy tracking-wide leading-snug group-hover/staff:text-enel-red transition-colors duration-300">
+                  {area.nombre}
+                </h4>
+              </button>
+            ))}
           </div>
           <p className="mt-3 text-[10px] font-medium text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            Las áreas staff dependen de la Gerencia General y brindan soporte transversal a todas las subgerencias. Haz clic en cada una para conocer su función.
+            Las áreas staff dependen de la Gerencia General y brindan soporte transversal a todas las subgerencias. Haz clic en cada una para conocer su función detallada.
           </p>
         </motion.div>
 
@@ -184,7 +144,7 @@ export function OrganigramaSection() {
               <div
                 onClick={() => {
                   setNodoAbierto(nodoAbierto === sub.id ? null : sub.id)
-                  setStaffAbierto(null)
+                  setStaffActivo(null)
                 }}
                 className={`hover:border-enel-red relative flex w-full cursor-pointer flex-col items-center rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
                   nodoAbierto === sub.id
@@ -325,6 +285,54 @@ export function OrganigramaSection() {
                 <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-black">
                   <VideoEmbed youtubeUrl={videoActivo.url} titulo={videoActivo.titulo} />
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal de Detalle de Área Staff (Pop-up) */}
+      <AnimatePresence>
+        {staffActivo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+            onClick={() => setStaffActivo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', duration: 0.4, bounce: 0.15 }}
+              className="bg-white border border-neutral-200 relative w-full max-w-lg overflow-hidden rounded-[2rem] p-6 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Botón Cerrar */}
+              <button
+                onClick={() => setStaffActivo(null)}
+                className="absolute top-4 right-4 z-50 rounded-full bg-neutral-100 p-2 text-neutral-500 transition hover:bg-neutral-200 hover:text-neutral-800"
+                aria-label="Cerrar detalle"
+              >
+                <X size={18} weight="bold" />
+              </button>
+
+              <div className="text-left mt-2">
+                <span className="bg-enel-red/10 text-enel-red rounded-full px-3.5 py-1 text-[10px] font-extrabold tracking-wider uppercase">
+                  Soporte Transversal Staff
+                </span>
+                <h3 className="text-enel-navy text-2xl font-bold mt-3 mb-4">
+                  {staffActivo.nombre}
+                </h3>
+                <div className="bg-enel-mist rounded-2xl p-5 border border-neutral-100">
+                  <p className="text-neutral-700 text-sm leading-relaxed font-medium">
+                    {staffActivo.detalle}
+                  </p>
+                </div>
+                <p className="mt-4 text-[11px] text-neutral-400 font-medium text-center">
+                  Esta área reporta directamente a la Gerencia General de Enel Distribución Chile.
+                </p>
               </div>
             </motion.div>
           </motion.div>
