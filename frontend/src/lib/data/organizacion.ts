@@ -83,13 +83,13 @@ export const areasStaff = [
   { id: 'auditoria', nombre: 'Auditoría', detalle: 'Aseguramiento y control interno.' },
   {
     id: 'personas',
-    nombre: 'Personas y Organización',
+    nombre: 'Personas y Organizacionales',
     detalle: 'Talento, cultura y desarrollo organizacional.',
   },
   { id: 'legal', nombre: 'Legal', detalle: 'Asesoría jurídica y cumplimiento.' },
   {
     id: 'comunicaciones',
-    nombre: 'Comunicaciones y Sostenibilidad',
+    nombre: 'Comunicaciones Externas y Sostenibilidad',
     detalle: 'Vínculo con comunidades y grupos de interés.',
   },
 ]

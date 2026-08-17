@@ -88,26 +88,34 @@ export function OrganigramaSection() {
         {/* Áreas Staff */}
         <motion.div
           variants={cardHija}
-          className="border-enel-fog relative z-10 mt-8 max-w-2xl rounded-3xl border-2 border-dashed bg-white/70 p-5 text-center shadow-sm backdrop-blur-sm"
-          style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
+          className="border-neutral-300 relative z-10 mt-8 w-full max-w-4xl rounded-3xl border-2 border-dashed bg-white/60 p-6 md:p-8 text-center shadow-md backdrop-blur-md"
+          style={{ animation: 'float-subtle 4.5s ease-in-out infinite' }}
         >
-          <p className="mb-3 text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase">
+          <p className="mb-4 text-[11px] font-extrabold tracking-[0.25em] text-neutral-400 uppercase">
             Áreas Staff
           </p>
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-4">
             {areasStaff.map((area) => (
-              <span
+              <div
                 key={area.id}
-                className="text-enel-navy border-enel-fog/50 hover:border-enel-red/50 hover:bg-enel-red/5 rounded-full border bg-white px-3 py-1.5 text-[11px] font-medium shadow-sm transition"
-                title={area.detalle}
+                className="group/staff border-neutral-200 bg-white hover:border-enel-red/60 hover:bg-enel-red/[0.01] hover:shadow-lg w-48 rounded-2xl border p-5 text-center shadow-sm transition-all duration-300 flex flex-col items-center justify-between min-h-[140px]"
               >
-                {area.nombre}
-              </span>
+                <div className="bg-neutral-100 group-hover/staff:bg-enel-red/10 mx-auto mb-3 flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ring-2 ring-transparent group-hover/staff:ring-enel-red/20">
+                  <span className="text-enel-navy group-hover/staff:text-enel-red text-xs font-extrabold">
+                    {area.nombre.substring(0, 2).toUpperCase()}
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-enel-navy tracking-wide leading-tight group-hover/staff:text-enel-red transition-colors duration-300">
+                  {area.nombre}
+                </h4>
+                <p className="mt-2 text-[10px] leading-relaxed text-neutral-500 font-medium max-w-[150px]">
+                  {area.detalle}
+                </p>
+              </div>
             ))}
           </div>
-          <p className="mt-4 text-xs font-medium text-neutral-500">
-            Las áreas staff dependen directamente de la Gerencia General y dan soporte transversal a
-            todas las subgerencias.
+          <p className="mt-6 text-[11px] font-medium text-neutral-500 max-w-xl mx-auto leading-relaxed">
+            Las áreas staff dependen directamente de la Gerencia General y brindan soporte estratégico y transversal a todas las subgerencias de la compañía.
           </p>
         </motion.div>
 
