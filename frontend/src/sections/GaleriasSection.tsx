@@ -92,6 +92,7 @@ export function GaleriasSection() {
           <div className="relative w-full max-w-4xl h-[450px] md:h-[550px] flex items-center justify-center overflow-visible">
             {fotosMeOffice.map((foto, indice) => {
               const isActive = indice === activePhoto
+              const path = ORBIT_PATHS[indice] || { x: [0], y: [0], rotate: [0] }
               
               return (
                 <motion.figure
@@ -103,9 +104,9 @@ export function GaleriasSection() {
                     isActive
                       ? { x: 0, y: 0, rotate: 0, scale: 1.15, opacity: 1 }
                       : {
-                          x: reduce ? ORBIT_PATHS[indice].x[0] : ORBIT_PATHS[indice].x,
-                          y: reduce ? ORBIT_PATHS[indice].y[0] : ORBIT_PATHS[indice].y,
-                          rotate: reduce ? 0 : ORBIT_PATHS[indice].rotate,
+                          x: reduce ? path.x[0] : path.x,
+                          y: reduce ? path.y[0] : path.y,
+                          rotate: reduce ? 0 : path.rotate,
                           scale: 0.7,
                           opacity: 0.65
                         }

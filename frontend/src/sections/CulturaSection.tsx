@@ -219,7 +219,7 @@ export function CulturaSection() {
         </div>
 
         {/* Contenedor del Carrusel */}
-        <div className="relative overflow-hidden w-full h-[400px] md:h-[350px] px-2 md:px-0">
+        <div className="relative overflow-hidden w-full h-[520px] sm:h-[460px] md:h-[370px] px-2 md:px-0">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={slide}
@@ -265,6 +265,13 @@ export function CulturaSection() {
             </motion.div>
           </AnimatePresence>
         </div>
+      </Reveal>
+
+      {/* Invitación Final */}
+      <Reveal delay={0.15} className="relative z-10 mt-10 max-w-2xl mx-auto text-center px-4">
+        <p className="text-base md:text-lg font-medium text-enel-navy leading-relaxed bg-white/75 border border-neutral-200/80 rounded-2xl py-6 px-8 shadow-sm backdrop-blur-sm">
+          Te invitamos a vivir estos principios en tu trabajo diario y a ser parte de una cultura que promueve la seguridad, la colaboración, la mejora continua y la innovación.
+        </p>
       </Reveal>
 
       {/* Titular rosa pálido con electricidad */}

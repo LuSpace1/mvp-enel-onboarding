@@ -1,11 +1,31 @@
 import { useState } from 'react'
 import { X } from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
+import type { Variants } from 'motion/react'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { VideoEmbed } from '@/components/ui/VideoEmbed'
 import { areasStaff, gerenteGeneral, subgerencias } from '@/lib/data/organizacion'
 import { videoDeSeccion } from '@/lib/data/videos'
+
+// Aparecer escalonado: cada card entra de a poco con un pequeño resorte.
+const cardsPadre: Variants = {
+  hidden: {},
+  show: { transition: { delayChildren: 0.15, staggerChildren: 0.12 } },
+}
+const cardHija: Variants = {
+  hidden: { opacity: 0, y: 36, scale: 0.96 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring', stiffness: 300, damping: 28 },
+  },
+}
+const cardsSubgerencias: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
 
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
@@ -33,9 +53,15 @@ export function OrganigramaSection() {
       </Reveal>
 
       {/* Árbol del Organigrama */}
-      <div className="flex w-full flex-col items-center pt-4 pb-10">
+      <motion.div
+        className="flex w-full flex-col items-center pt-4 pb-10"
+        variants={cardsPadre}
+        initial={reduce ? false : 'hidden'}
+        whileInView={reduce ? undefined : 'show'}
+        viewport={{ once: true, amount: 0.15 }}
+      >
         {/* Nodo Raíz: Gerente General */}
-        <Reveal delay={0.05} className="z-10">
+        <motion.div variants={cardHija} className="z-10">
           <div className="group border-enel-red relative w-80 rounded-[2rem] border-2 bg-white p-6 text-center shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
             <span className="bg-enel-red absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-sm">
               Liderazgo
@@ -54,14 +80,14 @@ export function OrganigramaSection() {
               {gerenteGeneral.empresa}
             </p>
           </div>
-        </Reveal>
+        </motion.div>
 
         {/* Tronco Principal */}
         <div className="bg-enel-fog/80 h-8 w-0.5" />
 
         {/* Áreas Staff */}
-        <Reveal
-          delay={0.1}
+        <motion.div
+          variants={cardHija}
           className="border-enel-fog relative z-10 mt-8 max-w-2xl rounded-3xl border-2 border-dashed bg-white/70 p-5 text-center shadow-sm backdrop-blur-sm"
           style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
         >
@@ -83,7 +109,7 @@ export function OrganigramaSection() {
             Las áreas staff dependen directamente de la Gerencia General y dan soporte transversal a
             todas las subgerencias.
           </p>
-        </Reveal>
+        </motion.div>
 
         {/* Tronco hacia abajo después de áreas staff */}
         <div className="bg-enel-fog/80 relative hidden h-10 w-0.5 md:block">
@@ -92,14 +118,17 @@ export function OrganigramaSection() {
         </div>
 
         {/* Ramas de Subgerencias */}
-        <div className="relative mt-8 flex w-full max-w-[1000px] flex-col items-center justify-between gap-8 md:mt-0 md:flex-row md:gap-2">
+        <motion.div
+          variants={cardsSubgerencias}
+          className="relative mt-8 flex w-full max-w-[1000px] flex-col items-center justify-between gap-8 md:mt-0 md:flex-row md:gap-2"
+        >
           {/* Tronco vertical central para móvil */}
           <div className="bg-enel-fog/80 absolute top-0 bottom-0 left-1/2 -z-10 block w-0.5 -translate-x-1/2 md:hidden" />
 
           {subgerencias.map((sub, idx) => (
-            <Reveal
+            <motion.div
               key={sub.id}
-              delay={0.15 + idx * 0.05}
+              variants={cardHija}
               className={`relative flex w-44 flex-col items-center ${nodoAbierto === sub.id ? 'z-50' : 'z-10'}`}
             >
               {/* Tallo Vertical de cada Nodo (Desktop) */}
@@ -108,7 +137,7 @@ export function OrganigramaSection() {
               {/* Nodo Subgerencia */}
               <div
                 onClick={() => setNodoAbierto(nodoAbierto === sub.id ? null : sub.id)}
-                className={`hover:border-enel-red relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
+                className={`hover:border-enel-red relative flex w-full cursor-pointer flex-col items-center rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
                   nodoAbierto === sub.id
                     ? 'border-enel-red -translate-y-2 shadow-xl'
                     : 'border-enel-fog/60'
@@ -124,7 +153,7 @@ export function OrganigramaSection() {
                       : 'hover:ring-enel-red/30 ring-transparent'
                   }`}
                 />
-                <p className="text-enel-navy mt-4 text-sm leading-tight font-bold">
+                <p className="text-enel-navy mt-4 flex min-h-[2.5rem] items-center justify-center text-sm leading-tight font-bold">
                   {sub.subgerente}
                 </p>
                 <p className="mt-1 text-[10px] font-bold tracking-widest text-neutral-400 uppercase">
@@ -200,10 +229,10 @@ export function OrganigramaSection() {
                   </div>
                 </div>
               </div>
-            </Reveal>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       </motion.div>
     </SectionShell>
   )
