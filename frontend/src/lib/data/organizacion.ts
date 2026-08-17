@@ -78,19 +78,27 @@ export const areasStaff = [
   {
     id: 'finanzas',
     nombre: 'Finanzas',
-    detalle: 'Gestión financiera y presupuestaria del negocio.',
+    detalle: 'Lidera la planificación financiera, contabilidad y control de gestión. Garantiza la asignación eficiente de recursos, viabilidad presupuestaria y sustentabilidad económica de las inversiones de red.',
   },
-  { id: 'auditoria', nombre: 'Auditoría', detalle: 'Aseguramiento y control interno.' },
+  {
+    id: 'auditoria',
+    nombre: 'Auditoría',
+    detalle: 'Monitorea la transparencia, mitiga riesgos y evalúa el control interno. Asegura que los procesos organizacionales cumplan con el marco legal, las políticas del Grupo Enel y el código ético.',
+  },
   {
     id: 'personas',
     nombre: 'Personas y Organizacionales',
-    detalle: 'Talento, cultura y desarrollo organizacional.',
+    detalle: 'Gestiona la atracción, retención y desarrollo de talento. Impulsa la transformación cultural, diversidad, inclusión, el bienestar y clima laboral de los equipos de la distribuidora.',
   },
-  { id: 'legal', nombre: 'Legal', detalle: 'Asesoría jurídica y cumplimiento.' },
+  {
+    id: 'legal',
+    nombre: 'Legal',
+    detalle: 'Proporciona asesoría jurídica y regulatoria integral. Asegura el resguardo legal de la infraestructura, vigila el cumplimiento de normas de mercado eléctrico y formaliza contratos clave.',
+  },
   {
     id: 'comunicaciones',
     nombre: 'Comunicaciones Externas y Sostenibilidad',
-    detalle: 'Vínculo con comunidades y grupos de interés.',
+    detalle: 'Gestiona la relación con los medios, reputación y comunidades locales. Lidera la estrategia de sostenibilidad, valor compartido, compromisos ambientales y el apoyo a la transición energética.',
   },
 ]
 

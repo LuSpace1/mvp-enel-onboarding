@@ -29,6 +29,7 @@ const cardsSubgerencias: Variants = {
 
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
+  const [staffAbierto, setStaffAbierto] = useState<string | null>(null)
   const [videoActivo, setVideoActivo] = useState<{ url: string; titulo: string } | null>(null)
   const reduce = useReducedMotion()
 
@@ -96,20 +97,63 @@ export function OrganigramaSection() {
             Áreas Staff
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {areasStaff.map((area) => (
-              <div
-                key={area.id}
-                className="group/staff border-neutral-200/80 bg-white hover:border-enel-red/50 hover:shadow-xs w-36 rounded-xl border py-2 px-3 text-center transition-all duration-300 flex items-center justify-center min-h-[48px] cursor-help"
-                title={area.detalle}
-              >
-                <h4 className="text-[10px] font-extrabold text-enel-navy tracking-wide leading-snug group-hover/staff:text-enel-red transition-colors duration-300">
-                  {area.nombre}
-                </h4>
-              </div>
-            ))}
+            {areasStaff.map((area) => {
+              const isOpen = staffAbierto === area.id
+              return (
+                <div key={area.id} className="relative">
+                  <button
+                    onClick={() => {
+                      setStaffAbierto(isOpen ? null : area.id)
+                      setNodoAbierto(null) // Cerrar subgerencias
+                    }}
+                    className={`group/staff border-neutral-200/80 bg-white hover:border-enel-red/50 hover:shadow-xs w-36 rounded-xl border py-2 px-3 text-center transition-all duration-300 flex items-center justify-center min-h-[48px] cursor-pointer ${
+                      isOpen ? 'border-enel-red shadow-sm' : ''
+                    }`}
+                  >
+                    <h4 className="text-[10px] font-extrabold text-enel-navy tracking-wide leading-snug group-hover/staff:text-enel-red transition-colors duration-300">
+                      {area.nombre}
+                    </h4>
+                  </button>
+
+                  {/* Popover de Área Staff (Orientado hacia arriba) */}
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: -8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -8 }}
+                        className="border-neutral-200 absolute left-1/2 bottom-[125%] z-50 mb-2 w-64 -translate-x-1/2 rounded-2xl border bg-white p-4 text-left shadow-lg"
+                      >
+                        {/* Pequeño indicador / flechita del popover */}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-[8px] border-t-[8px] border-x-transparent border-t-white" />
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-[8px] border-t-[8px] border-x-transparent border-t-neutral-200 -z-10 mt-[1px]" />
+
+                        <div className="flex items-center justify-between border-b pb-1.5 mb-2">
+                          <span className="text-enel-red text-[9px] font-extrabold tracking-wider uppercase">
+                            Soporte Staff
+                          </span>
+                          <button
+                            onClick={() => setStaffAbierto(null)}
+                            className="text-neutral-400 hover:text-neutral-600 transition"
+                          >
+                            <X size={12} weight="bold" />
+                          </button>
+                        </div>
+                        <h5 className="text-enel-navy text-xs font-bold mb-1 leading-snug">
+                          {area.nombre}
+                        </h5>
+                        <p className="text-[10px] leading-relaxed text-neutral-600 font-medium">
+                          {area.detalle}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
           </div>
           <p className="mt-3 text-[10px] font-medium text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            Las áreas staff dependen de la Gerencia General y brindan soporte transversal a todas las subgerencias.
+            Las áreas staff dependen de la Gerencia General y brindan soporte transversal a todas las subgerencias. Haz clic en cada una para conocer su función.
           </p>
         </motion.div>
 
@@ -138,7 +182,10 @@ export function OrganigramaSection() {
 
               {/* Nodo Subgerencia */}
               <div
-                onClick={() => setNodoAbierto(nodoAbierto === sub.id ? null : sub.id)}
+                onClick={() => {
+                  setNodoAbierto(nodoAbierto === sub.id ? null : sub.id)
+                  setStaffAbierto(null)
+                }}
                 className={`hover:border-enel-red relative flex w-full cursor-pointer flex-col items-center rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
                   nodoAbierto === sub.id
                     ? 'border-enel-red -translate-y-2 shadow-xl'
