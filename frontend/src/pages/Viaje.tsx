@@ -3,7 +3,7 @@ import { Toaster } from 'sonner'
 import { Nav } from '@/components/Nav'
 import { PasoHeader } from '@/components/PasoPantalla'
 import { PortadaDelViaje } from '@/components/PortadaDelViaje'
-import { SplashScreen } from '@/components/SplashScreen'
+import { StormIntro, STORM_INTRO_CLAVE } from '@/components/StormIntro'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useVideosStore } from '@/store/useVideosStore'
 import { useViajeStore } from '@/store/useViajeStore'
@@ -46,6 +46,8 @@ export function Viaje() {
   const cargarVideos = useVideosStore((estado) => estado.cargar)
 
   useEffect(() => {
+    history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
     void initAnonymous()
     void cargarVideos()
   }, [initAnonymous, cargarVideos])
@@ -55,7 +57,7 @@ export function Viaje() {
   return (
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
-      <SplashScreen />
+      {(!import.meta.env.PROD || !sessionStorage.getItem(STORM_INTRO_CLAVE)) && <StormIntro />}
       <main className="min-h-screen pt-16">
         {paso && <PasoHeader paso={paso} />}
 
