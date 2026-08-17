@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Lightbulb } from '@phosphor-icons/react'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
@@ -87,6 +87,7 @@ const statCards = [
 
 export function HistoriaSection() {
   const [isBulbOn, setIsBulbOn] = useState(false)
+  const reduce = useReducedMotion()
 
   return (
     <SectionShell id="historia" className="relative overflow-hidden bg-[#f0eee6]">
@@ -120,9 +121,18 @@ export function HistoriaSection() {
         </div>
       </Reveal>
 
-      <Reveal delay={0.1} className="relative z-10 mt-20">
+      <motion.div
+        className="relative z-10 mt-20"
+        initial={{ opacity: 0, x: -500 }}
+        whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ type: 'spring', stiffness: 25, damping: 16, mass: 2 }}
+      >
         {/* CARD PADRE */}
-        <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] border-4 border-amber-500 bg-white p-10 shadow-2xl md:p-16">
+        <div
+          className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] border-4 border-amber-500 bg-white p-10 shadow-2xl md:p-16"
+          style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
+        >
           {/* Fondo Cuadernillo del Card Padre */}
           <div
             aria-hidden="true"
@@ -143,8 +153,8 @@ export function HistoriaSection() {
                 <motion.div
                   key={step.num}
                   className="relative flex flex-1 flex-col items-center text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={reduce ? false : { opacity: 0, y: 20 }}
+                  whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ delay: idx * 0.15, duration: 0.6 }}
                 >
@@ -174,8 +184,9 @@ export function HistoriaSection() {
                 <motion.div
                   key={stat.statVal}
                   className={`flex w-full max-w-[200px] flex-col items-center justify-center rounded-2xl border-2 ${stat.borderColor} ${stat.bgColor} bg-white/90 px-4 py-6 text-center shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_0_40px_rgba(251,191,36,0.8)]`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
+                  initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+                  whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ delay: 0.4 + idx * 0.1, duration: 0.5 }}
                   onMouseEnter={() => setIsBulbOn(true)}
@@ -208,7 +219,7 @@ export function HistoriaSection() {
             />
           </div>
         </div>
-      </Reveal>
+      </motion.div>
     </SectionShell>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   animate,
   motion,
@@ -10,11 +10,11 @@ import {
   useTransform,
 } from 'motion/react'
 import type { MotionValue } from 'motion/react'
-import { ArrowDown, CaretRight } from '@phosphor-icons/react'
+import { CaretRight } from '@phosphor-icons/react'
 
 import { track } from '@/lib/analytics'
 import logoEnel from '@/assets/icons/Enel_Group_logo.svg'
-import videoIntro from '@/assets/videos/intro.mp4'
+import videoIntro from '@/assets/videos/video4.mp4'
 
 export const STORM_INTRO_CLAVE = 'enel-storm-intro-visto'
 
@@ -178,6 +178,7 @@ export function StormIntro() {
   // La animación ligada al scroll solo corre en la primera pasada de cada carga de
   // página: al completarla (o saltarla) la escena queda en modo "logo radiante".
   const esPrimeraVez = useRef(true)
+  const [introCompletado, setIntroCompletado] = useState(false)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const progCrudo = useSpring(scrollYProgress, { stiffness: 28, damping: 22, restDelta: 0.0005 })
@@ -195,7 +196,9 @@ export function StormIntro() {
       sessionStorage.setItem(STORM_INTRO_CLAVE, '1')
       track('intro.completar')
     }
-    // Primera pasada completada: a partir de aquí la animación no vuelve a reproducirse
+    // Mostrar indicador de scroll cuando la animación visual va por buen camino
+    if (!introCompletado && v >= 0.7) setIntroCompletado(true)
+    // Primera pasada completada: la animación se fija en modo radiante
     if (esPrimeraVez.current && v >= 0.99) esPrimeraVez.current = false
   })
 
@@ -206,8 +209,6 @@ export function StormIntro() {
     track('intro.saltar')
     document.getElementById('portada')?.scrollIntoView({ behavior: 'smooth' })
   }
-
-  const opInd = useTransform(prog, [0, 0.14], [1, 0])
 
   const opCont = useTransform(prog, [0.86, 0.94], [1, 0])
   const scaleCont = useTransform(prog, [0.86, 0.94], [1, 0.96])
@@ -238,10 +239,12 @@ export function StormIntro() {
   const haloOp = useTransform(() => 0.25 + 0.65 * gateLogo.get())
   const latido = useTransform(() => escalaLogo.get() * (1 + 0.035 * pulso.get() * gateLogo.get()))
 
-  const opEnel = useTransform(prog, [0.55, 0.65], [0, 1])
-  const yEnel = useTransform(prog, [0.55, 0.65], [30, 0])
-  const opDist = useTransform(prog, [0.58, 0.7], [0, 1])
-  const sxLinea = useTransform(prog, [0.64, 0.76], [0, 1])
+  const opEnel = useTransform(prog, [0.48, 0.58], [0, 1])
+  const yEnel = useTransform(prog, [0.48, 0.58], [120, 0])
+  const scaleEnel = useTransform(prog, [0.48, 0.58], [0.7, 1])
+  const rotateEnel = useTransform(prog, [0.48, 0.58], [-4, 0])
+  const opDist = useTransform(prog, [0.50, 0.62], [0, 1])
+  const sxLinea = useTransform(prog, [0.56, 0.68], [0, 1])
 
   const escalaDestello = useTransform(prog, [0.56, 0.66], [0, 6.5])
   const opDestello = useTransform(prog, [0.56, 0.6, 0.66], [0, 0.9, 0])
@@ -274,7 +277,6 @@ export function StormIntro() {
   const sacudido = useRef(false)
 
   useMotionValueEvent(progCrudo, 'change', (v) => {
-    if (!esPrimeraVez.current) return
     if (v < 0.5) {
       sacudido.current = false
       return
@@ -384,7 +386,7 @@ export function StormIntro() {
             </motion.div>
 
             <motion.h1
-              style={{ opacity: opEnel, y: yEnel }}
+              style={{ opacity: opEnel, y: yEnel, scale: scaleEnel, rotate: rotateEnel }}
               className="text-enel-navy mt-4 text-5xl leading-[1.02] font-semibold tracking-tighter sm:text-6xl md:text-7xl"
             >
               Enel{' '}
@@ -398,28 +400,50 @@ export function StormIntro() {
             />
             <motion.p
               style={{ opacity: opDist }}
-              className="bg-enel-navy/65 mt-6 max-w-md rounded-full px-6 py-3 text-sm leading-relaxed text-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-md md:text-base"
+              className="bg-enel-navy/40 mt-6 max-w-md rounded-full px-6 py-3 text-sm leading-relaxed text-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-md md:text-base"
             >
               La energía que llega a tu casa empieza mucho antes. Sigue su viaje por nuestra red.
             </motion.p>
           </motion.div>
 
-          {/* Indicador de scroll */}
-          <motion.div
-            className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-2"
-            style={{ opacity: opInd }}
-          >
-            <span className="text-enel-navy/60 text-[11px] font-semibold tracking-[0.22em] uppercase">
-              Desplázate
-            </span>
-            <motion.span
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              className="text-enel-navy/70"
+          {/* Indicador de scroll – estilo Apple, solo tras completar la intro */}
+          {introCompletado && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col items-center gap-3"
             >
-              <ArrowDown size={18} weight="bold" />
-            </motion.span>
-          </motion.div>
+              <span className="text-[13px] font-semibold tracking-[0.28em] uppercase text-white/80 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+                Desplázate
+              </span>
+              <div className="relative flex flex-col items-center">
+                {[0, 1, 2].map((i) => (
+                  <motion.span
+                    key={i}
+                    animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
+                    transition={{
+                      duration: 1.4,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: i * 0.2,
+                    }}
+                    className="text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.5)]"
+                  >
+                    <svg width="28" height="14" viewBox="0 0 28 14" fill="none">
+                      <path
+                        d="M2 2L14 12L26 2"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Escape */}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { X } from '@phosphor-icons/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { VideoEmbed } from '@/components/ui/VideoEmbed'
@@ -8,6 +9,7 @@ import { videoDeSeccion } from '@/lib/data/videos'
 
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
+  const reduce = useReducedMotion()
 
   return (
     <SectionShell
@@ -15,6 +17,12 @@ export function OrganigramaSection() {
       className="bg-[#f0eee6] bg-[radial-gradient(rgba(10,25,47,0.09)_1.5px,transparent_1.5px)] bg-[size:16px_16px] pt-10 md:pt-14"
       innerClassName="py-12"
     >
+      <motion.div
+        initial={reduce ? false : { opacity: 0, clipPath: 'inset(8% 8% 8% 8%)' }}
+        whileInView={reduce ? undefined : { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 1.0, ease: [0.23, 1, 0.32, 1] }}
+      >
       <Reveal className="mx-auto mb-16 max-w-2xl text-center">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Equipos y Gerencia
@@ -28,7 +36,7 @@ export function OrganigramaSection() {
       <div className="flex w-full flex-col items-center pt-4 pb-10">
         {/* Nodo Raíz: Gerente General */}
         <Reveal delay={0.05} className="z-10">
-          <div className="group border-enel-red relative w-80 rounded-[2rem] border-2 bg-white p-6 text-center shadow-xl">
+          <div className="group border-enel-red relative w-80 rounded-[2rem] border-2 bg-white p-6 text-center shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
             <span className="bg-enel-red absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-sm">
               Liderazgo
             </span>
@@ -55,6 +63,7 @@ export function OrganigramaSection() {
         <Reveal
           delay={0.1}
           className="border-enel-fog relative z-10 mt-8 max-w-2xl rounded-3xl border-2 border-dashed bg-white/70 p-5 text-center shadow-sm backdrop-blur-sm"
+          style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
         >
           <p className="mb-3 text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase">
             Áreas Staff
@@ -104,6 +113,7 @@ export function OrganigramaSection() {
                     ? 'border-enel-red -translate-y-2 shadow-xl'
                     : 'border-enel-fog/60'
                 }`}
+                style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
               >
                 <img
                   src={sub.foto}
@@ -194,6 +204,7 @@ export function OrganigramaSection() {
           ))}
         </div>
       </div>
+      </motion.div>
     </SectionShell>
   )
 }

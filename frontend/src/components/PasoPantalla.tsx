@@ -62,7 +62,11 @@ export function PasoHeader({ paso }: { paso: PasoViaje }) {
           type="button"
           onClick={() => {
             track('paso.abrir.mapa', { paso: paso.id })
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            useViajeStore.getState().abrirRuta()
+            setTimeout(() => {
+              const el = document.getElementById('mapa-del-viaje')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }, 100)
           }}
           className="hover:bg-enel-mist inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-neutral-600 transition"
         >

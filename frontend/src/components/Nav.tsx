@@ -17,6 +17,7 @@ interface NavItem {
 
 const ITEMS: NavItem[] = [
   { id: 'portada', etiqueta: 'Inicio' },
+  { id: 'mapa-del-viaje', etiqueta: 'Ruta' },
   { id: 'historia', etiqueta: 'Historia' },
   { id: 'cultura', etiqueta: 'Cultura' },
   { id: 'organigrama', etiqueta: 'Equipos' },
@@ -31,6 +32,7 @@ export function Nav() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const reduce = useReducedMotion()
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
+  const abrirRuta = useViajeStore((estado) => estado.abrirRuta)
 
   const indiceActual = PASOS_VIAJE.findIndex((paso) => paso.id === pasoActual)
   const progreso = Math.max(0, indiceActual / (PASOS_VIAJE.length - 1))
@@ -71,8 +73,16 @@ export function Nav() {
                 type="button"
                 onClick={() => {
                   track('nav.clic', { paso: item.id })
-                  const el = document.getElementById(item.id)
-                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  if (item.id === 'mapa-del-viaje') {
+                    abrirRuta()
+                    setTimeout(() => {
+                      const el = document.getElementById(item.id)
+                      if (el) el.scrollIntoView({ behavior: 'smooth' })
+                    }, 100)
+                  } else {
+                    const el = document.getElementById(item.id)
+                    if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  }
                 }}
                 className={clsx(
                   'rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors',
@@ -114,8 +124,16 @@ export function Nav() {
                 key={item.id}
                 onClick={() => {
                   track('nav.clic', { paso: item.id })
-                  const el = document.getElementById(item.id)
-                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  if (item.id === 'mapa-del-viaje') {
+                    abrirRuta()
+                    setTimeout(() => {
+                      const el = document.getElementById(item.id)
+                      if (el) el.scrollIntoView({ behavior: 'smooth' })
+                    }, 100)
+                  } else {
+                    const el = document.getElementById(item.id)
+                    if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  }
                   setMenuAbierto(false)
                 }}
                 className={clsx(

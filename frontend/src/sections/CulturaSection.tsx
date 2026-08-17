@@ -153,6 +153,12 @@ export function CulturaSection() {
           backgroundSize: '16px 16px',
         }}
       />
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 0.88, rotate: -2 }}
+        whileInView={reduce ? undefined : { opacity: 1, scale: 1, rotate: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ type: 'spring', stiffness: 50, damping: 15, mass: 1.2 }}
+      >
       <Reveal className="relative z-10 max-w-2xl mx-auto text-center">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Cómo trabajamos
@@ -225,7 +231,7 @@ export function CulturaSection() {
               transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
               className="absolute inset-x-2 md:inset-x-0 h-full flex"
             >
-              <article className="group bg-enel-fog/40 w-full relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl">
+              <article className="group bg-enel-fog/40 w-full relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
                 {/* Capa giratoria del borde eléctrico (Chispa) */}
                 <div
                   className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -263,7 +269,7 @@ export function CulturaSection() {
 
       {/* Titular rosa pálido con electricidad */}
       <Reveal delay={0.1} className="relative z-10 mt-16">
-        <div className="border-enel-pink/25 relative overflow-hidden rounded-3xl border-2 bg-[#fdeff4] px-6 py-12 text-center shadow-[0_18px_50px_-22px_rgba(235,0,83,0.4)] backdrop-blur-sm md:px-10">
+        <div className="border-enel-pink/25 relative overflow-hidden rounded-3xl border-2 bg-[#fdeff4] px-6 py-12 text-center shadow-[0_18px_50px_-22px_rgba(235,0,83,0.4)] backdrop-blur-sm md:px-10" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
           {/* Puntos de circuito */}
           <div
             aria-hidden="true"
@@ -462,6 +468,7 @@ export function CulturaSection() {
           </div>
         </div>
       </Reveal>
+      </motion.div>
     </SectionShell>
   )
 }

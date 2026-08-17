@@ -4,8 +4,8 @@
 @theme {
   --color-enel-red: #ef1e25;
   --color-enel-red-dark: #c40f15;
-  --color-enel-navy: #0b1b2f;
-  --color-enel-navy-soft: #12263f;
+  --color-enel-navy: #141413;
+  --color-enel-navy-soft: #1e1e1c;
   --color-enel-mist: #eef1f5;
   --color-enel-fog: #d9dfe8;
   --color-enel-pink: #eb0053;
@@ -111,4 +111,24 @@ body {
 /* Ocultar scrollbars en carruseles horizontales */
 ::-webkit-scrollbar {
   display: none;
+}
+
+/* Flotar sutil para cards */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Carrusel infinito de equipo */
+@keyframes marquee-equipo {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
 }

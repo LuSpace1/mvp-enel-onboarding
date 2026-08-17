@@ -1,4 +1,5 @@
 import { ArrowRight } from '@phosphor-icons/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { etapasCadena } from '@/lib/data/organizacion'
 
@@ -17,12 +18,10 @@ function EtapaCard({ indice }: { indice: number }) {
   return (
     <article
       className="group border-enel-fog hover:border-enel-red/40 hover:shadow-enel-red/10 relative flex h-64 w-full flex-col justify-between overflow-hidden rounded-2xl border bg-white p-6 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+      style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
       data-analytics-component="cadena-valor"
       data-analytics-etapa={etapa.id}
     >
-      <span className="text-enel-fog/70 group-hover:text-enel-red/15 absolute -top-5 -right-3 text-[88px] leading-none font-semibold transition-colors">
-        {String(indice + 1).padStart(2, '0')}
-      </span>
       <div>
         <h3 className="text-enel-navy text-lg leading-snug font-semibold tracking-tight md:text-2xl">
           {etapa.titulo}
@@ -44,6 +43,8 @@ function EtapaCard({ indice }: { indice: number }) {
 }
 
 export function CadenaValorSection() {
+  const reduce = useReducedMotion()
+
   return (
     <section id="cadena" className="relative overflow-hidden bg-[#f0eee6]">
       {/* Fondo Cuadernillo Global */}
@@ -56,7 +57,13 @@ export function CadenaValorSection() {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-24 md:px-8 md:pt-32">
+      <motion.div
+        className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-24 md:px-8 md:pt-32"
+        initial={reduce ? false : { opacity: 0, x: 250 }}
+        whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ type: 'spring', stiffness: 40, damping: 16, mass: 1.3 }}
+      >
         <div className="max-w-2xl">
           <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
             Cómo creamos valor, de punta a punta
@@ -66,16 +73,20 @@ export function CadenaValorSection() {
             continuo de creación de valor.
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Carrusel Horizontal Infinito (Marquee) */}
-      <div
+      <motion.div
         className="relative z-10 mx-auto mt-16 w-full max-w-[80vw] overflow-hidden pt-10 pb-28"
         style={{
           WebkitMaskImage:
             'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
           maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         }}
+        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+        whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1], delay: 0.2 }}
       >
         <div className="animate-cadena-scroll flex w-max gap-8 px-4 hover:[animation-play-state:paused]">
           {[...etapasCadena, ...etapasCadena].map((etapa, idx) => (
@@ -88,7 +99,7 @@ export function CadenaValorSection() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

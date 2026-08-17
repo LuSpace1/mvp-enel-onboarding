@@ -1,4 +1,5 @@
 import { ArrowUpRight, Certificate } from '@phosphor-icons/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
@@ -9,9 +10,10 @@ import { clsx } from 'clsx'
 export function PoliticasISOSection() {
   const principal = politicasISO[0]
   const resto = politicasISO.slice(1)
+  const reduce = useReducedMotion()
 
   return (
-    <SectionShell id="politicas" className="relative overflow-hidden bg-[#f0eee6]">
+    <SectionShell id="politicas" className="relative overflow-hidden bg-[#f0eee6] pb-2 md:pb-4">
       {/* Fondo Cuadernillo Global */}
       <div
         aria-hidden="true"
@@ -21,6 +23,13 @@ export function PoliticasISOSection() {
           backgroundSize: '16px 16px',
         }}
       />
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 80, rotateX: 12 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0, rotateX: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+        style={{ perspective: 1200 }}
+      >
       <Reveal className="relative z-10 max-w-2xl">
         <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
           Nuestro marco de actuación
@@ -43,6 +52,7 @@ export function PoliticasISOSection() {
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: principal.id })}
               className="group bg-enel-navy hover:shadow-enel-navy/30 relative flex min-h-[300px] w-full max-w-md flex-col justify-between overflow-hidden rounded-3xl p-8 text-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+              style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
               data-analytics-component="iso"
               data-analytics-politica={principal.id}
             >
@@ -82,6 +92,7 @@ export function PoliticasISOSection() {
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: politica.id })}
               className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex min-h-[250px] w-full max-w-md flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
+              style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
               data-analytics-component="iso"
               data-analytics-politica={politica.id}
             >
@@ -109,6 +120,7 @@ export function PoliticasISOSection() {
           <div
             key="marco"
             className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex min-h-[200px] w-full max-w-4xl flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
+            style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
           >
             <div
               aria-hidden="true"
@@ -231,6 +243,7 @@ export function PoliticasISOSection() {
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: principal.id })}
               className="group bg-enel-navy hover:shadow-enel-navy/30 relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-8 text-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+              style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
             >
               <div
                 aria-hidden="true"
@@ -258,6 +271,7 @@ export function PoliticasISOSection() {
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: politica.id })}
               className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex h-full flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
+              style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
             >
               <div
                 aria-hidden="true"
@@ -279,6 +293,7 @@ export function PoliticasISOSection() {
           <div
             key="marco"
             className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex h-full flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
+            style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
           >
             <div
               aria-hidden="true"
@@ -314,6 +329,7 @@ export function PoliticasISOSection() {
             </Reveal>
           ))}
       </div>
+      </motion.div>
     </SectionShell>
   )
 }

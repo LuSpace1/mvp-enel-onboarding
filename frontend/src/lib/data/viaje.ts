@@ -11,6 +11,11 @@ export const PASOS_VIAJE: PasoViaje[] = [
     descripcion: 'Bienvenido al Portal Interactivo.',
   },
   {
+    id: 'mapa-del-viaje',
+    nombre: 'Elige tu ruta',
+    descripcion: 'Selecciona tu recorrido por el portal.',
+  },
+  {
     id: 'historia',
     nombre: 'Historia del grupo',
     descripcion: 'Cómo nació y creció Enel Distribución Chile.',

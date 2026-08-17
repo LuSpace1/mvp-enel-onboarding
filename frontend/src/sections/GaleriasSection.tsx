@@ -6,7 +6,7 @@ import {
   CaretLeft,
   CaretRight,
 } from '@phosphor-icons/react'
-import { motion, useAnimationFrame, useInView, useReducedMotion } from 'motion/react'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
@@ -15,8 +15,6 @@ import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
 
 import fotoCEO from '@/assets/images/centro_de_exelencia_enel.jpg'
-
-const ROTATIONS = ['-rotate-3', 'rotate-2', '-rotate-6', 'rotate-6', '-rotate-2', 'rotate-3']
 
 const ORBIT_STEPS = 12
 const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
@@ -34,37 +32,21 @@ const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
   return { x: xPath, y: yPath, rotate: rotatePath }
 })
 
+const VELOCIDAD = 40
+
 export function GaleriasSection() {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
   const bannerRef = useRef<HTMLDivElement>(null)
-  const resumeTimeout = useRef<number | undefined>(undefined)
-  const [pausado, setPausado] = useState(false)
   const [activePhoto, setActivePhoto] = useState(0)
   const reduce = useReducedMotion()
   const bannerInView = useInView(bannerRef, { once: true, amount: 0.15 })
 
-  useAnimationFrame((_, delta) => {
-    const el = scrollRef.current
-    if (!el || reduce || pausado || document.hidden) return
-    const velocidad = 0.04
-    el.scrollLeft += delta * velocidad
-    const mitad = el.scrollWidth / 2
-    if (el.scrollLeft >= mitad) el.scrollLeft -= mitad
-  })
-
-  useEffect(() => () => window.clearTimeout(resumeTimeout.current), [])
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return
-    setPausado(true)
-    const amount = 300
-    scrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    })
-    window.clearTimeout(resumeTimeout.current)
-    resumeTimeout.current = window.setTimeout(() => setPausado(false), 2500)
-  }
+  useEffect(() => {
+    if (reduce) return
+    const trackEl = trackRef.current
+    if (!trackEl) return
+    trackEl.style.animationDuration = `${VELOCIDAD}s`
+  }, [reduce])
 
   const nextPhoto = () => {
     setActivePhoto((prev) => (prev + 1) % fotosMeOffice.length)
@@ -86,7 +68,13 @@ export function GaleriasSection() {
         }}
       />
 
-      <div className="relative z-10 w-full">
+      <motion.div
+        className="relative z-10 w-full"
+        initial={reduce ? false : { opacity: 0, scale: 1.08, filter: 'blur(10px)' }}
+        whileInView={reduce ? undefined : { opacity: 1, scale: 1, filter: 'blur(0px)' }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 1.1, ease: [0.23, 1, 0.32, 1] }}
+      >
         <Reveal className="max-w-2xl">
           <div className="border-enel-red bg-enel-red/10 text-enel-red mb-6 inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-sm font-bold tracking-wider uppercase shadow-sm">
             <ImageIcon size={18} weight="bold" /> Galería Visual
@@ -186,52 +174,39 @@ export function GaleriasSection() {
             </div>
 
             {/* Controles del Carrusel */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => scroll('left')}
-                className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red rounded-full border bg-white p-3 shadow-sm transition-colors"
-                aria-label="Anterior foto"
-              >
-                <CaretLeft size={20} weight="bold" />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red rounded-full border bg-white p-3 shadow-sm transition-colors"
-                aria-label="Siguiente foto"
-              >
-                <CaretRight size={20} weight="bold" />
-              </button>
-            </div>
           </div>
 
           {/* Carrusel Horizontal de Polaroids (infinito) */}
-          <div
-            ref={scrollRef}
-            onMouseEnter={() => setPausado(true)}
-            onMouseLeave={() => setPausado(false)}
-            className="flex gap-8 overflow-x-auto px-6 pt-6 pb-20 md:px-12"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            {[...fotosEquipos, ...fotosEquipos].map((foto, idx) => (
-              <motion.figure
-                key={`${foto.src}-${idx}`}
-                className="relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
-                whileHover={{ scale: 1.08, y: -10, rotate: idx % 2 === 0 ? 3 : -3, zIndex: 40 }}
-                initial={{ rotate: idx % 2 === 0 ? -4 : 4 }}
-              >
-                <div className="bg-enel-mist relative aspect-4/5 overflow-hidden rounded-sm shadow-inner">
-                  <img
-                    src={foto.src}
-                    alt={foto.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 hover:scale-105"
-                  />
-                </div>
-                <figcaption className="absolute bottom-4 left-0 w-full px-3 text-center font-serif text-base font-medium text-neutral-700 italic">
-                  {foto.alt}
-                </figcaption>
-              </motion.figure>
-            ))}
+          <div className="overflow-hidden px-6 pt-6 pb-20 md:px-12">
+            <div
+              ref={trackRef}
+              className="flex gap-8"
+              style={{
+                width: 'max-content',
+                animation: reduce ? 'none' : `marquee-equipo ${VELOCIDAD}s linear infinite`,
+              }}
+            >
+              {[...fotosEquipos, ...fotosEquipos, ...fotosEquipos].map((foto, idx) => (
+                <motion.figure
+                  key={`${foto.src}-${idx}`}
+                  className="relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
+                  whileHover={{ scale: 1.08, y: -10, rotate: idx % 2 === 0 ? 3 : -3, zIndex: 40 }}
+                  initial={{ rotate: idx % 2 === 0 ? -4 : 4 }}
+                >
+                  <div className="bg-enel-mist relative aspect-4/5 overflow-hidden rounded-sm shadow-inner">
+                    <img
+                      src={foto.src}
+                      alt={foto.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                    />
+                  </div>
+                  <figcaption className="absolute bottom-4 left-0 w-full px-3 text-center font-serif text-base font-medium text-neutral-700 italic">
+                    {foto.alt}
+                  </figcaption>
+                </motion.figure>
+              ))}
+            </div>
           </div>
         </Reveal>
 
@@ -288,7 +263,7 @@ export function GaleriasSection() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </SectionShell>
   )
 }

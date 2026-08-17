@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MapPin } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { comunas } from '@/lib/data/comunas'
@@ -9,6 +9,7 @@ import { track } from '@/lib/analytics'
 export function MapaConcesionSection() {
   const [activa, setActiva] = useState<string | null>(null)
   const [seleccionada, setSeleccionada] = useState<string | null>(null)
+  const reduce = useReducedMotion()
 
   const comunaActiva = comunas.find((comuna) => comuna.id === activa)
 
@@ -24,7 +25,13 @@ export function MapaConcesionSection() {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl px-5 md:px-8">
+      <motion.div
+        className="relative z-10 mx-auto w-full max-w-5xl px-5 md:px-8"
+        initial={reduce ? false : { opacity: 0, y: -100 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ type: 'spring', stiffness: 35, damping: 14, mass: 1.4 }}
+      >
         <div className="flex flex-col items-center text-center">
           <Reveal className="mb-12 max-w-2xl">
             <p className="text-enel-red text-sm font-bold tracking-[0.2em] uppercase">
@@ -134,7 +141,7 @@ export function MapaConcesionSection() {
             </svg>
           </Reveal>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
