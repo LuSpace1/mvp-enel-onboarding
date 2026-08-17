@@ -87,16 +87,15 @@ export function OrganigramaSection() {
         {/* Tronco Principal */}
         <div className="bg-enel-fog/80 h-8 w-0.5" />
 
-        {/* Áreas Staff */}
+        {/* Áreas Staff (Barra Píldora Horizontal Ultra-Compacta y Legible) */}
         <motion.div
           variants={cardHija}
-          className="border-neutral-200 relative z-10 mt-8 w-full max-w-3xl rounded-2xl border bg-white/40 p-4 text-center shadow-xs backdrop-blur-md"
-          style={{ animation: 'float-subtle 4.5s ease-in-out infinite' }}
+          className="relative z-10 my-3 w-full max-w-4xl px-4 flex flex-col items-center"
         >
-          <p className="mb-3 text-[9px] font-extrabold tracking-[0.25em] text-neutral-400 uppercase">
-            Áreas Staff
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="bg-white/85 border border-neutral-200/80 rounded-full p-1.5 shadow-xs backdrop-blur-md flex flex-wrap justify-center items-center gap-1.5 max-w-full">
+            <span className="text-enel-red text-[9px] font-extrabold tracking-wider uppercase px-3 border-r border-neutral-200 hidden sm:inline-block leading-none">
+              Áreas Staff
+            </span>
             {areasStaff.map((area) => (
               <button
                 key={area.id}
@@ -104,17 +103,14 @@ export function OrganigramaSection() {
                   setStaffActivo(area)
                   setNodoAbierto(null) // Cerrar subgerencias
                 }}
-                className="group/staff border-neutral-200/80 bg-white hover:border-enel-red/50 hover:shadow-xs w-36 rounded-xl border py-2 px-3 text-center transition-all duration-300 flex items-center justify-center min-h-[48px] cursor-pointer active:scale-[0.97]"
+                className="group/staff border border-neutral-200/60 bg-white hover:border-enel-red/50 hover:shadow-xs rounded-full py-1.5 px-4 text-center transition-all duration-300 flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap"
               >
-                <h4 className="text-[10px] font-extrabold text-enel-navy tracking-wide leading-snug group-hover/staff:text-enel-red transition-colors duration-300">
+                <span className="text-[11px] font-bold text-enel-navy tracking-wide leading-none group-hover/staff:text-enel-red transition-colors duration-300">
                   {area.nombre}
-                </h4>
+                </span>
               </button>
             ))}
           </div>
-          <p className="mt-3 text-[10px] font-medium text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            Las áreas staff dependen de la Gerencia General y brindan soporte transversal a todas las subgerencias. Haz clic en cada una para conocer su función detallada.
-          </p>
         </motion.div>
 
         {/* Tronco hacia abajo después de áreas staff */}
