@@ -4,6 +4,7 @@ import type { Comuna as ApiComuna } from '@/types/api'
 export interface Comuna extends ApiComuna {
   cx: number
   cy: number
+  nombreCorto: string
 }
 
 interface ComunaGrid {
@@ -101,6 +102,12 @@ export function generarPathHexagono(
   return { path: d + 'Z', cx, cy }
 }
 
+const NOMBRES_CORTOS: Record<string, string> = {
+  'San José de Maipo': 'S.J. Maipo',
+  'Estación Central': 'Est. Central',
+  'Pedro Aguirre Cerda': 'P.A.C.',
+}
+
 export const comunas: Comuna[] = comunasGrid.map((comuna) => {
   const geom = generarPathHexagono(comuna.col, comuna.row)
   return {
@@ -110,5 +117,6 @@ export const comunas: Comuna[] = comunasGrid.map((comuna) => {
     path: geom.path,
     cx: geom.cx,
     cy: geom.cy,
+    nombreCorto: NOMBRES_CORTOS[comuna.nombre] ?? comuna.nombre,
   }
 })

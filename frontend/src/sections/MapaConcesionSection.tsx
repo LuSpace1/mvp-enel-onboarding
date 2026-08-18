@@ -6,12 +6,14 @@ import { Reveal } from '@/components/ui/Reveal'
 import { comunas } from '@/lib/data/comunas'
 import { track } from '@/lib/analytics'
 
+const COMUNA_POR_ID = new Map(comunas.map((comuna) => [comuna.id, comuna]))
+
 export function MapaConcesionSection() {
   const [activa, setActiva] = useState<string | null>(null)
   const [seleccionada, setSeleccionada] = useState<string | null>(null)
   const reduce = useReducedMotion()
 
-  const comunaActiva = comunas.find((comuna) => comuna.id === activa)
+  const comunaActiva = activa ? COMUNA_POR_ID.get(activa) : undefined
 
   return (
     <section id="mapa" className="relative overflow-hidden bg-[#f0eee6] py-14 md:py-20">
@@ -56,7 +58,7 @@ export function MapaConcesionSection() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="mt-6 flex w-full justify-center">
+          <Reveal delay={0.1} className="cv-mapa mt-6 flex w-full justify-center">
             <svg
               viewBox="0 0 730 730"
               className="w-full max-w-4xl drop-shadow-2xl"
@@ -118,12 +120,6 @@ export function MapaConcesionSection() {
               {comunas.map((comuna) => {
                 const isEnel = comuna.esEnel !== false
 
-                // Nombres muy largos los acortamos para el hexágono
-                const nombreCorto = comuna.nombre
-                  .replace('San José de Maipo', 'S.J. Maipo')
-                  .replace('Estación Central', 'Est. Central')
-                  .replace('Pedro Aguirre Cerda', 'P.A.C.')
-
                 return (
                   <text
                     key={`label-${comuna.id}`}
@@ -134,7 +130,7 @@ export function MapaConcesionSection() {
                       isEnel ? 'fill-white' : 'fill-enel-navy/40'
                     }`}
                   >
-                    {nombreCorto}
+                    {comuna.nombreCorto}
                   </text>
                 )
               })}

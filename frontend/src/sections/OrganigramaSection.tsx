@@ -7,6 +7,16 @@ import { VideoEmbed } from '@/components/ui/VideoEmbed'
 import { areasStaff, gerenteGeneral, subgerencias } from '@/lib/data/organizacion'
 import { videoDeSeccion } from '@/lib/data/videos'
 
+function VideoSubgerencia({ videoSection }: { videoSection: string }) {
+  const video = videoDeSeccion(videoSection)
+  if (!video) return null
+  return (
+    <div className="border-enel-fog bg-enel-mist mb-4 overflow-hidden rounded-xl border shadow-sm">
+      <VideoEmbed youtubeUrl={video.youtube_url} titulo={video.title} />
+    </div>
+  )
+}
+
 export function OrganigramaSection() {
   const [nodoAbierto, setNodoAbierto] = useState<string | null>(null)
   const reduce = useReducedMotion()
@@ -172,14 +182,7 @@ export function OrganigramaSection() {
 
                 {/* Cuerpo del Hover Modal */}
                 <div className="bg-white p-5 text-left">
-                  {videoDeSeccion(sub.videoSection) && (
-                    <div className="border-enel-fog bg-enel-mist mb-4 overflow-hidden rounded-xl border shadow-sm">
-                      <VideoEmbed
-                        youtubeUrl={videoDeSeccion(sub.videoSection)!.youtube_url}
-                        titulo={videoDeSeccion(sub.videoSection)!.title}
-                      />
-                    </div>
-                  )}
+                  <VideoSubgerencia videoSection={sub.videoSection} />
                   <p className="text-xs leading-relaxed text-neutral-600">{sub.proposito}</p>
 
                   <div className="mt-5">

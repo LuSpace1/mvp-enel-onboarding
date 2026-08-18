@@ -35,7 +35,8 @@ export const useAuthStore = create<AuthState>()(
       status: 'idle',
 
       initAnonymous: async () => {
-        if (get().status === 'authenticated') return
+        const estado = get().status
+        if (estado === 'authenticated' || estado === 'loading') return
 
         set({ status: 'loading' })
 

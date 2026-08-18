@@ -12,6 +12,8 @@ const ETIQUETAS_ETAPA: Record<string, string> = {
   cash: 'Servicio a cliente',
 }
 
+const ETAPAS_CADENA_DOBLES = [...etapasCadena, ...etapasCadena]
+
 function EtapaCard({ indice }: { indice: number }) {
   const etapa = etapasCadena[indice]
   if (!etapa) return null
@@ -89,7 +91,7 @@ export function CadenaValorSection() {
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1], delay: 0.2 }}
       >
         <div className="animate-cadena-scroll flex w-max gap-8 px-4 hover:[animation-play-state:paused]">
-          {[...etapasCadena, ...etapasCadena].map((etapa, idx) => (
+          {ETAPAS_CADENA_DOBLES.map((etapa, idx) => (
             <div
               key={`${etapa.id}-${idx}`}
               className="animate-float-card w-[320px] shrink-0 md:w-[380px]"

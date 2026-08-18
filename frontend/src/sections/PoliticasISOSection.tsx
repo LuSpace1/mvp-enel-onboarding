@@ -7,9 +7,10 @@ import { track } from '@/lib/analytics'
 import { politicasExtra, politicasISO } from '@/lib/data/iso'
 import { clsx } from 'clsx'
 
+const PRINCIPAL = politicasISO[0]
+const RESTO = politicasISO.slice(1)
+
 export function PoliticasISOSection() {
-  const principal = politicasISO[0]
-  const resto = politicasISO.slice(1)
   const reduce = useReducedMotion()
 
   return (
@@ -44,17 +45,17 @@ export function PoliticasISOSection() {
       <div className="relative z-10 mx-auto hidden w-full max-w-5xl flex-col px-5 pt-10 pb-20 md:flex md:px-8">
         {[
           // Bloque 0: Principal
-          principal && (
+          PRINCIPAL && (
             <a
-              key={principal.id}
-              href={principal.url}
+              key={PRINCIPAL.id}
+              href={PRINCIPAL.url}
               target="_blank"
               rel="noreferrer"
-              onClick={() => track('iso.abrir', { politica: principal.id })}
+              onClick={() => track('iso.abrir', { politica: PRINCIPAL.id })}
               className="group bg-enel-navy hover:shadow-enel-navy/30 relative flex min-h-[300px] w-full max-w-md flex-col justify-between overflow-hidden rounded-3xl p-8 text-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
               style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
               data-analytics-component="iso"
-              data-analytics-politica={principal.id}
+              data-analytics-politica={PRINCIPAL.id}
             >
               <div
                 aria-hidden="true"
@@ -69,8 +70,8 @@ export function PoliticasISOSection() {
                 <Certificate size={24} weight="duotone" />
               </span>
               <div className="relative z-10 mt-10">
-                <h3 className="text-2xl font-semibold tracking-tight">{principal.nombre}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{principal.resumen}</p>
+                <h3 className="text-2xl font-semibold tracking-tight">{PRINCIPAL.nombre}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">{PRINCIPAL.resumen}</p>
               </div>
               <span className="text-enel-red relative z-10 mt-8 inline-flex items-center gap-2 text-sm font-semibold">
                 Abrir política
@@ -84,7 +85,7 @@ export function PoliticasISOSection() {
           ),
 
           // Bloques 1-4: Resto de políticas
-          ...resto.map((politica) => (
+          ...RESTO.map((politica) => (
             <a
               key={politica.id}
               href={politica.url}
@@ -235,13 +236,13 @@ export function PoliticasISOSection() {
       {/* Layout Móvil (Lista simple vertical) */}
       <div className="relative z-10 mt-10 flex flex-col gap-6 px-5 md:hidden">
         {[
-          principal && (
+          PRINCIPAL && (
             <a
-              key={principal.id}
-              href={principal.url}
+              key={PRINCIPAL.id}
+              href={PRINCIPAL.url}
               target="_blank"
               rel="noreferrer"
-              onClick={() => track('iso.abrir', { politica: principal.id })}
+              onClick={() => track('iso.abrir', { politica: PRINCIPAL.id })}
               className="group bg-enel-navy hover:shadow-enel-navy/30 relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-8 text-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
               style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
             >
@@ -258,12 +259,12 @@ export function PoliticasISOSection() {
                 <Certificate size={24} weight="duotone" />
               </span>
               <div className="relative z-10 mt-10">
-                <h3 className="text-2xl font-semibold tracking-tight">{principal.nombre}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{principal.resumen}</p>
+                <h3 className="text-2xl font-semibold tracking-tight">{PRINCIPAL.nombre}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">{PRINCIPAL.resumen}</p>
               </div>
             </a>
           ),
-          ...resto.map((politica) => (
+          ...RESTO.map((politica) => (
             <a
               key={politica.id}
               href={politica.url}

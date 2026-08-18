@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   animate,
   motion,
@@ -13,10 +13,9 @@ import type { MotionValue } from 'motion/react'
 import { CaretRight } from '@phosphor-icons/react'
 
 import { track } from '@/lib/analytics'
+import { STORM_INTRO_CLAVE } from '@/lib/intro'
 import logoEnel from '@/assets/icons/Enel_Group_logo.svg'
 import videoIntro from '@/assets/videos/video4.mp4'
-
-export const STORM_INTRO_CLAVE = 'enel-storm-intro-visto'
 
 const CHISPAS = Array.from({ length: 22 }, (_, i) => {
   const angulo = (Math.PI * 2 * i) / 22 + (i % 2) * 0.15
@@ -288,9 +287,6 @@ export function StormIntro() {
     }
   })
 
-  const chispas = useMemo(() => CHISPAS, [])
-  const piezasLazo = useMemo(() => PIEZAS_LAZO, [])
-
   if (reduce) return null
 
   return (
@@ -331,7 +327,7 @@ export function StormIntro() {
 
           {/* Chispas del clímax */}
           <div className="absolute top-1/2 left-1/2 h-0 w-0" aria-hidden="true">
-            {chispas.map((chispa, i) => (
+            {CHISPAS.map((chispa, i) => (
               <Chispa key={i} prog={prog} {...chispa} />
             ))}
           </div>
@@ -371,7 +367,7 @@ export function StormIntro() {
                   className="h-auto w-full"
                   style={{ opacity: opEsqueleto }}
                 >
-                  {piezasLazo.map((pieza, i) => (
+                  {PIEZAS_LAZO.map((pieza, i) => (
                     <PiezaLazo key={i} prog={prog} config={pieza} />
                   ))}
                 </motion.svg>

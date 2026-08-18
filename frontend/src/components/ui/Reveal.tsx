@@ -1,18 +1,26 @@
 import { motion, useReducedMotion } from 'motion/react'
-import type { PropsWithChildren } from 'react'
+import type { CSSProperties, PropsWithChildren } from 'react'
 
 interface RevealProps {
   delay?: number
   className?: string
   y?: number
+  style?: CSSProperties
 }
 
-export function Reveal({ children, delay = 0, className, y = 28 }: PropsWithChildren<RevealProps>) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  y = 28,
+  style,
+}: PropsWithChildren<RevealProps>) {
   const reduce = useReducedMotion()
 
   return (
     <motion.div
       className={className}
+      style={style}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}

@@ -51,6 +51,8 @@ const STAMPAS = [
   'border-amber-400 bg-amber-100 text-enel-navy',
 ]
 
+const PASOS_SIN_PORTADA = PASOS_VIAJE.filter((paso) => paso.id !== 'portada')
+
 export function PortadaDelViaje() {
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
   const mostrarRuta = useViajeStore((estado) => estado.mostrarRuta)
@@ -258,7 +260,7 @@ export function PortadaDelViaje() {
               </Reveal>
 
               <div className="mt-16 grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-6">
-                {PASOS_VIAJE.filter(p => p.id !== 'portada').map((paso, indice) => {
+                {PASOS_SIN_PORTADA.map((paso, indice) => {
                   const pieza = PIEZAS[indice % PIEZAS.length] ?? PIEZAS[0]!
                   const entrada = ENTRADAS[indice % ENTRADAS.length] ?? ENTRADAS[0]!
                   const esOscura = indice % STAMPAS.length === 1

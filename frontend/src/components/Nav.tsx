@@ -28,13 +28,29 @@ const ITEMS: NavItem[] = [
   { id: 'cierre', etiqueta: 'Cierre' },
 ]
 
+const INDICE_POR_ID = new Map(PASOS_VIAJE.map((paso, indice) => [paso.id, indice]))
+
+function irA(id: string, abrirRuta: () => void) {
+  track('nav.clic', { paso: id })
+  if (id === 'mapa-del-viaje') {
+    abrirRuta()
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  } else {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 export function Nav() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const reduce = useReducedMotion()
   const pasoActual = useViajeStore((estado) => estado.pasoActual)
   const abrirRuta = useViajeStore((estado) => estado.abrirRuta)
 
-  const indiceActual = PASOS_VIAJE.findIndex((paso) => paso.id === pasoActual)
+  const indiceActual = INDICE_POR_ID.get(pasoActual) ?? 0
   const progreso = Math.max(0, indiceActual / (PASOS_VIAJE.length - 1))
 
   return (
@@ -71,19 +87,7 @@ export function Nav() {
             <li key={item.id}>
               <button
                 type="button"
-                onClick={() => {
-                  track('nav.clic', { paso: item.id })
-                  if (item.id === 'mapa-del-viaje') {
-                    abrirRuta()
-                    setTimeout(() => {
-                      const el = document.getElementById(item.id)
-                      if (el) el.scrollIntoView({ behavior: 'smooth' })
-                    }, 100)
-                  } else {
-                    const el = document.getElementById(item.id)
-                    if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  }
-                }}
+                onClick={() => irA(item.id, abrirRuta)}
                 className={clsx(
                   'rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors',
                   pasoActual === item.id
@@ -123,17 +127,7 @@ export function Nav() {
               <button
                 key={item.id}
                 onClick={() => {
-                  track('nav.clic', { paso: item.id })
-                  if (item.id === 'mapa-del-viaje') {
-                    abrirRuta()
-                    setTimeout(() => {
-                      const el = document.getElementById(item.id)
-                      if (el) el.scrollIntoView({ behavior: 'smooth' })
-                    }, 100)
-                  } else {
-                    const el = document.getElementById(item.id)
-                    if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  }
+                  irA(item.id, abrirRuta)
                   setMenuAbierto(false)
                 }}
                 className={clsx(

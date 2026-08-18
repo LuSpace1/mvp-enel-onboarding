@@ -132,3 +132,14 @@ body {
     transform: translateX(-33.333%);
   }
 }
+
+/* Diferir render de items fuera de pantalla (carruseles largos) */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 360px;
+}
+
+.cv-mapa {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 730px;
+}

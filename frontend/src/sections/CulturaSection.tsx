@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { startTransition, useState } from 'react'
 import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
 import { Lightning, CaretLeft, CaretRight } from '@phosphor-icons/react'
 
@@ -19,6 +19,23 @@ const COLORES_PREGUNTA = [
   'text-amber-500',
   'text-enel-violeta-soft',
 ]
+
+const slideVariants = {
+  enter: (dir: number) => ({
+    x: dir > 0 ? '50%' : '-50%',
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (dir: number) => ({
+    zIndex: 0,
+    x: dir < 0 ? '50%' : '-50%',
+    opacity: 0,
+  }),
+}
 
 function Rayo({
   d,
@@ -111,35 +128,24 @@ export function CulturaSection() {
   }
 
   const nextSlide = () => {
-    setDirection(1)
-    setSlide((s) => (s + 1) % pilaresCultura.length)
+    startTransition(() => {
+      setDirection(1)
+      setSlide((s) => (s + 1) % pilaresCultura.length)
+    })
   }
 
   const prevSlide = () => {
-    setDirection(-1)
-    setSlide((s) => (s - 1 + pilaresCultura.length) % pilaresCultura.length)
+    startTransition(() => {
+      setDirection(-1)
+      setSlide((s) => (s - 1 + pilaresCultura.length) % pilaresCultura.length)
+    })
   }
 
   const goToSlide = (i: number) => {
-    setDirection(i > slide ? 1 : -1)
-    setSlide(i)
-  }
-
-  const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? '50%' : '-50%',
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      zIndex: 0,
-      x: dir < 0 ? '50%' : '-50%',
-      opacity: 0,
-    }),
+    startTransition(() => {
+      setDirection(i > slide ? 1 : -1)
+      setSlide(i)
+    })
   }
 
   return (

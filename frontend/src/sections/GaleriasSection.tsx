@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { startTransition, useEffect, useRef, useState } from 'react'
 import {
   ArrowUpRight,
   Buildings,
@@ -34,6 +34,8 @@ const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
 
 const VELOCIDAD = 40
 
+const FOTOS_EQUIPOS_X3 = [...fotosEquipos, ...fotosEquipos, ...fotosEquipos]
+
 export function GaleriasSection() {
   const trackRef = useRef<HTMLDivElement>(null)
   const bannerRef = useRef<HTMLDivElement>(null)
@@ -49,11 +51,15 @@ export function GaleriasSection() {
   }, [reduce])
 
   const nextPhoto = () => {
-    setActivePhoto((prev) => (prev + 1) % fotosMeOffice.length)
+    startTransition(() => {
+      setActivePhoto((prev) => (prev + 1) % fotosMeOffice.length)
+    })
   }
 
   const prevPhoto = () => {
-    setActivePhoto((prev) => (prev - 1 + fotosMeOffice.length) % fotosMeOffice.length)
+    startTransition(() => {
+      setActivePhoto((prev) => (prev - 1 + fotosMeOffice.length) % fotosMeOffice.length)
+    })
   }
 
   return (
@@ -92,7 +98,8 @@ export function GaleriasSection() {
           <div className="relative w-full max-w-4xl h-[450px] md:h-[550px] flex items-center justify-center overflow-visible">
             {fotosMeOffice.map((foto, indice) => {
               const isActive = indice === activePhoto
-              
+              const orbita = ORBIT_PATHS[indice]!
+
               return (
                 <motion.figure
                   key={foto.src}
@@ -103,9 +110,9 @@ export function GaleriasSection() {
                     isActive
                       ? { x: 0, y: 0, rotate: 0, scale: 1.15, opacity: 1 }
                       : {
-                          x: reduce ? ORBIT_PATHS[indice].x[0] : ORBIT_PATHS[indice].x,
-                          y: reduce ? ORBIT_PATHS[indice].y[0] : ORBIT_PATHS[indice].y,
-                          rotate: reduce ? 0 : ORBIT_PATHS[indice].rotate,
+                          x: reduce ? orbita.x[0] : orbita.x,
+                          y: reduce ? orbita.y[0] : orbita.y,
+                          rotate: reduce ? 0 : orbita.rotate,
                           scale: 0.7,
                           opacity: 0.65
                         }
@@ -186,10 +193,10 @@ export function GaleriasSection() {
                 animation: reduce ? 'none' : `marquee-equipo ${VELOCIDAD}s linear infinite`,
               }}
             >
-              {[...fotosEquipos, ...fotosEquipos, ...fotosEquipos].map((foto, idx) => (
+              {FOTOS_EQUIPOS_X3.map((foto, idx) => (
                 <motion.figure
                   key={`${foto.src}-${idx}`}
-                  className="relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
+                  className="cv-auto relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
                   whileHover={{ scale: 1.08, y: -10, rotate: idx % 2 === 0 ? 3 : -3, zIndex: 40 }}
                   initial={{ rotate: idx % 2 === 0 ? -4 : 4 }}
                 >

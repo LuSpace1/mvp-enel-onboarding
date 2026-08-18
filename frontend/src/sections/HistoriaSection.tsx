@@ -123,7 +123,7 @@ export function HistoriaSection() {
 
       <motion.div
         className="relative z-10 mt-20"
-        initial={{ opacity: 0, x: -500 }}
+        initial={reduce ? false : { opacity: 0, x: -500 }}
         whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ type: 'spring', stiffness: 25, damping: 16, mass: 2 }}
@@ -196,7 +196,7 @@ export function HistoriaSection() {
                     className={`text-4xl font-extrabold tracking-tight drop-shadow-md ${stat.color}`}
                   >
                     {stat.statVal}
-                    {stat.statUnit && <span className="ml-1 text-2xl">{stat.statUnit}</span>}
+                    {stat.statUnit ? <span className="ml-1 text-2xl">{stat.statUnit}</span> : null}
                   </p>
                   <p className="text-enel-navy mt-2 text-[11px] font-bold tracking-wider uppercase drop-shadow-sm">
                     {stat.statDesc}

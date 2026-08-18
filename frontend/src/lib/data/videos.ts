@@ -55,9 +55,13 @@ export const videosMock: VideoLink[] = [
   },
 ]
 
+const VIDEO_POR_SECCION = new Map(
+  videosMock.map((video) => [video.section_identifier, video]),
+)
+
 export function videoDeSeccion(sectionIdentifier: string): VideoLink | undefined {
   const real = useVideosStore
     .getState()
     .videos.find((video) => video.section_identifier === sectionIdentifier)
-  return real ?? videosMock.find((video) => video.section_identifier === sectionIdentifier)
+  return real ?? VIDEO_POR_SECCION.get(sectionIdentifier)
 }
