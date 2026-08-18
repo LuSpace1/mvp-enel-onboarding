@@ -6,11 +6,14 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('id', 'username', 'is_platform_admin', 'is_active')
-    list_filter = ('is_platform_admin', 'is_active')
-    search_fields = ('id', 'username')
-    ordering = ('-date_joined',)
+    list_display = ("id", "username", "is_platform_admin", "is_active")
+    list_filter = ("is_platform_admin", "is_active")
+    search_fields = ("id", "username")
+    ordering = ("-date_joined",)
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Permisos', {'fields': ('is_platform_admin', 'is_active', 'is_staff', 'is_superuser')}),
+        (None, {"fields": ("username", "password")}),
+        (
+            "Permisos",
+            {"fields": ("is_platform_admin", "is_active", "is_staff", "is_superuser")},
+        ),
     )

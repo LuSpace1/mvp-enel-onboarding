@@ -17,7 +17,7 @@ class VideoLink(models.Model):
     class Meta:
         verbose_name = "Enlace de Video"
         verbose_name_plural = "Enlaces de Video"
-        ordering = ['id']
+        ordering = ["id"]
 
     def __str__(self):
         return f"{self.title} ({self.section_identifier})"
