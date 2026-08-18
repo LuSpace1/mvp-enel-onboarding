@@ -99,30 +99,56 @@ export const etapasCadena: EtapaCadena[] = [
     id: 'customer',
     titulo: 'Customer Management',
     descripcion: 'Gestionamos la relación con el cliente y su experiencia.',
+    detalle:
+      'Acompañamos al cliente desde su primer contacto y en cada trámite, para que la energía que recibe se convierta en un servicio cercano, simple y confiable.',
+    actividades: [
+      'Atención comercial multicanal',
+      'Activaciones y trámites',
+      'Medición y facturación',
+    ],
   },
   {
     id: 'strategy',
     titulo: 'Strategy and Development',
     descripcion: 'Definimos la dirección del negocio y su crecimiento.',
+    detalle:
+      'Fijamos el rumbo de la compañía y priorizamos las inversiones y los nuevos negocios que aseguren un desarrollo sostenible de la red y del mercado.',
+    actividades: [
+      'Planificación estratégica',
+      'Evaluación de inversiones',
+      'Desarrollo de nuevos negocios',
+    ],
   },
   {
     id: 'supply',
     titulo: 'Supply Chain',
     descripcion: 'Abastecemos con eficiencia los insumos y servicios.',
+    detalle:
+      'Gestionamos las compras y el abastecimiento de materiales y servicios críticos, asegurando disponibilidad, calidad y condiciones competitivas para toda la operación.',
+    actividades: ['Compras estratégicas', 'Gestión de contratos', 'Logística y abastecimiento'],
   },
   {
     id: 'engineering',
     titulo: 'Engineering',
     descripcion: 'Diseñamos las soluciones técnicas de la red.',
+    detalle:
+      'Transformamos las necesidades de la red en diseños de ingeniería eficientes, seguros y sostenibles, listos para construir, operar y mantener.',
+    actividades: ['Diseño de proyectos', 'Ingeniería de red', 'Normalización técnica'],
   },
   {
     id: 'construction',
     titulo: 'Construction and Operation',
     descripcion: 'Construimos y operamos la infraestructura eléctrica.',
+    detalle:
+      'Ejecutamos las obras y operamos la red de distribución para entregar un servicio continuo y de calidad, respondiendo con rapidez ante cualquier evento.',
+    actividades: ['Construcción de obras', 'Operación de red', 'Mantenimiento y emergencias'],
   },
   {
     id: 'cash',
     titulo: 'Service to Cash',
     descripcion: 'Convertimos el servicio en valor sostenible.',
+    detalle:
+      'Cerramos el ciclo completando la facturación, la cobranza y el servicio postventa, transformando la energía entregada en valor sostenible para el negocio.',
+    actividades: ['Facturación y cobranza', 'Gestión de pérdidas', 'Servicio postventa'],
   },
 ]

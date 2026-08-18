@@ -2,8 +2,8 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-enel-red: #ef1e25;
-  --color-enel-red-dark: #c40f15;
+  --color-enel-blue: #006fbb;
+  --color-enel-blue-dark: #005a94;
   --color-enel-navy: #141413;
   --color-enel-navy-soft: #1e1e1c;
   --color-enel-mist: #eef1f5;
@@ -11,6 +11,7 @@
   --color-enel-pink: #eb0053;
   --color-enel-violeta: #cec4f8;
   --color-enel-violeta-soft: #b1a3f0;
+  --color-enel-violeta-soft: #b13f0 
 
   /* Regla de radios (shape lock): interactivos = full-pill,
      tarjetas = 16px (rounded-2xl), bandas destacadas = 24px (rounded-3xl). */
@@ -56,6 +57,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Títulos grandes con gradiente azul celeste (Enel Blue → celeste) */
+.texto-gradiente-azul {
+  background-image: linear-gradient(92deg, #006fbb 0%, #2f9be2 45%, #8bd0f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -67,32 +77,6 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* Marquee infinito de la cadena de valor */
-@keyframes float-continuous {
-  0%,
-  100% {
-    transform: translateY(-12px);
-  }
-  50% {
-    transform: translateY(12px);
-  }
-}
-.animate-float-card {
-  animation: float-continuous 3s ease-in-out infinite;
-}
-
-@keyframes cadena-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-.animate-cadena-scroll {
-  animation: cadena-scroll 35s linear infinite;
 }
 
 /* Línea punteada animada de ISO */
@@ -112,15 +96,122 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
 /* Flotar sutil para cards */
 @keyframes float-subtle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* Flotar la cadena de valor completa como una unidad */
+@keyframes float-cadena {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.animate-float-cadena {
+  animation: float-cadena 5s ease-in-out infinite;
+}
+
+/* Corriente eléctrica que recorre la línea de la cadena */
+@keyframes cadena-corriente {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 96px 0;
+  }
+}
+.cadena-corriente {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #006fbb 42%,
+    #ffd02f 50%,
+    #006fbb 58%,
+    transparent 100%
+  );
+  background-size: 96px 100%;
+  background-repeat: repeat-x;
+  animation: cadena-corriente 1.8s linear infinite;
+}
+
+/* Trazos de la línea en movimiento: la corriente fluye */
+@keyframes cadena-dashes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 16px 0;
+  }
+}
+.cadena-dashes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 111, 187, 0.55) 0 6px,
+    transparent 6px 16px
+  );
+  animation: cadena-dashes 0.9s linear infinite;
+}
+
+/* Chispas amarillas que saltan a lo largo de la línea */
+@keyframes cadena-chispa {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+.cadena-chispa {
+  position: absolute;
+  top: -1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #ffd02f;
+  box-shadow: 0 0 10px 2px rgba(255, 208, 47, 0.85);
+  animation: cadena-chispa 2.2s linear infinite;
+}
+
+/* Pulso eléctrico en los nodos de unión */
+@keyframes nodo-pulso {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+.animate-nodo-pulso {
+  animation: nodo-pulso 2.4s ease-in-out infinite;
 }
 
 /* Carrusel infinito de equipo */

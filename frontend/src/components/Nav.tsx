@@ -30,17 +30,27 @@ const ITEMS: NavItem[] = [
 
 const INDICE_POR_ID = new Map(PASOS_VIAJE.map((paso, indice) => [paso.id, indice]))
 
+const ALTURA_HEADER = 128
+
+function desplazarA(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const top = el.getBoundingClientRect().top + window.scrollY
+  const espacioVisible = window.innerHeight - ALTURA_HEADER
+  const extraCentrado = Math.max(0, (espacioVisible - el.offsetHeight) / 2)
+  const destino = Math.max(0, top - ALTURA_HEADER - extraCentrado)
+  window.scrollTo({ top: destino, behavior: 'smooth' })
+}
+
 function irA(id: string, abrirRuta: () => void) {
   track('nav.clic', { paso: id })
   if (id === 'mapa-del-viaje') {
     abrirRuta()
     setTimeout(() => {
-      const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      desplazarA(id)
     }, 100)
   } else {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    desplazarA(id)
   }
 }
 
@@ -65,8 +75,7 @@ export function Nav() {
           type="button"
           onClick={() => {
             track('nav.inicio')
-            const el = document.getElementById('portada')
-            if (el) el.scrollIntoView({ behavior: 'smooth' })
+            desplazarA('portada')
           }}
           className="flex items-center gap-2"
           aria-label="Volver al inicio"
@@ -91,7 +100,7 @@ export function Nav() {
                 className={clsx(
                   'rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors',
                   pasoActual === item.id
-                    ? 'bg-enel-red/10 text-enel-red'
+                    ? 'bg-enel-blue/10 text-enel-blue'
                     : 'hover:text-enel-navy text-neutral-600',
                 )}
                 aria-current={pasoActual === item.id ? 'page' : undefined}
@@ -133,7 +142,7 @@ export function Nav() {
                 className={clsx(
                   'w-full rounded-xl border-b border-black/5 px-5 py-4 text-left text-base font-semibold transition-colors last:border-0',
                   pasoActual === item.id
-                    ? 'bg-enel-red/10 text-enel-red'
+                    ? 'bg-enel-blue/10 text-enel-blue'
                     : 'text-enel-navy hover:bg-white/50',
                 )}
               >

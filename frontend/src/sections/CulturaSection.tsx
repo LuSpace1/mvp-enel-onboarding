@@ -13,7 +13,7 @@ const RAYOS = {
 }
 
 const COLORES_PREGUNTA = [
-  'text-enel-red',
+  'text-enel-blue',
   'text-enel-pink',
   'text-enel-navy',
   'text-amber-500',
@@ -181,7 +181,7 @@ export function CulturaSection() {
         <div className="flex items-center gap-4 mb-6 px-4">
           <button 
             onClick={prevSlide} 
-            className="shrink-0 p-2 text-enel-navy hover:text-enel-red hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
+            className="shrink-0 p-2 text-enel-navy hover:text-enel-blue hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
             aria-label="Anterior pilar"
           >
             <CaretLeft size={20} weight="bold" />
@@ -217,7 +217,7 @@ export function CulturaSection() {
 
           <button 
             onClick={nextSlide} 
-            className="shrink-0 p-2 text-enel-navy hover:text-enel-red hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
+            className="shrink-0 p-2 text-enel-navy hover:text-enel-blue hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
             aria-label="Siguiente pilar"
           >
             <CaretRight size={20} weight="bold" />
@@ -249,7 +249,7 @@ export function CulturaSection() {
 
                 {/* Contenedor Interior (La Máscara) */}
                 <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7 md:p-10">
-                  <span className="bg-enel-red block h-1 w-8 rounded-full transition-all group-hover:w-12" />
+                  <span className="bg-enel-blue block h-1 w-8 rounded-full transition-all group-hover:w-12" />
                   <h3 className="text-enel-navy mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
                     {pilaresCultura[slide]?.titulo}
                   </h3>
@@ -260,7 +260,7 @@ export function CulturaSection() {
                     {pilaresCultura[slide]?.puntos.map((punto) => (
                       <li
                         key={punto}
-                        className="bg-enel-mist text-enel-navy group-hover:bg-enel-red/10 group-hover:text-enel-red-dark rounded-full px-4 py-1.5 text-sm font-medium transition"
+                        className="bg-enel-mist text-enel-navy group-hover:bg-enel-blue/10 group-hover:text-enel-blue-dark rounded-full px-4 py-1.5 text-sm font-medium transition"
                       >
                         {punto}
                       </li>
@@ -344,7 +344,7 @@ export function CulturaSection() {
 
           <h3 className="text-enel-navy relative text-2xl font-semibold tracking-tight md:text-3xl">
             Construir el futuro a través de la{' '}
-            <span className="from-enel-pink via-enel-red bg-gradient-to-r to-amber-500 bg-clip-text text-transparent">
+            <span className="from-enel-pink via-enel-blue bg-gradient-to-r to-amber-500 bg-clip-text text-transparent">
               energía sustentable
             </span>
           </h3>

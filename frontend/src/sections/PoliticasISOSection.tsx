@@ -66,14 +66,14 @@ export function PoliticasISOSection() {
                   backgroundSize: '16px 16px',
                 }}
               />
-              <span className="bg-enel-red relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl text-white">
+              <span className="bg-enel-blue relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl text-white">
                 <Certificate size={24} weight="duotone" />
               </span>
               <div className="relative z-10 mt-10">
                 <h3 className="text-2xl font-semibold tracking-tight">{PRINCIPAL.nombre}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/70">{PRINCIPAL.resumen}</p>
               </div>
-              <span className="text-enel-red relative z-10 mt-8 inline-flex items-center gap-2 text-sm font-semibold">
+              <span className="text-enel-blue relative z-10 mt-8 inline-flex items-center gap-2 text-sm font-semibold">
                 Abrir política
                 <ArrowUpRight
                   size={18}
@@ -92,7 +92,7 @@ export function PoliticasISOSection() {
               target="_blank"
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: politica.id })}
-              className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex min-h-[250px] w-full max-w-md flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
+              className="group hover:border-enel-blue hover:shadow-enel-blue/20 relative flex min-h-[250px] w-full max-w-md flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
               style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
               data-analytics-component="iso"
               data-analytics-politica={politica.id}
@@ -106,7 +106,7 @@ export function PoliticasISOSection() {
                   backgroundSize: '16px 16px',
                 }}
               />
-              <span className="bg-enel-mist text-enel-red group-hover:bg-enel-red relative z-10 flex h-10 w-10 items-center justify-center rounded-xl transition group-hover:text-white">
+              <span className="bg-enel-mist text-enel-blue group-hover:bg-enel-blue relative z-10 flex h-10 w-10 items-center justify-center rounded-xl transition group-hover:text-white">
                 <ArrowUpRight size={20} weight="bold" />
               </span>
               <h3 className="text-enel-navy relative z-10 mt-5 text-lg font-semibold tracking-tight">
@@ -120,7 +120,7 @@ export function PoliticasISOSection() {
 
           <div
             key="marco"
-            className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex min-h-[200px] w-full max-w-4xl flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
+            className="group hover:border-enel-blue hover:shadow-enel-blue/20 relative flex min-h-[200px] w-full max-w-4xl flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
             style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
           >
             <div
@@ -152,13 +152,13 @@ export function PoliticasISOSection() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => track('iso.abrir', { politica: politica.id })}
-                      className="group text-enel-navy hover:text-enel-red hover:border-enel-red flex w-full items-center justify-center gap-2 border-b-2 border-gray-200 pb-3 text-center text-base font-semibold transition-all md:text-lg"
+                      className="group text-enel-navy hover:text-enel-blue hover:border-enel-blue flex w-full items-center justify-center gap-2 border-b-2 border-gray-200 pb-3 text-center text-base font-semibold transition-all md:text-lg"
                     >
                       {politica.nombre}
                       <ArrowUpRight
                         size={18}
                         weight="bold"
-                        className="text-enel-red opacity-0 transition-opacity group-hover:opacity-100"
+                        className="text-enel-blue opacity-0 transition-opacity group-hover:opacity-100"
                       />
                     </a>
                   </li>
@@ -191,7 +191,7 @@ export function PoliticasISOSection() {
                       return (
                         <path
                           d={`M ${startX},0 C ${startX},50 ${nextX},50 ${nextX},100`}
-                          stroke="#ef1e25"
+                          stroke="#006fbb"
                           strokeWidth="4"
                           fill="none"
                           vectorEffect="non-scaling-stroke"
@@ -255,7 +255,7 @@ export function PoliticasISOSection() {
                   backgroundSize: '16px 16px',
                 }}
               />
-              <span className="bg-enel-red relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl text-white">
+              <span className="bg-enel-blue relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl text-white">
                 <Certificate size={24} weight="duotone" />
               </span>
               <div className="relative z-10 mt-10">
@@ -271,7 +271,7 @@ export function PoliticasISOSection() {
               target="_blank"
               rel="noreferrer"
               onClick={() => track('iso.abrir', { politica: politica.id })}
-              className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex h-full flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
+              className="group hover:border-enel-blue hover:shadow-enel-blue/20 relative flex h-full flex-col overflow-hidden rounded-3xl border-4 border-gray-300 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-3"
               style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
             >
               <div
@@ -283,7 +283,7 @@ export function PoliticasISOSection() {
                   backgroundSize: '16px 16px',
                 }}
               />
-              <span className="bg-enel-mist text-enel-red group-hover:bg-enel-red relative z-10 flex h-10 w-10 items-center justify-center rounded-xl transition group-hover:text-white">
+              <span className="bg-enel-mist text-enel-blue group-hover:bg-enel-blue relative z-10 flex h-10 w-10 items-center justify-center rounded-xl transition group-hover:text-white">
                 <ArrowUpRight size={20} weight="bold" />
               </span>
               <h3 className="text-enel-navy relative z-10 mt-5 text-lg font-semibold tracking-tight">
@@ -293,7 +293,7 @@ export function PoliticasISOSection() {
           )),
           <div
             key="marco"
-            className="group hover:border-enel-red hover:shadow-enel-red/20 relative flex h-full flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
+            className="group hover:border-enel-blue hover:shadow-enel-blue/20 relative flex h-full flex-col justify-center overflow-hidden rounded-3xl border-4 border-dashed border-gray-300 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-3"
             style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
           >
             <div
@@ -314,7 +314,7 @@ export function PoliticasISOSection() {
                     href={politica.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="group text-enel-navy hover:text-enel-red hover:border-enel-red flex w-full items-center justify-center gap-2 border-b-2 border-gray-200 pb-3 text-center text-base font-semibold transition-all"
+                    className="group text-enel-navy hover:text-enel-blue hover:border-enel-blue flex w-full items-center justify-center gap-2 border-b-2 border-gray-200 pb-3 text-center text-base font-semibold transition-all"
                   >
                     {politica.nombre}
                   </a>

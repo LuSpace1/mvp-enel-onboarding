@@ -36,7 +36,7 @@ export function VideoEmbed({ youtubeUrl, titulo }: VideoEmbedProps) {
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
-          <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-black shadow-xl transition duration-300 group-hover:scale-110 group-hover:bg-enel-red group-hover:text-white">
+          <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-black shadow-xl transition duration-300 group-hover:scale-110 group-hover:bg-enel-blue group-hover:text-white">
             <Play size={26} weight="fill" className="ml-1" />
           </span>
         </button>

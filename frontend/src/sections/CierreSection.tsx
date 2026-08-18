@@ -56,7 +56,7 @@ const RECURSOS = [
     titulo: 'Innovación',
     descripcion: 'Proyectos estratégicos y transformación digital.',
     url: 'https://enelchile.sharepoint.com/sites/innovacion',
-    color: 'from-enel-red to-red-600',
+    color: 'from-enel-blue to-red-600',
   },
 ]
 
@@ -74,7 +74,7 @@ export function CierreSection() {
         }}
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="bg-enel-red/8 absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
+        <div className="bg-enel-blue/8 absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
         <div className="absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-enel-pink/8 blur-[120px]" />
       </div>
 
@@ -87,11 +87,11 @@ export function CierreSection() {
       >
         <Reveal>
           <div className="max-w-3xl">
-            <span className="text-enel-red rounded-full border border-enel-red/20 bg-enel-red/5 px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] uppercase">
+            <span className="text-enel-blue rounded-full border border-enel-blue/20 bg-enel-blue/5 px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] uppercase">
               Sigue explorando
             </span>
             <h2 className="text-enel-navy mt-6 text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-              Bienvenido al equipo <span className="text-enel-red">Enel</span>
+              Bienvenido al equipo <span className="texto-gradiente-azul">Enel</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg">
               Si es tu primer día, aquí tienes todo lo que necesitas para arrancar con el pie derecho. Si ya eres parte de la familia, usa estos recursos para reforzar lo que sabes y seguir creciendo.
@@ -143,7 +143,7 @@ export function CierreSection() {
                     delay: 0.15 + indice * 0.06,
                     ease: [0.23, 1, 0.32, 1],
                   }}
-                  className="group relative rounded-2xl bg-black/[0.03] p-[2px] ring-1 ring-black/5 transition-all duration-300 hover:ring-enel-red/20 hover:shadow-[0_16px_48px_rgba(235,0,83,0.08)]"
+                  className="group relative rounded-2xl bg-black/[0.03] p-[2px] ring-1 ring-black/5 transition-all duration-300 hover:ring-enel-blue/20 hover:shadow-[0_16px_48px_rgba(235,0,83,0.08)]"
                   style={{ animation: 'float-subtle 4s ease-in-out infinite', animationDelay: `${indice * 0.4}s` }}
                 >
                   <div className="relative overflow-hidden rounded-[calc(1rem-2px)] bg-white p-5">
@@ -173,7 +173,7 @@ export function CierreSection() {
                       </div>
                     </div>
 
-                    <span className="text-enel-red relative z-10 mt-3 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.15em] uppercase opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <span className="text-enel-blue relative z-10 mt-3 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.15em] uppercase opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                       Abrir
                       <ArrowUpRight
                         size={12}
@@ -196,7 +196,7 @@ export function CierreSection() {
             <a
               href="#portada"
               onClick={() => track('cierre.volver')}
-              className="group bg-enel-navy inline-flex h-12 items-center gap-3 rounded-full px-7 text-sm font-semibold text-white shadow-lg transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:bg-enel-red hover:shadow-xl active:scale-[0.97]"
+              className="group bg-enel-navy inline-flex h-12 items-center gap-3 rounded-full px-7 text-sm font-semibold text-white shadow-lg transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:bg-enel-blue hover:shadow-xl active:scale-[0.97]"
             >
               <ArrowUp size={16} weight="bold" />
               Volver al inicio

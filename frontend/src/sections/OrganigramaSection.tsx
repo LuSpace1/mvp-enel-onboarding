@@ -46,17 +46,17 @@ export function OrganigramaSection() {
       <div className="flex w-full flex-col items-center pt-4 pb-10">
         {/* Nodo Raíz: Gerente General */}
         <Reveal delay={0.05} className="z-10">
-          <div className="group border-enel-red relative w-80 rounded-[2rem] border-2 bg-white p-6 text-center shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
-            <span className="bg-enel-red absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-sm">
+          <div className="group border-enel-blue relative w-80 rounded-[2rem] border-2 bg-white p-6 text-center shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
+            <span className="bg-enel-blue absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-sm">
               Liderazgo
             </span>
             <img
               src={gerenteGeneral.foto}
               alt={`${gerenteGeneral.nombre}, ${gerenteGeneral.cargo}`}
-              className="ring-enel-fog/50 group-hover:ring-enel-red/30 mx-auto h-28 w-28 rounded-full object-cover shadow-inner ring-4 transition-all duration-300"
+              className="ring-enel-fog/50 group-hover:ring-enel-blue/30 mx-auto h-28 w-28 rounded-full object-cover shadow-inner ring-4 transition-all duration-300"
               loading="lazy"
             />
-            <p className="text-enel-red mt-5 text-xs font-bold tracking-[0.15em] uppercase">
+            <p className="text-enel-blue mt-5 text-xs font-bold tracking-[0.15em] uppercase">
               {gerenteGeneral.cargo}
             </p>
             <h3 className="text-enel-navy mt-1 text-2xl font-bold">{gerenteGeneral.nombre}</h3>
@@ -67,38 +67,9 @@ export function OrganigramaSection() {
         </Reveal>
 
         {/* Tronco Principal */}
-        <div className="bg-enel-fog/80 h-8 w-0.5" />
-
-        {/* Áreas Staff */}
-        <Reveal
-          delay={0.1}
-          className="border-enel-fog relative z-10 mt-8 max-w-2xl rounded-3xl border-2 border-dashed bg-white/70 p-5 text-center shadow-sm backdrop-blur-sm"
-          style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
-        >
-          <p className="mb-3 text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase">
-            Áreas Staff
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {areasStaff.map((area) => (
-              <span
-                key={area.id}
-                className="text-enel-navy border-enel-fog/50 hover:border-enel-red/50 hover:bg-enel-red/5 rounded-full border bg-white px-3 py-1.5 text-[11px] font-medium shadow-sm transition"
-                title={area.detalle}
-              >
-                {area.nombre}
-              </span>
-            ))}
-          </div>
-          <p className="mt-4 text-xs font-medium text-neutral-500">
-            Las áreas staff dependen directamente de la Gerencia General y dan soporte transversal a
-            todas las subgerencias.
-          </p>
-        </Reveal>
-
-        {/* Tronco hacia abajo después de áreas staff */}
-        <div className="bg-enel-fog/80 relative hidden h-10 w-0.5 md:block">
+        <div className="bg-enel-fog/80 relative h-12 w-0.5">
           {/* Línea Horizontal que conecta las subgerencias (ajustada para no desbordar) */}
-          <div className="bg-enel-fog/80 absolute bottom-0 left-1/2 h-0.5 w-[calc(100vw-4rem)] max-w-[850px] -translate-x-1/2" />
+          <div className="bg-enel-fog/80 absolute bottom-0 left-1/2 hidden h-0.5 w-[calc(100vw-4rem)] max-w-[850px] -translate-x-1/2 md:block" />
         </div>
 
         {/* Ramas de Subgerencias */}
@@ -118,9 +89,9 @@ export function OrganigramaSection() {
               {/* Nodo Subgerencia */}
               <div
                 onClick={() => setNodoAbierto(nodoAbierto === sub.id ? null : sub.id)}
-                className={`hover:border-enel-red relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
+                className={`hover:border-enel-blue relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-white p-5 text-center shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
                   nodoAbierto === sub.id
-                    ? 'border-enel-red -translate-y-2 shadow-xl'
+                    ? 'border-enel-blue -translate-y-2 shadow-xl'
                     : 'border-enel-fog/60'
                 }`}
                 style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
@@ -130,8 +101,8 @@ export function OrganigramaSection() {
                   alt={sub.subgerente}
                   className={`mx-auto h-20 w-20 rounded-full object-cover shadow-sm ring-4 transition-all duration-300 ${
                     nodoAbierto === sub.id
-                      ? 'ring-enel-red/30'
-                      : 'hover:ring-enel-red/30 ring-transparent'
+                      ? 'ring-enel-blue/30'
+                      : 'hover:ring-enel-blue/30 ring-transparent'
                   }`}
                 />
                 <p className="text-enel-navy mt-4 text-sm leading-tight font-bold">
@@ -171,7 +142,7 @@ export function OrganigramaSection() {
                     alt=""
                   />
                   <div>
-                    <p className="text-enel-red text-[10px] font-bold tracking-[0.2em] uppercase">
+                    <p className="text-enel-blue text-[10px] font-bold tracking-[0.2em] uppercase">
                       Subgerencia {sub.sigla}
                     </p>
                     <h4 className="mt-1 text-[13px] leading-tight font-semibold text-white">
@@ -187,7 +158,7 @@ export function OrganigramaSection() {
 
                   <div className="mt-5">
                     <p className="mb-2 flex items-center gap-1.5 text-[9px] font-bold tracking-[0.2em] text-neutral-400 uppercase">
-                      <span className="bg-enel-red h-1.5 w-1.5 rounded-full" />
+                      <span className="bg-enel-blue h-1.5 w-1.5 rounded-full" />
                       Principales procesos
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -206,6 +177,35 @@ export function OrganigramaSection() {
             </Reveal>
           ))}
         </div>
+      </div>
+
+      {/* Áreas Staff — externas, apoyan a Enel Distribución (no forman parte del organigrama) */}
+      <div className="mx-auto mt-16 w-full max-w-3xl md:mt-20">
+        <Reveal delay={0.1}>
+          <div className="border-enel-fog relative overflow-hidden rounded-[2rem] border bg-white/70 p-8 text-center shadow-[0_24px_60px_-28px_rgba(20,50,90,0.25)] backdrop-blur-sm md:p-10">
+            <span className="border-enel-blue/30 text-enel-blue inline-flex items-center gap-2 rounded-full border bg-enel-blue/5 px-4 py-1.5 text-[10px] font-bold tracking-[0.2em] uppercase">
+              Soporte de Enel Group
+            </span>
+            <h3 className="text-enel-navy mt-5 text-2xl font-semibold tracking-tight md:text-3xl">
+              Áreas que apoyan a Enel Distribución
+            </h3>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-neutral-600">
+              Estas áreas pertenecen a la casa matriz de Enel y no forman parte del organigrama de la
+              filial. Prestan soporte transversal a Enel Distribución Chile en funciones corporativas.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
+              {areasStaff.map((area) => (
+                <span
+                  key={area.id}
+                  className="border-enel-fog/70 text-enel-navy hover:border-enel-blue/50 hover:bg-enel-blue/5 rounded-full border bg-white px-4 py-2 text-sm font-medium shadow-sm transition"
+                  title={area.detalle}
+                >
+                  {area.nombre}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
       </motion.div>
     </SectionShell>

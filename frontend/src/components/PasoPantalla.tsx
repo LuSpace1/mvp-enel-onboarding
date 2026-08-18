@@ -48,7 +48,7 @@ export function PasoHeader({ paso }: { paso: PasoViaje }) {
       />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-5 py-3 md:px-8">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="bg-enel-red/10 text-enel-red shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase">
+          <span className="bg-enel-blue/10 text-enel-blue shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase">
             Capítulo
           </span>
           <h1 className="text-enel-navy truncate text-sm font-semibold tracking-tight md:text-base">

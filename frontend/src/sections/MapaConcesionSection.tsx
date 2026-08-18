@@ -36,7 +36,7 @@ export function MapaConcesionSection() {
       >
         <div className="flex flex-col items-center text-center">
           <Reveal className="mb-12 max-w-2xl">
-            <p className="text-enel-red text-sm font-bold tracking-[0.2em] uppercase">
+            <p className="text-enel-blue text-sm font-bold tracking-[0.2em] uppercase">
               Nuestra concesión
             </p>
             <h2 className="text-enel-navy mt-4 text-3xl font-bold tracking-tight md:text-5xl">
@@ -49,7 +49,7 @@ export function MapaConcesionSection() {
             </p>
 
             <div className="text-enel-navy mx-auto mt-8 flex max-w-xs items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white/70 px-4 py-3 text-sm shadow-sm backdrop-blur-sm">
-              <MapPin size={18} className="text-enel-red shrink-0" weight="fill" />
+              <MapPin size={18} className="text-enel-blue shrink-0" weight="fill" />
               {comunaActiva ? (
                 <span className="text-enel-navy font-bold">{comunaActiva.nombre}</span>
               ) : (

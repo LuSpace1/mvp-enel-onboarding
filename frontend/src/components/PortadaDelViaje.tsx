@@ -47,7 +47,7 @@ const STICKER_EDITORIAL = 'bg-amber-300 text-enel-navy'
 const STAMPAS = [
   'border-enel-navy/80 bg-[#f0eee6] text-enel-navy',
   'border-enel-navy bg-enel-navy text-white',
-  'border-enel-red bg-enel-red/10 text-enel-navy',
+  'border-enel-blue bg-enel-blue/10 text-enel-navy',
   'border-amber-400 bg-amber-100 text-enel-navy',
 ]
 
@@ -117,7 +117,7 @@ export function PortadaDelViaje() {
             className="flex flex-col items-center"
           >
             <h1 className="w-full text-4xl leading-[1.05] font-semibold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4rem] xl:whitespace-nowrap">
-              Bienvenido a <span className="text-enel-red">Enel Distribución</span>.
+              Bienvenido a <span className="texto-gradiente-azul">Enel Distribución</span>.
             </h1>
           </motion.div>
 
@@ -235,7 +235,7 @@ export function PortadaDelViaje() {
               }}
             />
             <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-              <div className="bg-enel-red/10 absolute -top-28 -left-28 h-96 w-96 rounded-full blur-3xl" />
+              <div className="bg-enel-blue/10 absolute -top-28 -left-28 h-96 w-96 rounded-full blur-3xl" />
               <div className="absolute top-1/3 -right-32 h-[26rem] w-[26rem] rounded-full bg-emerald-300/25 blur-3xl" />
               <div className="absolute -bottom-24 left-1/4 h-80 w-80 rounded-full bg-amber-200/60 blur-3xl" />
               <div className="bg-enel-pink/15 absolute top-1/4 -left-16 h-64 w-64 rounded-full blur-3xl" />
@@ -252,7 +252,7 @@ export function PortadaDelViaje() {
             <div className="relative mx-auto w-full max-w-6xl px-5 md:px-8">
               <Reveal>
                 <h2 className="text-enel-navy max-w-3xl text-4xl leading-[1.02] font-semibold tracking-tight sm:text-5xl md:text-6xl">
-                  Elige tu ruta<span className="text-enel-red"> por el portal</span>
+                  Elige tu ruta<span className="texto-gradiente-azul"> por el portal</span>
                 </h2>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 md:text-lg">
                   No hay un único camino. Salta entre capítulos en el orden que se te antoje.
@@ -327,7 +327,7 @@ export function PortadaDelViaje() {
                         >
                           {paso.descripcion}
                         </p>
-                        <span className="text-enel-red mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase">
+                        <span className="text-enel-blue mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase">
                           {pasoActual === paso.id ? 'Estás aquí' : 'Ir'}
                           <CaretRight
                             size={12}

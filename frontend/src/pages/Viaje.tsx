@@ -119,29 +119,6 @@ const Secciones = memo(function Secciones() {
         <MapaConcesionSection />
       </SectionObserver>
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none relative h-32 overflow-hidden md:h-40"
-      >
-        <div className="bg-enel-red/20 absolute top-8 left-[10%] h-40 w-40 rounded-full blur-3xl" />
-        <div className="absolute top-4 right-[15%] h-32 w-32 rounded-full bg-amber-300/40 blur-2xl" />
-        <div className="absolute top-12 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-emerald-400/30 blur-2xl" />
-        <svg
-          className="absolute inset-0 h-full w-full opacity-[0.15]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line
-            x1="0"
-            y1="50%"
-            x2="100%"
-            y2="50%"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="8 12"
-          />
-        </svg>
-      </div>
-
       <SectionObserver id="cadena">
         <CadenaValorSection />
       </SectionObserver>

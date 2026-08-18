@@ -82,7 +82,7 @@ export function GaleriasSection() {
         transition={{ duration: 1.1, ease: [0.23, 1, 0.32, 1] }}
       >
         <Reveal className="max-w-2xl">
-          <div className="border-enel-red bg-enel-red/10 text-enel-red mb-6 inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-sm font-bold tracking-wider uppercase shadow-sm">
+          <div className="border-enel-blue bg-enel-blue/10 text-enel-blue mb-6 inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-sm font-bold tracking-wider uppercase shadow-sm">
             <ImageIcon size={18} weight="bold" /> Galería Visual
           </div>
           <h2 className="text-enel-navy text-4xl font-bold tracking-tight md:text-6xl">
@@ -151,7 +151,7 @@ export function GaleriasSection() {
           <div className="flex items-center gap-4 mt-8 md:mt-2">
             <button
               onClick={prevPhoto}
-              className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
               aria-label="Foto anterior"
             >
               <CaretLeft size={20} weight="bold" />
@@ -161,7 +161,7 @@ export function GaleriasSection() {
             </span>
             <button
               onClick={nextPhoto}
-              className="border-enel-fog/50 text-enel-navy hover:text-enel-red hover:border-enel-red hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
               aria-label="Siguiente foto"
             >
               <CaretRight size={20} weight="bold" />
@@ -173,7 +173,7 @@ export function GaleriasSection() {
           <div className="mb-10 flex flex-col justify-between gap-6 px-6 md:flex-row md:items-end md:px-12">
             <div>
               <h2 className="text-enel-navy text-3xl font-bold tracking-tight md:text-5xl">
-                Descubre al equipo
+                Descubre a los equipos
               </h2>
               <p className="mt-4 font-medium text-neutral-600 md:text-lg">
                 La energía que mueve a Chile tiene rostros e historias.
@@ -233,7 +233,7 @@ export function GaleriasSection() {
                 <h3 className="text-enel-navy text-3xl leading-tight font-bold tracking-tight md:text-5xl">
                   {centroExcelencia.titulo}
                 </h3>
-                <p className="text-enel-red-dark mt-4 text-xl font-semibold">
+                <p className="text-enel-blue-dark mt-4 text-xl font-semibold">
                   {centroExcelencia.subtitulo}
                 </p>
                 <p className="text-enel-navy/75 mt-6 max-w-xl text-base leading-relaxed">
@@ -244,7 +244,7 @@ export function GaleriasSection() {
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => track('ceo.abrir')}
-                  className="bg-enel-navy hover:bg-enel-red-dark hover:shadow-enel-red/40 mt-10 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  className="bg-enel-navy hover:bg-enel-blue-dark hover:shadow-enel-blue/40 mt-10 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                   <Buildings size={20} weight="fill" />
                   Centro de Excelencia

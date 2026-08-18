@@ -386,7 +386,7 @@ export function StormIntro() {
               className="text-enel-navy mt-4 text-5xl leading-[1.02] font-semibold tracking-tighter sm:text-6xl md:text-7xl"
             >
               Enel{' '}
-              <motion.span style={{ opacity: opDist }} className="text-enel-red">
+              <motion.span style={{ opacity: opDist }} className="texto-gradiente-azul">
                 Distribución
               </motion.span>
             </motion.h1>

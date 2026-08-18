@@ -28,6 +28,8 @@ export interface EtapaCadena {
   id: string
   titulo: string
   descripcion: string
+  detalle: string
+  actividades: string[]
 }
 
 export interface PoliticaISO {
