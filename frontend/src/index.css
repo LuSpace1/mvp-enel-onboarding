@@ -214,16 +214,6 @@ body {
   animation: nodo-pulso 2.4s ease-in-out infinite;
 }
 
-/* Carrusel infinito de equipo */
-@keyframes marquee-equipo {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
-}
-
 /* Diferir render de items fuera de pantalla (carruseles largos) */
 .cv-auto {
   content-visibility: auto;

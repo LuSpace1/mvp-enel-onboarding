@@ -1,6 +1,3 @@
-import placeholderHombre from '@/assets/images/placeholder_hombre.webp'
-import placeholderMujer from '@/assets/images/placeholder_mujer.jpg'
-
 export const fotosMeOffice = [
   { src: 'https://picsum.photos/seed/meoffice-lobby/900/600', alt: 'Lobby de Me Office' },
   { src: 'https://picsum.photos/seed/meoffice-sala/900/600', alt: 'Sala de reuniones Me Office' },
@@ -13,14 +10,24 @@ export const fotosMeOffice = [
   },
 ]
 
-export const fotosEquipos = [
-  { src: placeholderMujer, alt: 'Integrante del equipo de operaciones' },
-  { src: placeholderHombre, alt: 'Integrante del equipo de red' },
-  { src: placeholderMujer, alt: 'Integrante del equipo de oficina' },
-  { src: placeholderHombre, alt: 'Integrante del Centro de Excelencia Operacional' },
-  { src: placeholderMujer, alt: 'Integrante del equipo HSEQ' },
-  { src: placeholderHombre, alt: 'Integrante del equipo de atención a clientes' },
+const DESCRIPCIONES_EQUIPOS = [
+  'El equipo que mantiene la red eléctrica en marcha, día y noche.',
+  'Especialistas en la operación segura de la infraestructura crítica.',
+  'Ingeniería y proyectos que anticipan las necesidades del futuro.',
+  'La voz de nuestros clientes, convertida en mejoras concretas.',
+  'Seguridad, salud y calidad como prioridad absoluta.',
+  'Tecnología y datos para una operación más inteligente.',
+  'Personas que hacen crecer la cultura Enel cada día.',
+  'Logística y suministros que sostienen todas las áreas.',
+  'El equipo comercial que acerca la energía a cada hogar.',
+  'Nuevas ideas para un futuro eléctrico más limpio.',
 ]
+
+export const fotosEquipos = Array.from({ length: 50 }, (_, i) => ({
+  src: `https://picsum.photos/seed/equipo-${i + 1}/1600/1000`,
+  titulo: `Equipo ${i + 1}`,
+  descripcion: DESCRIPCIONES_EQUIPOS[i % DESCRIPCIONES_EQUIPOS.length]!,
+}))
 
 export const centroExcelencia = {
   titulo: 'Centro de Excelencia Operacional',

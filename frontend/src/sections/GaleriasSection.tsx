@@ -1,7 +1,8 @@
-import { startTransition, useEffect, useRef, useState } from 'react'
+import { startTransition, useRef, useState } from 'react'
 import {
   ArrowUpRight,
   Buildings,
+  GridFour,
   Image as ImageIcon,
   CaretLeft,
   CaretRight,
@@ -10,7 +11,8 @@ import { motion, useInView, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { centroExcelencia, fotosEquipos, fotosMeOffice } from '@/lib/data/galerias'
+import { EquiposGaleria } from '@/components/EquiposGaleria'
+import { centroExcelencia, fotosMeOffice } from '@/lib/data/galerias'
 import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
 
@@ -32,23 +34,12 @@ const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
   return { x: xPath, y: yPath, rotate: rotatePath }
 })
 
-const VELOCIDAD = 40
-
-const FOTOS_EQUIPOS_X3 = [...fotosEquipos, ...fotosEquipos, ...fotosEquipos]
-
 export function GaleriasSection() {
-  const trackRef = useRef<HTMLDivElement>(null)
   const bannerRef = useRef<HTMLDivElement>(null)
   const [activePhoto, setActivePhoto] = useState(0)
+  const [galeriaVisible, setGaleriaVisible] = useState(false)
   const reduce = useReducedMotion()
   const bannerInView = useInView(bannerRef, { once: true, amount: 0.15 })
-
-  useEffect(() => {
-    if (reduce) return
-    const trackEl = trackRef.current
-    if (!trackEl) return
-    trackEl.style.animationDuration = `${VELOCIDAD}s`
-  }, [reduce])
 
   const nextPhoto = () => {
     startTransition(() => {
@@ -179,42 +170,33 @@ export function GaleriasSection() {
                 La energía que mueve a Chile tiene rostros e historias.
               </p>
             </div>
-
-            {/* Controles del Carrusel */}
           </div>
 
-          {/* Carrusel Horizontal de Polaroids (infinito) */}
-          <div className="overflow-hidden px-6 pt-6 pb-20 md:px-12">
-            <div
-              ref={trackRef}
-              className="flex gap-8"
-              style={{
-                width: 'max-content',
-                animation: reduce ? 'none' : `marquee-equipo ${VELOCIDAD}s linear infinite`,
-              }}
+          {/* Galería interactiva de equipos (bajo demanda) */}
+          {galeriaVisible ? (
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 40, scale: 0.98 }}
+              animate={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="px-6 pt-6 pb-20 md:px-12"
             >
-              {FOTOS_EQUIPOS_X3.map((foto, idx) => (
-                <motion.figure
-                  key={`${foto.src}-${idx}`}
-                  className="cv-auto relative w-[min(65vw,260px)] shrink-0 origin-bottom rounded-md border border-neutral-200 bg-white p-3 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
-                  whileHover={{ scale: 1.08, y: -10, rotate: idx % 2 === 0 ? 3 : -3, zIndex: 40 }}
-                  initial={{ rotate: idx % 2 === 0 ? -4 : 4 }}
-                >
-                  <div className="bg-enel-mist relative aspect-4/5 overflow-hidden rounded-sm shadow-inner">
-                    <img
-                      src={foto.src}
-                      alt={foto.alt}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 hover:scale-105"
-                    />
-                  </div>
-                  <figcaption className="absolute bottom-4 left-0 w-full px-3 text-center font-serif text-base font-medium text-neutral-700 italic">
-                    {foto.alt}
-                  </figcaption>
-                </motion.figure>
-              ))}
+              <EquiposGaleria />
+            </motion.div>
+          ) : (
+            <div className="flex justify-center px-6 pb-20 md:px-12">
+              <button
+                onClick={() => {
+                  setGaleriaVisible(true)
+                  track('galeria.equipo.ver')
+                }}
+                className="group inline-flex items-center gap-3 rounded-full bg-enel-blue px-8 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-enel-blue-dark hover:shadow-[0_20px_50px_-15px_rgba(0,111,187,0.6)]"
+              >
+                <GridFour size={20} weight="fill" />
+                Ver galería de equipos
+                <ArrowUpRight size={18} weight="bold" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
             </div>
-          </div>
+          )}
         </Reveal>
 
         {/* Banner CEO */}
