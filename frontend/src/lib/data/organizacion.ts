@@ -19,7 +19,7 @@ export const subgerencias: Subgerencia[] = [
     subgerente: 'Francisco Evans',
     foto: fotoHombre,
     proposito:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gestionamos la cadena de suministro y las compras estratégicas del negocio.',
+      'Gestionar de manera estratégica la cadena de suministro, el abastecimiento y las contrataciones de servicios y materiales del negocio.',
     procesos: ['Compras estratégicas', 'Abastecimiento', 'Contratos'],
     videoSection: 'subgerencia_pc',
   },
@@ -30,7 +30,7 @@ export const subgerencias: Subgerencia[] = [
     subgerente: 'Ximena León',
     foto: fotoMujer,
     proposito:
-      'Garantizar la gestión integral en salud, seguridad, medio ambiente y calidad, asegurando el cumplimiento de estándares globales y normativas locales, promoviendo una cultura preventiva y de mejora continua.',
+      'Garantizar la gestión integral en salud, seguridad, medio ambiente y calidad (HSEQ), asegurando el cumplimiento de estándares globales y normativas locales, promoviendo una cultura preventiva y de mejora continua.',
     procesos: ['SIG', 'Cumplimiento normativo', 'Inspección', 'Capacitación técnica'],
     videoSection: 'subgerencia_hseq',
   },
@@ -78,19 +78,32 @@ export const areasStaff = [
   {
     id: 'finanzas',
     nombre: 'Finanzas',
-    detalle: 'Gestión financiera y presupuestaria del negocio.',
+    detalle:
+      'Lidera la planificación financiera, contabilidad y control de gestión. Garantiza la asignación eficiente de recursos, viabilidad presupuestaria y sustentabilidad económica de las inversiones de red.',
   },
-  { id: 'auditoria', nombre: 'Auditoría', detalle: 'Aseguramiento y control interno.' },
+  {
+    id: 'auditoria',
+    nombre: 'Auditoría',
+    detalle:
+      'Monitorea la transparencia, mitiga riesgos y evalúa el control interno. Asegura que los procesos organizacionales cumplan con el marco legal, las políticas del Grupo Enel y el código ético.',
+  },
   {
     id: 'personas',
-    nombre: 'Personas y Organización',
-    detalle: 'Talento, cultura y desarrollo organizacional.',
+    nombre: 'Personas y Organizacionales',
+    detalle:
+      'Gestiona la atracción, retención y desarrollo de talento. Impulsa la transformación cultural, diversidad, inclusión, el bienestar y clima laboral de los equipos de la distribuidora.',
   },
-  { id: 'legal', nombre: 'Legal', detalle: 'Asesoría jurídica y cumplimiento.' },
+  {
+    id: 'legal',
+    nombre: 'Legal',
+    detalle:
+      'Proporciona asesoría jurídica y regulatoria integral. Asegura el resguardo legal de la infraestructura, vigila el cumplimiento de normas de mercado eléctrico y formaliza contratos clave.',
+  },
   {
     id: 'comunicaciones',
-    nombre: 'Comunicaciones y Sostenibilidad',
-    detalle: 'Vínculo con comunidades y grupos de interés.',
+    nombre: 'Comunicaciones Externas y Sostenibilidad',
+    detalle:
+      'Gestiona la relación con los medios, reputación y comunidades locales. Lidera la estrategia de sostenibilidad, valor compartido, compromisos ambientales y el apoyo a la transición energética.',
   },
 ]
 

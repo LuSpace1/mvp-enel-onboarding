@@ -31,47 +31,60 @@ export const pilaresCultura = [
     id: 'seguridad',
     titulo: 'La seguridad es nuestra prioridad',
     descripcion:
-      'Cultura preventiva donde cada tarea considera los riesgos y las medidas para proteger a las personas, las comunidades y el entorno.',
+      'Promovemos una cultura preventiva donde cada tarea se realiza considerando los riesgos y las medidas necesarias para proteger a las personas, las comunidades y el entorno.',
     puntos: [
-      'Reportamos condiciones inseguras',
+      'Reportamos condiciones inseguras.',
       'Política Stop Work',
-      'Aprendemos de los incidentes',
+      'Aprendemos de los incidentes y compartimos las lecciones aprendidas.',
+      'Cuidamos nuestra seguridad y la de quienes nos rodean.',
     ],
   },
   {
     id: 'equipo',
     titulo: 'Trabajamos como un solo equipo',
     descripcion:
-      'La continuidad del servicio y el desarrollo de la red son el resultado del trabajo coordinado de múltiples equipos.',
+      'La continuidad del servicio, la experiencia de nuestros clientes y el desarrollo de la red son el resultado del trabajo coordinado de múltiples equipos.',
     puntos: [
-      'Compartimos conocimiento',
-      'Escuchamos distintas perspectivas',
-      'Colaboramos entre áreas',
+      'Compartimos conocimiento.',
+      'Escuchamos distintas perspectivas.',
+      'Colaboramos entre áreas.',
+      'Construimos soluciones en conjunto.',
     ],
   },
   {
     id: 'mejora',
     titulo: 'Mejora continua',
     descripcion:
-      'Cuestionamos procesos, identificamos oportunidades y promovemos cambios que generen valor para clientes y equipos.',
-    puntos: ['Proponemos nuevas ideas', 'Simplificamos procesos', 'Aprendemos de los errores'],
+      'Impulsamos una cultura donde cuestionamos procesos, identificamos oportunidades y promovemos cambios que generen mayor valor para nuestros clientes y equipos.',
+    puntos: [
+      'Proponemos nuevas ideas.',
+      'Simplificamos procesos.',
+      'Aprendemos de los errores.',
+      'Compartimos buenas prácticas.',
+    ],
   },
   {
     id: 'futuro',
     titulo: 'Pensamos en el futuro',
     descripcion:
-      'Impulsamos una red más resiliente, eficiente y preparada para los desafíos energéticos y ambientales.',
+      'Trabajamos impulsando una red más resiliente, eficiente y preparada para los desafíos energéticos y ambientales de los próximos años.',
     puntos: [
-      'Recursos usados responsablemente',
-      'Impactos ambientales considerados',
-      'Apoyamos la electrificación',
+      'Utilizamos los recursos de manera responsable.',
+      'Consideramos los impactos ambientales.',
+      'Promovemos soluciones sostenibles.',
+      'Apoyamos la electrificación y la innovación',
     ],
   },
   {
     id: 'cliente',
     titulo: 'Cliente en el centro',
     descripcion:
-      'Detrás de cada conexión existen hogares, comercios e industrias que dependen de una energía segura y confiable.',
-    puntos: ['Soluciones oportunas', 'Cercanía y responsabilidad', 'Mejoramos su experiencia'],
+      'Detrás de cada conexión, atención o proyecto existen hogares, comercios, industrias y servicios que dependen de una energía segura y confiable.',
+    puntos: [
+      'Buscamos soluciones oportunas.',
+      'Escuchamos las necesidades de nuestros clientes.',
+      'Actuamos con cercanía y responsabilidad.',
+      'Trabajamos para mejorar continuamente su experiencia.',
+    ],
   },
 ]

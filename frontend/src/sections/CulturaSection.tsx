@@ -165,315 +165,328 @@ export function CulturaSection() {
         viewport={{ once: true, amount: 0.15 }}
         transition={{ type: 'spring', stiffness: 50, damping: 15, mass: 1.2 }}
       >
-      <Reveal className="relative z-10 max-w-2xl mx-auto text-center">
-        <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
-          Cómo trabajamos
-        </h2>
-        <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
-          Nuestra cultura se construye día a día a través de acciones, decisiones y comportamientos
-          que compartimos como equipo.
-        </p>
-      </Reveal>
+        <Reveal className="relative z-10 mx-auto max-w-2xl text-center">
+          <h2 className="text-enel-navy text-3xl font-semibold tracking-tight md:text-5xl">
+            Cómo trabajamos
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
+            Nuestra cultura se construye día a día a través de acciones, decisiones y
+            comportamientos que compartimos como equipo.
+          </p>
+        </Reveal>
 
-      <Reveal delay={0.1} className="relative z-10 mt-12 w-full max-w-4xl mx-auto">
-        
-        {/* Controles y Barras de Progreso (Estilo Stories) */}
-        <div className="flex items-center gap-4 mb-6 px-4">
-          <button 
-            onClick={prevSlide} 
-            className="shrink-0 p-2 text-enel-navy hover:text-enel-blue hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
-            aria-label="Anterior pilar"
-          >
-            <CaretLeft size={20} weight="bold" />
-          </button>
-          
-          <div className="flex-1 flex gap-2 h-1.5 rounded-full overflow-hidden">
-            {pilaresCultura.map((_, i) => (
-              <div 
-                key={i} 
-                className="flex-1 h-full bg-white border border-neutral-300 overflow-hidden relative cursor-pointer" 
-                onClick={() => goToSlide(i)}
-              >
-                {i === slide && !reduce && (
-                  <motion.div
-                    key={`progress-${slide}`}
-                    className="absolute left-0 top-0 h-full bg-enel-pink"
-                    initial={{ width: '0%' }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 7, ease: 'linear' }}
-                    onAnimationComplete={nextSlide}
-                  />
-                )}
-                {/* Fallback de tiempo o completados */}
-                {(i < slide || reduce) && i !== slide && (
-                  <div className="absolute left-0 top-0 h-full w-full bg-enel-pink" />
-                )}
-                {reduce && i === slide && (
-                  <div className="absolute left-0 top-0 h-full w-full bg-enel-pink" />
-                )}
-              </div>
-            ))}
+        <Reveal delay={0.1} className="relative z-10 mx-auto mt-12 w-full max-w-4xl">
+          {/* Controles y Barras de Progreso (Estilo Stories) */}
+          <div className="mb-6 flex items-center gap-4 px-4">
+            <button
+              onClick={prevSlide}
+              className="text-enel-navy hover:text-enel-blue shrink-0 rounded-full border border-neutral-300 bg-white/50 p-2 transition hover:bg-white"
+              aria-label="Anterior pilar"
+            >
+              <CaretLeft size={20} weight="bold" />
+            </button>
+
+            <div className="flex h-1.5 flex-1 gap-2 overflow-hidden rounded-full">
+              {pilaresCultura.map((_, i) => (
+                <div
+                  key={i}
+                  className="relative h-full flex-1 cursor-pointer overflow-hidden border border-neutral-300 bg-white"
+                  onClick={() => goToSlide(i)}
+                >
+                  {i === slide && !reduce && (
+                    <motion.div
+                      key={`progress-${slide}`}
+                      className="bg-enel-pink absolute top-0 left-0 h-full"
+                      initial={{ width: '0%' }}
+                      animate={{ width: '100%' }}
+                      transition={{ duration: 7, ease: 'linear' }}
+                      onAnimationComplete={nextSlide}
+                    />
+                  )}
+                  {/* Fallback de tiempo o completados */}
+                  {(i < slide || reduce) && i !== slide && (
+                    <div className="bg-enel-pink absolute top-0 left-0 h-full w-full" />
+                  )}
+                  {reduce && i === slide && (
+                    <div className="bg-enel-pink absolute top-0 left-0 h-full w-full" />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={nextSlide}
+              className="text-enel-navy hover:text-enel-blue shrink-0 rounded-full border border-neutral-300 bg-white/50 p-2 transition hover:bg-white"
+              aria-label="Siguiente pilar"
+            >
+              <CaretRight size={20} weight="bold" />
+            </button>
           </div>
 
-          <button 
-            onClick={nextSlide} 
-            className="shrink-0 p-2 text-enel-navy hover:text-enel-blue hover:bg-white rounded-full transition bg-white/50 border border-neutral-300"
-            aria-label="Siguiente pilar"
-          >
-            <CaretRight size={20} weight="bold" />
-          </button>
-        </div>
-
-        {/* Contenedor del Carrusel */}
-        <div className="relative overflow-hidden w-full h-[400px] md:h-[350px] px-2 md:px-0">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <motion.div
-              key={slide}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
-              className="absolute inset-x-2 md:inset-x-0 h-full flex"
-            >
-              <article className="group bg-enel-fog/40 w-full relative h-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
-                {/* Capa giratoria del borde eléctrico (Chispa) */}
-                <div
-                  className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{
-                    backgroundImage:
-                      'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)',
-                  }}
-                />
-
-                {/* Contenedor Interior (La Máscara) */}
-                <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7 md:p-10">
-                  <span className="bg-enel-blue block h-1 w-8 rounded-full transition-all group-hover:w-12" />
-                  <h3 className="text-enel-navy mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
-                    {pilaresCultura[slide]?.titulo}
-                  </h3>
-                  <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
-                    {pilaresCultura[slide]?.descripcion}
-                  </p>
-                  <ul className="mt-auto flex flex-wrap gap-2 pt-6">
-                    {pilaresCultura[slide]?.puntos.map((punto) => (
-                      <li
-                        key={punto}
-                        className="bg-enel-mist text-enel-navy group-hover:bg-enel-blue/10 group-hover:text-enel-blue-dark rounded-full px-4 py-1.5 text-sm font-medium transition"
-                      >
-                        {punto}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Reveal>
-
-      {/* Titular rosa pálido con electricidad */}
-      <Reveal delay={0.1} className="relative z-10 mt-16">
-        <div className="border-enel-pink/25 relative overflow-hidden rounded-3xl border-2 bg-[#fdeff4] px-6 py-12 text-center shadow-[0_18px_50px_-22px_rgba(235,0,83,0.4)] backdrop-blur-sm md:px-10" style={{ animation: 'float-subtle 4s ease-in-out infinite' }}>
-          {/* Puntos de circuito */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              backgroundImage: 'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
-              backgroundSize: '18px 18px',
-            }}
-          />
-
-          {/* Corriente barriendo el borde superior */}
-          {!reduce && (
-            <motion.span
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-[3px]"
-              style={{
-                background:
-                  'linear-gradient(90deg, transparent, rgba(255, 213, 74, 0.95) 50%, transparent)',
-                backgroundSize: '200% 100%',
-              }}
-              animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
-            />
-          )}
-
-          {/* Rayos decorativos en esquinas */}
-          {!reduce && (
-            <>
-              <Rayo d={RAYOS.mediano} size={30} delay={0.9} className="absolute top-5 left-5" />
-              <Rayo
-                d={RAYOS.chico}
-                size={24}
-                delay={1.7}
-                velocidad={2.4}
-                className="absolute top-3 right-7"
-              />
-              <Rayo
-                d={RAYOS.chico}
-                size={22}
-                delay={0.4}
-                velocidad={2.8}
-                className="absolute bottom-6 left-10"
-              />
-              <Rayo
-                d={RAYOS.mediano}
-                size={28}
-                delay={1.2}
-                velocidad={2.1}
-                className="absolute right-8 bottom-8"
-              />
-            </>
-          )}
-
-          {/* Rayo central flotante */}
-          {!reduce && (
-            <motion.div
-              aria-hidden="true"
-              className="relative mx-auto mb-2 w-fit"
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <Rayo d={RAYOS.grande} size={62} velocidad={1.4} />
-              <span className="bg-enel-pink/15 absolute inset-0 -z-10 m-auto h-16 w-16 rounded-full blur-2xl" />
-            </motion.div>
-          )}
-
-          <h3 className="text-enel-navy relative text-2xl font-semibold tracking-tight md:text-3xl">
-            Construir el futuro a través de la{' '}
-            <span className="from-enel-pink via-enel-blue bg-gradient-to-r to-amber-500 bg-clip-text text-transparent">
-              energía sustentable
-            </span>
-          </h3>
-        </div>
-      </Reveal>
-
-      {/* Tarjetas Interactivas Volteables flotantes (Valores) */}
-      <Reveal delay={0.2} className="relative z-10 mt-12 mb-10">
-        <div className="flex flex-col items-center">
-          <p className="mb-12 text-sm font-semibold tracking-[0.2em] text-neutral-400 uppercase">
-            Construimos el futuro a base de
-          </p>
-          <div className="flex flex-wrap justify-center gap-7">
-            {valoresCultura.map((valor, indice) => {
-              const isFlipped = flippedCards[valor.palabra]
-              const sparkId = spark[valor.palabra] ?? 0
-              return (
-                <motion.div
-                  key={valor.palabra}
-                  className="relative h-36 w-36 cursor-pointer [perspective:1000px]"
-                  onClick={() => pulsar(valor.palabra)}
-                  animate={reduce ? undefined : { y: [0, -9, 0] }}
-                  transition={{
-                    duration: 3.4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: indice * 0.18,
-                  }}
+          {/* Contenedor del Carrusel */}
+          <div className="relative h-[520px] w-full overflow-hidden px-2 sm:h-[460px] md:h-[370px] md:px-0">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.div
+                key={slide}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
+                className="absolute inset-x-2 flex h-full md:inset-x-0"
+              >
+                <article
+                  className="group bg-enel-fog/40 relative h-full w-full overflow-hidden rounded-2xl p-[2px] shadow-sm transition-shadow hover:shadow-xl"
+                  style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
                 >
-                  {/* Sombra flotante */}
-                  <motion.span
-                    aria-hidden="true"
-                    className="bg-enel-navy/25 absolute -bottom-5 left-1/2 h-2.5 w-16 rounded-full blur-[6px]"
-                    animate={
-                      reduce
-                        ? undefined
-                        : { scaleX: [1, 0.7, 1], opacity: [0.45, 0.2, 0.45], x: '-50%' }
-                    }
+                  {/* Capa giratoria del borde eléctrico (Chispa) */}
+                  <div
+                    className="absolute inset-[-100%] z-0 animate-[spin_2s_linear_infinite] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      backgroundImage:
+                        'conic-gradient(from 0deg, transparent 35%, rgba(251, 191, 36, 1) 48%, rgba(255, 255, 255, 1) 50%, transparent 50%, transparent 85%, rgba(251, 191, 36, 1) 98%, rgba(255, 255, 255, 1) 100%)',
+                    }}
+                  />
+
+                  {/* Contenedor Interior (La Máscara) */}
+                  <div className="relative z-10 flex h-full flex-col rounded-[14px] bg-white p-7 md:p-10">
+                    <span className="bg-enel-blue block h-1 w-8 rounded-full transition-all group-hover:w-12" />
+                    <h3 className="text-enel-navy mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+                      {pilaresCultura[slide]?.titulo}
+                    </h3>
+                    <p className="mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
+                      {pilaresCultura[slide]?.descripcion}
+                    </p>
+                    <ul className="mt-auto flex flex-wrap gap-2 pt-6">
+                      {pilaresCultura[slide]?.puntos.map((punto) => (
+                        <li
+                          key={punto}
+                          className="bg-enel-mist text-enel-navy group-hover:bg-enel-blue/10 group-hover:text-enel-blue-dark rounded-full px-4 py-1.5 text-sm font-medium transition"
+                        >
+                          {punto}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </Reveal>
+
+        {/* Invitación Final */}
+        <Reveal delay={0.15} className="relative z-10 mx-auto mt-10 max-w-2xl px-4 text-center">
+          <p className="text-enel-navy rounded-2xl border border-neutral-200/80 bg-white/75 px-8 py-6 text-base leading-relaxed font-medium shadow-sm backdrop-blur-sm md:text-lg">
+            Te invitamos a vivir estos principios en tu trabajo diario y a ser parte de una cultura
+            que promueve la seguridad, la colaboración, la mejora continua y la innovación.
+          </p>
+        </Reveal>
+
+        {/* Titular rosa pálido con electricidad */}
+        <Reveal delay={0.1} className="relative z-10 mt-16">
+          <div
+            className="border-enel-pink/25 relative overflow-hidden rounded-3xl border-2 bg-[#fdeff4] px-6 py-12 text-center shadow-[0_18px_50px_-22px_rgba(235,0,83,0.4)] backdrop-blur-sm md:px-10"
+            style={{ animation: 'float-subtle 4s ease-in-out infinite' }}
+          >
+            {/* Puntos de circuito */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-60"
+              style={{
+                backgroundImage: 'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
+                backgroundSize: '18px 18px',
+              }}
+            />
+
+            {/* Corriente barriendo el borde superior */}
+            {!reduce && (
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-[3px]"
+                style={{
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(255, 213, 74, 0.95) 50%, transparent)',
+                  backgroundSize: '200% 100%',
+                }}
+                animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
+              />
+            )}
+
+            {/* Rayos decorativos en esquinas */}
+            {!reduce && (
+              <>
+                <Rayo d={RAYOS.mediano} size={30} delay={0.9} className="absolute top-5 left-5" />
+                <Rayo
+                  d={RAYOS.chico}
+                  size={24}
+                  delay={1.7}
+                  velocidad={2.4}
+                  className="absolute top-3 right-7"
+                />
+                <Rayo
+                  d={RAYOS.chico}
+                  size={22}
+                  delay={0.4}
+                  velocidad={2.8}
+                  className="absolute bottom-6 left-10"
+                />
+                <Rayo
+                  d={RAYOS.mediano}
+                  size={28}
+                  delay={1.2}
+                  velocidad={2.1}
+                  className="absolute right-8 bottom-8"
+                />
+              </>
+            )}
+
+            {/* Rayo central flotante */}
+            {!reduce && (
+              <motion.div
+                aria-hidden="true"
+                className="relative mx-auto mb-2 w-fit"
+                animate={{ y: [0, -7, 0] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <Rayo d={RAYOS.grande} size={62} velocidad={1.4} />
+                <span className="bg-enel-pink/15 absolute inset-0 -z-10 m-auto h-16 w-16 rounded-full blur-2xl" />
+              </motion.div>
+            )}
+
+            <h3 className="text-enel-navy relative text-2xl font-semibold tracking-tight md:text-3xl">
+              Construir el futuro a través de la{' '}
+              <span className="from-enel-pink via-enel-blue bg-gradient-to-r to-amber-500 bg-clip-text text-transparent">
+                energía sustentable
+              </span>
+            </h3>
+          </div>
+        </Reveal>
+
+        {/* Tarjetas Interactivas Volteables flotantes (Valores) */}
+        <Reveal delay={0.2} className="relative z-10 mt-12 mb-10">
+          <div className="flex flex-col items-center">
+            <p className="mb-12 text-sm font-semibold tracking-[0.2em] text-neutral-400 uppercase">
+              Construimos el futuro a base de
+            </p>
+            <div className="flex flex-wrap justify-center gap-7">
+              {valoresCultura.map((valor, indice) => {
+                const isFlipped = flippedCards[valor.palabra]
+                const sparkId = spark[valor.palabra] ?? 0
+                return (
+                  <motion.div
+                    key={valor.palabra}
+                    className="relative h-36 w-36 cursor-pointer [perspective:1000px]"
+                    onClick={() => pulsar(valor.palabra)}
+                    animate={reduce ? undefined : { y: [0, -9, 0] }}
                     transition={{
                       duration: 3.4,
                       repeat: Infinity,
                       ease: 'easeInOut',
                       delay: indice * 0.18,
                     }}
-                  />
-
-                  {/* Anillo de descarga */}
-                  {sparkId > 0 && !reduce && (
-                    <motion.span
-                      key={sparkId}
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -inset-[7px] rounded-[1.4rem] border-2 border-amber-400/80"
-                      initial={{ opacity: 0.9, scale: 0.9 }}
-                      animate={{ opacity: 0, scale: 1.2 }}
-                      transition={{ duration: 0.6, ease: 'easeOut' }}
-                    />
-                  )}
-
-                  {/* Descarga al apretar */}
-                  {sparkId > 0 && !reduce && (
-                    <motion.div
-                      key={`sparks-${sparkId}`}
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -inset-5 z-30"
-                      initial={{ opacity: 1 }}
-                      animate={{ opacity: 0 }}
-                      transition={{ duration: 0.7, ease: 'easeOut' }}
-                    >
-                      <RayoBurst d={RAYOS.grande} className="-top-6 left-1/2 -ml-3" />
-                      <RayoBurst d={RAYOS.mediano} rotar={70} className="top-8 -right-4" />
-                      <RayoBurst d={RAYOS.chico} rotar={-60} className="bottom-9 -left-5" />
-                    </motion.div>
-                  )}
-
-                  <motion.div
-                    className="relative h-full w-full"
-                    style={{ transformStyle: 'preserve-3d' }}
-                    initial={false}
-                    animate={{ rotateY: isFlipped ? 180 : 0, scale: isFlipped ? 1.14 : 1 }}
-                    transition={{ duration: 0.6, type: 'spring', stiffness: 220, damping: 20 }}
                   >
-                    {/* Frente */}
-                    <motion.div
-                      className="to-enel-mist border-enel-navy/25 absolute inset-0 grid place-items-center overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-[#fbf9f2] via-[#f4f1e8] [backface-visibility:hidden]"
-                      whileHover={reduce ? undefined : { scale: 1.04 }}
-                      whileTap={reduce ? undefined : { scale: 0.96 }}
-                    >
-                      <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute inset-0 opacity-60"
-                        style={{
-                          backgroundImage:
-                            'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
-                          backgroundSize: '10px 10px',
-                        }}
-                      />
-                      {!reduce && (
-                        <motion.span
-                          className={`${COLORES_PREGUNTA[indice % COLORES_PREGUNTA.length]} text-5xl font-extrabold drop-shadow-sm`}
-                          animate={{ scale: [1, 1.1, 1], opacity: [0.85, 1, 0.85] }}
-                          transition={{
-                            duration: 2.6,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: indice * 0.35,
-                          }}
-                        >
-                          ?
-                        </motion.span>
-                      )}
-                      <span className="text-enel-navy/40 absolute bottom-2 text-[9px] font-bold tracking-[0.25em] uppercase">
-                        Toca
-                      </span>
-                    </motion.div>
+                    {/* Sombra flotante */}
+                    <motion.span
+                      aria-hidden="true"
+                      className="bg-enel-navy/25 absolute -bottom-5 left-1/2 h-2.5 w-16 rounded-full blur-[6px]"
+                      animate={
+                        reduce
+                          ? undefined
+                          : { scaleX: [1, 0.7, 1], opacity: [0.45, 0.2, 0.45], x: '-50%' }
+                      }
+                      transition={{
+                        duration: 3.4,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: indice * 0.18,
+                      }}
+                    />
 
-                    {/* Dorso */}
-                    <div className="from-enel-violeta to-enel-violeta-soft border-enel-violeta/60 absolute inset-0 flex [transform:rotateY(180deg)] flex-col items-center justify-center gap-1 rounded-2xl border-2 bg-gradient-to-br p-3 text-center shadow-xl [backface-visibility:hidden]">
-                      <Lightning size={16} weight="fill" className="text-amber-400" />
-                      <span className="text-sm font-extrabold tracking-wide text-white uppercase drop-shadow-md">
-                        {valor.palabra}
-                      </span>
-                    </div>
+                    {/* Anillo de descarga */}
+                    {sparkId > 0 && !reduce && (
+                      <motion.span
+                        key={sparkId}
+                        aria-hidden="true"
+                        className="pointer-events-none absolute -inset-[7px] rounded-[1.4rem] border-2 border-amber-400/80"
+                        initial={{ opacity: 0.9, scale: 0.9 }}
+                        animate={{ opacity: 0, scale: 1.2 }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                      />
+                    )}
+
+                    {/* Descarga al apretar */}
+                    {sparkId > 0 && !reduce && (
+                      <motion.div
+                        key={`sparks-${sparkId}`}
+                        aria-hidden="true"
+                        className="pointer-events-none absolute -inset-5 z-30"
+                        initial={{ opacity: 1 }}
+                        animate={{ opacity: 0 }}
+                        transition={{ duration: 0.7, ease: 'easeOut' }}
+                      >
+                        <RayoBurst d={RAYOS.grande} className="-top-6 left-1/2 -ml-3" />
+                        <RayoBurst d={RAYOS.mediano} rotar={70} className="top-8 -right-4" />
+                        <RayoBurst d={RAYOS.chico} rotar={-60} className="bottom-9 -left-5" />
+                      </motion.div>
+                    )}
+
+                    <motion.div
+                      className="relative h-full w-full"
+                      style={{ transformStyle: 'preserve-3d' }}
+                      initial={false}
+                      animate={{ rotateY: isFlipped ? 180 : 0, scale: isFlipped ? 1.14 : 1 }}
+                      transition={{ duration: 0.6, type: 'spring', stiffness: 220, damping: 20 }}
+                    >
+                      {/* Frente */}
+                      <motion.div
+                        className="to-enel-mist border-enel-navy/25 absolute inset-0 grid place-items-center overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-[#fbf9f2] via-[#f4f1e8] [backface-visibility:hidden]"
+                        whileHover={reduce ? undefined : { scale: 1.04 }}
+                        whileTap={reduce ? undefined : { scale: 0.96 }}
+                      >
+                        <div
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 opacity-60"
+                          style={{
+                            backgroundImage:
+                              'radial-gradient(rgba(235, 0, 83, 0.12) 1px, transparent 1px)',
+                            backgroundSize: '10px 10px',
+                          }}
+                        />
+                        {!reduce && (
+                          <motion.span
+                            className={`${COLORES_PREGUNTA[indice % COLORES_PREGUNTA.length]} text-5xl font-extrabold drop-shadow-sm`}
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.85, 1, 0.85] }}
+                            transition={{
+                              duration: 2.6,
+                              repeat: Infinity,
+                              ease: 'easeInOut',
+                              delay: indice * 0.35,
+                            }}
+                          >
+                            ?
+                          </motion.span>
+                        )}
+                        <span className="text-enel-navy/40 absolute bottom-2 text-[9px] font-bold tracking-[0.25em] uppercase">
+                          Toca
+                        </span>
+                      </motion.div>
+
+                      {/* Dorso */}
+                      <div className="from-enel-violeta to-enel-violeta-soft border-enel-violeta/60 absolute inset-0 flex [transform:rotateY(180deg)] flex-col items-center justify-center gap-1 rounded-2xl border-2 bg-gradient-to-br p-3 text-center shadow-xl [backface-visibility:hidden]">
+                        <Lightning size={16} weight="fill" className="text-amber-400" />
+                        <span className="text-sm font-extrabold tracking-wide text-white uppercase drop-shadow-md">
+                          {valor.palabra}
+                        </span>
+                      </div>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
       </motion.div>
     </SectionShell>
   )

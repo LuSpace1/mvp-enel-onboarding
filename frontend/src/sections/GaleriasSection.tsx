@@ -85,27 +85,27 @@ export function GaleriasSection() {
         </Reveal>
 
         {/* Mazo Flotante - Me Office */}
-        <div className="mt-16 w-full flex flex-col items-center">
-          <div className="relative w-full max-w-4xl h-[450px] md:h-[550px] flex items-center justify-center overflow-visible">
+        <div className="mt-16 flex w-full flex-col items-center">
+          <div className="relative flex h-[450px] w-full max-w-4xl items-center justify-center overflow-visible md:h-[550px]">
             {fotosMeOffice.map((foto, indice) => {
               const isActive = indice === activePhoto
-              const orbita = ORBIT_PATHS[indice]!
+              const path = ORBIT_PATHS[indice] || { x: [0], y: [0], rotate: [0] }
 
               return (
                 <motion.figure
                   key={foto.src}
-                  className="absolute origin-center rounded-md border border-neutral-200 bg-white p-4 pb-16 shadow-[0_20px_40px_rgba(0,0,0,0.12)] cursor-pointer"
+                  className="absolute origin-center cursor-pointer rounded-md border border-neutral-200 bg-white p-4 pb-16 shadow-[0_20px_40px_rgba(0,0,0,0.12)]"
                   style={{ width: 'min(75vw, 320px)', zIndex: isActive ? 50 : 10 + indice }}
                   onClick={() => !isActive && setActivePhoto(indice)}
                   animate={
                     isActive
                       ? { x: 0, y: 0, rotate: 0, scale: 1.15, opacity: 1 }
                       : {
-                          x: reduce ? orbita.x[0] : orbita.x,
-                          y: reduce ? orbita.y[0] : orbita.y,
-                          rotate: reduce ? 0 : orbita.rotate,
+                          x: reduce ? path.x[0] : path.x,
+                          y: reduce ? path.y[0] : path.y,
+                          rotate: reduce ? 0 : path.rotate,
                           scale: 0.7,
-                          opacity: 0.65
+                          opacity: 0.65,
                         }
                   }
                   transition={
@@ -125,8 +125,8 @@ export function GaleriasSection() {
                       alt={foto.alt}
                       loading="lazy"
                       className={clsx(
-                        "h-full w-full object-cover transition duration-700",
-                        isActive ? "grayscale-0" : "grayscale-[40%]"
+                        'h-full w-full object-cover transition duration-700',
+                        isActive ? 'grayscale-0' : 'grayscale-[40%]',
                       )}
                     />
                   </div>
@@ -139,20 +139,20 @@ export function GaleriasSection() {
           </div>
 
           {/* Controles del Mazo Flotante */}
-          <div className="flex items-center gap-4 mt-8 md:mt-2">
+          <div className="mt-8 flex items-center gap-4 md:mt-2">
             <button
               onClick={prevPhoto}
-              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue rounded-full border bg-white/50 p-3 shadow-sm backdrop-blur-sm transition-all hover:bg-white"
               aria-label="Foto anterior"
             >
               <CaretLeft size={20} weight="bold" />
             </button>
-            <span className="text-sm font-bold text-neutral-500 tracking-widest uppercase">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase">
               {activePhoto + 1} / {fotosMeOffice.length}
             </span>
             <button
               onClick={nextPhoto}
-              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue hover:bg-white rounded-full border bg-white/50 backdrop-blur-sm p-3 shadow-sm transition-all"
+              className="border-enel-fog/50 text-enel-navy hover:text-enel-blue hover:border-enel-blue rounded-full border bg-white/50 p-3 shadow-sm backdrop-blur-sm transition-all hover:bg-white"
               aria-label="Siguiente foto"
             >
               <CaretRight size={20} weight="bold" />
@@ -189,11 +189,15 @@ export function GaleriasSection() {
                   setGaleriaVisible(true)
                   track('galeria.equipo.ver')
                 }}
-                className="group inline-flex items-center gap-3 rounded-full bg-enel-blue px-8 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-enel-blue-dark hover:shadow-[0_20px_50px_-15px_rgba(0,111,187,0.6)]"
+                className="group bg-enel-blue hover:bg-enel-blue-dark inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(0,111,187,0.6)]"
               >
                 <GridFour size={20} weight="fill" />
                 Ver galería de equipos
-                <ArrowUpRight size={18} weight="bold" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight
+                  size={18}
+                  weight="bold"
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </button>
             </div>
           )}
