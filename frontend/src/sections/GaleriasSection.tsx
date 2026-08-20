@@ -6,13 +6,14 @@ import {
   Image as ImageIcon,
   CaretLeft,
   CaretRight,
+  MagnifyingGlass,
 } from '@phosphor-icons/react'
 import { motion, useInView, useReducedMotion } from 'motion/react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { EquiposGaleria } from '@/components/EquiposGaleria'
-import { centroExcelencia, fotosMeOffice } from '@/lib/data/galerias'
+import { centroExcelencia, fotosEquipos, fotosMeOffice } from '@/lib/data/galerias'
 import { track } from '@/lib/analytics'
 import { clsx } from 'clsx'
 
@@ -34,10 +35,17 @@ const ORBIT_PATHS = fotosMeOffice.map((_, indice) => {
   return { x: xPath, y: yPath, rotate: rotatePath }
 })
 
+const TEASER_POS = [
+  { x: -112, rotate: -7 },
+  { x: 0, rotate: 2 },
+  { x: 112, rotate: 8 },
+]
+
 export function GaleriasSection() {
   const bannerRef = useRef<HTMLDivElement>(null)
   const [activePhoto, setActivePhoto] = useState(0)
   const [galeriaVisible, setGaleriaVisible] = useState(false)
+  const [indiceInicial, setIndiceInicial] = useState<number | null>(null)
   const reduce = useReducedMotion()
   const bannerInView = useInView(bannerRef, { once: true, amount: 0.15 })
 
@@ -180,21 +188,81 @@ export function GaleriasSection() {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="px-6 pt-6 pb-20 md:px-12"
             >
-              <EquiposGaleria />
+              <EquiposGaleria abiertoInicial={indiceInicial} />
             </motion.div>
           ) : (
-            <div className="flex justify-center px-6 pb-20 md:px-12">
+            <div className="flex flex-col items-center gap-8 px-6 pb-20 md:px-12">
+              {/* Mosaico de polaroids: vista previa interactiva de los equipos */}
+              <div className="relative flex h-[330px] w-full max-w-3xl items-center justify-center md:h-[360px]">
+                {fotosEquipos.slice(0, 3).map((foto, indice) => {
+                  const pos = TEASER_POS[indice] || { x: 0, rotate: 0 }
+                  return (
+                    <motion.figure
+                      key={foto.titulo}
+                      className="group absolute origin-center cursor-pointer rounded-md border border-neutral-200 bg-white p-3 pb-9 shadow-[0_20px_40px_rgba(0,0,0,0.14)]"
+                      style={{ width: 'min(44vw, 240px)', zIndex: indice === 1 ? 20 : 10 }}
+                      initial={{ x: pos.x, y: 0, rotate: pos.rotate }}
+                      animate={
+                        reduce
+                          ? { x: pos.x, rotate: pos.rotate }
+                          : { x: pos.x, rotate: pos.rotate, y: [0, -10, 0] }
+                      }
+                      transition={{
+                        default: { type: 'spring', stiffness: 300, damping: 24 },
+                        y: {
+                          duration: 4.5 + indice * 0.6,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: indice * 0.5,
+                        },
+                      }}
+                      whileHover={reduce ? {} : { rotate: 0, scale: 1.12, y: -12, zIndex: 30 }}
+                      onClick={() => {
+                        setIndiceInicial(indice)
+                        setGaleriaVisible(true)
+                        track('galeria.equipo.ver', { origen: 'polaroid' })
+                      }}
+                    >
+                      <div className="bg-enel-mist relative aspect-[16/10] overflow-hidden rounded-sm shadow-inner">
+                        <img
+                          src={foto.src}
+                          alt={foto.titulo}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover"
+                        />
+                        <span
+                          aria-hidden="true"
+                          className="absolute top-2 right-2 rounded-full bg-white/15 p-2 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                          <MagnifyingGlass size={14} weight="bold" />
+                        </span>
+                      </div>
+                      <figcaption className="text-enel-navy absolute right-0 bottom-3 left-0 flex items-baseline justify-center gap-1.5 px-3">
+                        <span className="text-enel-blue text-sm font-bold tabular-nums">
+                          {String(indice + 1).padStart(2, '0')}
+                        </span>
+                        <span className="font-serif text-base font-medium italic">
+                          {foto.titulo}
+                        </span>
+                      </figcaption>
+                    </motion.figure>
+                  )
+                })}
+              </div>
+
               <button
                 onClick={() => {
+                  setIndiceInicial(null)
                   setGaleriaVisible(true)
                   track('galeria.equipo.ver')
                 }}
-                className="group bg-enel-blue hover:bg-enel-blue-dark inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-bold tracking-wide text-white uppercase shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(0,111,187,0.6)]"
+                className="group border-enel-fog text-enel-navy hover:border-enel-blue hover:text-enel-blue inline-flex items-center gap-2.5 rounded-full border bg-white/60 px-6 py-3 text-sm font-bold tracking-wide uppercase shadow-sm backdrop-blur-sm transition-colors"
               >
-                <GridFour size={20} weight="fill" />
-                Ver galería de equipos
+                <GridFour size={18} weight="fill" className="text-enel-blue" />
+                Descubre a los 50 equipos
                 <ArrowUpRight
-                  size={18}
+                  size={16}
                   weight="bold"
                   className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />

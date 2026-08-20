@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import {
-  CaretDown,
-  CaretLeft,
-  CaretRight,
-  MagnifyingGlass,
-  X,
-} from '@phosphor-icons/react'
+import { CaretDown, CaretLeft, CaretRight, MagnifyingGlass, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { clsx } from 'clsx'
 
@@ -29,7 +23,7 @@ const gridVariants = {
   exit: (dir: number) => ({ opacity: 0, x: dir >= 0 ? -60 : 60 }),
 }
 
-export function EquiposGaleria() {
+export function EquiposGaleria({ abiertoInicial = null }: { abiertoInicial?: number | null }) {
   const reduce = useReducedMotion()
   const gridRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -38,7 +32,7 @@ export function EquiposGaleria() {
   const [spotActivo, setSpotActivo] = useState(false)
   const [pagina, setPagina] = useState(0)
   const [dirPagina, setDirPagina] = useState(0)
-  const [abierto, setAbierto] = useState<number | null>(null)
+  const [abierto, setAbierto] = useState<number | null>(abiertoInicial)
   const [direccion, setDireccion] = useState(0)
 
   const moverSpot = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -267,7 +261,7 @@ export function EquiposGaleria() {
               {/* Barra superior fija */}
               <div className="fixed top-0 right-0 left-0 z-10 flex items-center justify-between gap-4 bg-gradient-to-b from-[#f0eee6]/90 to-transparent px-4 py-3 md:px-6">
                 <div className="flex min-w-0 items-center gap-3">
-                  <span className="text-[#d97757] text-xl font-bold tracking-tight md:text-2xl">
+                  <span className="text-xl font-bold tracking-tight text-[#d97757] md:text-2xl">
                     {String((abierto ?? 0) + 1).padStart(2, '0')}
                   </span>
                   <h3 className="truncate font-serif text-lg font-medium text-[#191919] italic md:text-xl">
@@ -321,7 +315,12 @@ export function EquiposGaleria() {
                     />
                     <button
                       type="button"
-                      onClick={() => descripcionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      onClick={() =>
+                        descripcionRef.current?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                        })
+                      }
                       className="absolute bottom-8 left-1/2 flex -translate-x-1/2 cursor-pointer items-center gap-2 rounded-full border border-[#e4e0d5] bg-white/70 px-4 py-2 text-xs font-medium whitespace-nowrap text-[#686561] transition-colors hover:bg-white hover:text-[#191919]"
                     >
                       <CaretDown size={16} weight="bold" />
@@ -332,7 +331,7 @@ export function EquiposGaleria() {
                   {/* Segundo apartado: descripción */}
                   <section ref={descripcionRef} className="bg-[#191919] px-4 pt-16 pb-24 md:px-6">
                     <div className="mx-auto max-w-3xl">
-                      <p className="text-[#d97757] text-xs font-bold tracking-[0.2em] uppercase">
+                      <p className="text-xs font-bold tracking-[0.2em] text-[#d97757] uppercase">
                         El equipo
                       </p>
                       <h4 className="mt-3 font-serif text-2xl font-medium text-[#f0eee6] italic md:text-3xl">
