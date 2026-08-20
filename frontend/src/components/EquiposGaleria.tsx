@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
+  CaretDown,
   CaretLeft,
   CaretRight,
-  CornersIn,
-  CornersOut,
   MagnifyingGlass,
   X,
 } from '@phosphor-icons/react'
@@ -18,6 +17,12 @@ const POR_PAGINA = 10
 const TOTAL_PAGINAS = Math.ceil(fotosEquipos.length / POR_PAGINA)
 const DESTACADOS = new Set([0, 5])
 
+const DESCRIPCION_EXTRA = `Este equipo reúne a profesionales de distintas disciplinas que trabajan en coordinación para asegurar la continuidad del suministro eléctrico. Sus labores van desde la planificación de la red y el mantenimiento de las instalaciones hasta la atención directa de los clientes y la ejecución de proyectos de innovación.
+
+Cada integrante aporta experiencia en su área, y juntos conforman una unidad que colabora diariamente con otras subgerencias para cumplir los objetivos estratégicos de la compañía. La comunicación constante, el trabajo en terreno y el seguimiento de indicadores de calidad forman parte de su rutina.
+
+A lo largo del año, el equipo participa en programas de capacitación, simulacros de emergencia y revisiones operativas que permiten mejorar los tiempos de respuesta y la seguridad de todas las personas que trabajan con electricidad.`
+
 const gridVariants = {
   enter: (dir: number) => ({ opacity: 0, x: dir >= 0 ? 60 : -60 }),
   center: { opacity: 1, x: 0 },
@@ -27,13 +32,14 @@ const gridVariants = {
 export function EquiposGaleria() {
   const reduce = useReducedMotion()
   const gridRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const descripcionRef = useRef<HTMLElement>(null)
   const touchX = useRef<number | null>(null)
   const [spotActivo, setSpotActivo] = useState(false)
   const [pagina, setPagina] = useState(0)
   const [dirPagina, setDirPagina] = useState(0)
   const [abierto, setAbierto] = useState<number | null>(null)
   const [direccion, setDireccion] = useState(0)
-  const [pantallaCompleta, setPantallaCompleta] = useState(false)
 
   const moverSpot = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = gridRef.current
@@ -51,17 +57,16 @@ export function EquiposGaleria() {
 
   const abrir = (indice: number) => {
     setDireccion(0)
-    setPantallaCompleta(false)
     setAbierto(indice)
     track('galeria.equipo.abrir', { equipo: fotosEquipos[indice]?.titulo })
   }
 
   const cerrar = () => {
-    setPantallaCompleta(false)
     setAbierto(null)
   }
 
   const navegar = (dir: number) => {
+    scrollRef.current?.scrollTo({ top: 0 })
     setAbierto((prev) => {
       if (prev === null) return prev
       return (prev + dir + fotosEquipos.length) % fotosEquipos.length
@@ -240,11 +245,11 @@ export function EquiposGaleria() {
 
       {/* Lightbox (portaled a document.body para que cubra el viewport real) */}
       {createPortal(
-        <AnimatePresence initial={false} custom={direccion} mode="wait">
+        <AnimatePresence>
           {fotoActiva && (
             <motion.div
-              key={abierto}
-              className="fixed inset-0 z-[100] flex flex-col bg-black/90 backdrop-blur-md"
+              ref={scrollRef}
+              className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#f0eee6]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -259,138 +264,92 @@ export function EquiposGaleria() {
                 if (Math.abs(delta) > 50) navegar(delta < 0 ? 1 : -1)
               }}
             >
-              {pantallaCompleta ? (
-                /* ---- Nivel 2: imagen en pantalla completa ---- */
-                <motion.div
-                  key="completa"
-                  initial={reduce ? false : { opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative flex min-h-0 flex-1 items-center justify-center bg-black"
-                >
-                  <img
-                    src={fotoActiva.src}
-                    alt={fotoActiva.titulo}
-                    onClick={() => setPantallaCompleta(false)}
-                    className="max-h-full max-w-full cursor-zoom-out object-contain"
-                  />
-
+              {/* Barra superior fija */}
+              <div className="fixed top-0 right-0 left-0 z-10 flex items-center justify-between gap-4 bg-gradient-to-b from-[#f0eee6]/90 to-transparent px-4 py-3 md:px-6">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="text-[#d97757] text-xl font-bold tracking-tight md:text-2xl">
+                    {String((abierto ?? 0) + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="truncate font-serif text-lg font-medium text-[#191919] italic md:text-xl">
+                    {fotoActiva.titulo}
+                  </h3>
+                  <span className="hidden shrink-0 text-sm font-semibold tracking-widest text-[#8a857c] uppercase sm:block">
+                    {(abierto ?? 0) + 1} / {fotosEquipos.length}
+                  </span>
+                </div>
+                <div className="flex shrink-0 items-center gap-1">
                   <button
                     onClick={() => navegar(-1)}
                     aria-label="Equipo anterior"
-                    className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/20 md:left-6"
+                    className="rounded-full p-3 text-[#191919] transition-colors hover:bg-[#191919]/10"
                   >
                     <CaretLeft size={28} weight="bold" />
                   </button>
-
                   <button
                     onClick={() => navegar(1)}
                     aria-label="Equipo siguiente"
-                    className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/20 md:right-6"
+                    className="rounded-full p-3 text-[#191919] transition-colors hover:bg-[#191919]/10"
                   >
                     <CaretRight size={28} weight="bold" />
                   </button>
-
                   <button
                     onClick={cerrar}
                     aria-label="Cerrar galería"
-                    className="absolute top-4 right-4 z-10 rounded-full p-3 text-white transition-colors hover:bg-white/20"
+                    className="rounded-full p-3 text-[#191919] transition-colors hover:bg-[#191919]/10"
                   >
                     <X size={24} weight="bold" />
                   </button>
+                </div>
+              </div>
 
-                  <button
-                    onClick={() => setPantallaCompleta(false)}
-                    aria-label="Volver a la vista con descripción"
-                    className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/50 px-5 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-                  >
-                    <CornersIn size={18} weight="bold" />
-                    Salir de pantalla completa
-                  </button>
-                </motion.div>
-              ) : (
-                /* ---- Nivel 1: imagen completa + descripción ---- */
+              {/* Contenido que cambia con la foto */}
+              <AnimatePresence initial={false} custom={direccion} mode="wait">
                 <motion.div
-                  key="detalle"
-                  initial={reduce ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex min-h-0 flex-1 flex-col"
+                  key={abierto}
+                  custom={direccion}
+                  variants={gridVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
                 >
-                  {/* Barra superior */}
-                  <div className="flex shrink-0 items-center justify-between gap-4 px-4 py-3 md:px-6">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <span className="text-enel-blue text-xl font-bold tracking-tight md:text-2xl">
-                        {String((abierto ?? 0) + 1).padStart(2, '0')}
-                      </span>
-                      <h3 className="truncate font-serif text-lg font-medium text-white italic md:text-xl">
-                        {fotoActiva.titulo}
-                      </h3>
-                      <span className="hidden shrink-0 text-sm font-semibold tracking-widest text-white/40 uppercase sm:block">
-                        {(abierto ?? 0) + 1} / {fotosEquipos.length}
-                      </span>
-                    </div>
-                    <button
-                      onClick={cerrar}
-                      aria-label="Cerrar galería"
-                      className="rounded-full p-3 text-white transition-colors hover:bg-white/20"
-                    >
-                      <X size={24} weight="bold" />
-                    </button>
-                  </div>
-
-                  {/* Área de imagen (completa, sin cortes) */}
-                  <div
-                    className="relative flex min-h-0 flex-1 items-center justify-center px-4 md:px-20"
-                    onMouseDown={(e) => {
-                      if (e.target === e.currentTarget) cerrar()
-                    }}
-                    onClick={(e) => {
-                      if (e.target === e.currentTarget) cerrar()
-                    }}
-                  >
-                    <button
-                      onClick={() => navegar(-1)}
-                      aria-label="Equipo anterior"
-                      className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/20 md:left-6"
-                    >
-                      <CaretLeft size={28} weight="bold" />
-                    </button>
-
-                    <button
-                      onClick={() => navegar(1)}
-                      aria-label="Equipo siguiente"
-                      className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/20 md:right-6"
-                    >
-                      <CaretRight size={28} weight="bold" />
-                    </button>
-
+                  {/* Primer apartado: imagen a pantalla completa */}
+                  <div className="relative flex min-h-screen items-center justify-center px-4 py-16 md:px-20">
                     <img
                       src={fotoActiva.src}
                       alt={fotoActiva.titulo}
-                      onClick={() => setPantallaCompleta(true)}
-                      className="max-h-full max-w-full cursor-zoom-in rounded-lg object-contain shadow-2xl ring-1 ring-white/20"
+                      className="max-h-[80vh] w-full max-w-full rounded-lg object-contain shadow-2xl ring-1 ring-[#e0dcd0]"
                     />
-
-                    <span className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-xs font-medium whitespace-nowrap text-white/80 backdrop-blur-sm">
-                      <CornersOut size={16} weight="bold" />
-                      Clic en la imagen para pantalla completa
-                    </span>
+                    <button
+                      type="button"
+                      onClick={() => descripcionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="absolute bottom-8 left-1/2 flex -translate-x-1/2 cursor-pointer items-center gap-2 rounded-full border border-[#e4e0d5] bg-white/70 px-4 py-2 text-xs font-medium whitespace-nowrap text-[#686561] transition-colors hover:bg-white hover:text-[#191919]"
+                    >
+                      <CaretDown size={16} weight="bold" />
+                      Ver mas!
+                    </button>
                   </div>
 
-                  {/* Panel de descripción */}
-                  <div className="shrink-0 border-t border-white/10 px-4 py-4 md:px-6">
-                    <div className="mx-auto flex max-w-3xl flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                      <p className="max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
-                        {fotoActiva.descripcion}
+                  {/* Segundo apartado: descripción */}
+                  <section ref={descripcionRef} className="bg-[#191919] px-4 pt-16 pb-24 md:px-6">
+                    <div className="mx-auto max-w-3xl">
+                      <p className="text-[#d97757] text-xs font-bold tracking-[0.2em] uppercase">
+                        El equipo
                       </p>
-                      <span className="text-sm font-bold tracking-widest text-white/40 uppercase md:hidden">
-                        {(abierto ?? 0) + 1} / {fotosEquipos.length}
-                      </span>
+                      <h4 className="mt-3 font-serif text-2xl font-medium text-[#f0eee6] italic md:text-3xl">
+                        {fotoActiva.titulo}
+                      </h4>
+                      <div className="mt-6 space-y-4">
+                        <p className="text-base leading-relaxed text-[#d8d4c9]">
+                          {fotoActiva.descripcion}
+                        </p>
+                        <p className="text-base leading-relaxed text-[#a09b92]">
+                          {DESCRIPCION_EXTRA}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </section>
                 </motion.div>
-              )}
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>,
