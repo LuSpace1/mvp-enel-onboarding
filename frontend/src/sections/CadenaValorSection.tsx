@@ -26,99 +26,87 @@ const ICONOS_ETAPA: Record<string, Icon> = {
   cash: HandCoins,
 }
 
-const ESTILOS_ETAPA: Record<string, { circulo: string; tag: string; glow: string }> = {
+/* Colores del gradiente oficial de la marca Enel, un color por etapa.
+   Se usan con moderación: solo en el nodo del ícono y en los detalles. */
+const COLORES_ETAPA: Record<string, { icono: string; dot: string; nodo: string }> = {
   customer: {
-    circulo: 'bg-enel-blue text-white',
-    tag: 'bg-enel-blue/10 text-enel-blue',
-    glow: 'bg-enel-blue/25',
+    icono: 'bg-enel-rojo/10 text-enel-rojo group-hover:bg-enel-rojo group-hover:text-white',
+    dot: 'bg-enel-rojo/60',
+    nodo: 'bg-enel-rojo',
   },
   strategy: {
-    circulo: 'bg-violet-600 text-white',
-    tag: 'bg-violet-600/10 text-violet-700',
-    glow: 'bg-violet-500/25',
+    icono: 'bg-enel-naranja/10 text-enel-naranja group-hover:bg-enel-naranja group-hover:text-white',
+    dot: 'bg-enel-naranja/60',
+    nodo: 'bg-enel-naranja',
   },
   supply: {
-    circulo: 'bg-emerald-500 text-white',
-    tag: 'bg-emerald-500/10 text-emerald-700',
-    glow: 'bg-emerald-400/25',
+    icono: 'bg-enel-blue/10 text-enel-blue group-hover:bg-enel-blue group-hover:text-white',
+    dot: 'bg-enel-blue/60',
+    nodo: 'bg-enel-blue',
   },
   engineering: {
-    circulo: 'bg-sky-500 text-white',
-    tag: 'bg-sky-500/10 text-sky-700',
-    glow: 'bg-sky-400/25',
+    icono: 'bg-enel-celeste/10 text-enel-celeste group-hover:bg-enel-celeste group-hover:text-white',
+    dot: 'bg-enel-celeste/60',
+    nodo: 'bg-enel-celeste',
   },
   construction: {
-    circulo: 'bg-amber-500 text-white',
-    tag: 'bg-amber-500/10 text-amber-700',
-    glow: 'bg-amber-400/30',
+    icono: 'bg-enel-verde/10 text-enel-verde group-hover:bg-enel-verde group-hover:text-white',
+    dot: 'bg-enel-verde/60',
+    nodo: 'bg-enel-verde',
   },
   cash: {
-    circulo: 'bg-enel-pink text-white',
-    tag: 'bg-enel-pink/10 text-enel-pink',
-    glow: 'bg-enel-pink/25',
+    icono: 'bg-enel-pink/10 text-enel-pink group-hover:bg-enel-pink group-hover:text-white',
+    dot: 'bg-enel-pink/60',
+    nodo: 'bg-enel-pink',
   },
 }
 
-const ESTILO_DEFAULT: { circulo: string; tag: string; glow: string } = {
-  circulo: 'bg-enel-blue text-white',
-  tag: 'bg-enel-blue/10 text-enel-blue',
-  glow: 'bg-enel-blue/25',
+const ESTILO_DEFAULT: { icono: string; dot: string; nodo: string } = {
+  icono: 'bg-enel-blue/10 text-enel-blue group-hover:bg-enel-blue group-hover:text-white',
+  dot: 'bg-enel-blue/60',
+  nodo: 'bg-enel-blue',
 }
 
 function EtapaCard({ etapa }: { etapa: EtapaCadena }) {
   const Icono = ICONOS_ETAPA[etapa.id] ?? ArrowRight
-  const estilo = ESTILOS_ETAPA[etapa.id] ?? ESTILO_DEFAULT
+  const estilo = COLORES_ETAPA[etapa.id] ?? ESTILO_DEFAULT
   return (
     <article
       data-card
       data-analytics-component="cadena-valor"
       data-analytics-etapa={etapa.id}
-      className="group border-enel-fog relative isolate flex h-full w-[300px] flex-col overflow-hidden rounded-2xl border bg-white p-6 shadow-[0_18px_40px_-28px_rgba(20,20,19,0.35)] transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_56px_-30px_rgba(20,20,19,0.5)] active:scale-[0.98] md:w-[340px]"
+      className="group border-enel-fog/70 relative flex h-full w-[300px] flex-col rounded-2xl border bg-white p-6 shadow-[0_12px_28px_-24px_rgba(20,20,19,0.3)] transition-[border-color,box-shadow] duration-300 ease-out hover:border-enel-blue/40 hover:shadow-[0_20px_40px_-28px_rgba(20,20,19,0.35)] active:scale-[0.98] md:w-[340px]"
     >
-      <div
-        aria-hidden="true"
+      <span
         className={clsx(
-          'pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full blur-3xl',
-          estilo.glow,
+          'flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300',
+          estilo.icono,
         )}
-      />
-      <div className="relative flex h-14 items-center justify-between">
-        <span
-          className={clsx(
-            'relative flex h-12 w-12 items-center justify-center rounded-full shadow-[0_10px_22px_-10px_rgba(20,20,19,0.5)]',
-            estilo.circulo,
-          )}
-        >
-          <Icono size={26} weight="fill" />
-          <span
-            aria-hidden="true"
-            className={clsx(
-              'absolute -inset-1.5 -z-10 rounded-full opacity-40 blur-md',
-              estilo.glow,
-            )}
-          />
-        </span>
-        <span aria-hidden="true" className={clsx('h-3 w-3 rotate-45 rounded-[3px]', estilo.tag)} />
-      </div>
+      >
+        <Icono size={20} weight="regular" />
+      </span>
 
       <h3 className="text-enel-navy mt-5 text-xl leading-snug font-semibold tracking-tight md:text-2xl">
         {etapa.titulo}
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-neutral-600">{etapa.descripcion}</p>
 
-      <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
-        {etapa.actividades.map((actividad) => (
-          <li
-            key={actividad}
-            className={clsx(
-              'rounded-full px-2.5 py-1 text-[11px] font-semibold transition-colors duration-200',
-              estilo.tag,
-            )}
-          >
-            {actividad}
-          </li>
-        ))}
-      </ul>
+      <div className="mt-auto pt-6">
+        <div className="border-enel-fog/70 border-t" />
+        <ul className="mt-4 space-y-2.5">
+          {etapa.actividades.map((actividad) => (
+            <li
+              key={actividad}
+              className="flex items-start gap-2.5 text-[13px] leading-snug text-neutral-600"
+            >
+              <span
+                className={clsx('mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full', estilo.dot)}
+              />
+              {actividad}
+            </li>
+          ))}
+        </ul>
+      </div>
     </article>
   )
 }
@@ -156,7 +144,7 @@ export function CadenaValorSection() {
     const el = carruselRef.current
     if (!el) return
     const ancho = el.querySelector<HTMLElement>('[data-card]')?.offsetWidth ?? 340
-    el.scrollBy({ left: direccion * (ancho + 46), behavior: 'smooth' })
+    el.scrollBy({ left: direccion * (ancho + 48), behavior: 'smooth' })
   }, [])
 
   return (
@@ -212,46 +200,39 @@ export function CadenaValorSection() {
       </motion.div>
 
       {/* Carrusel Horizontal de Navegación Manual */}
-      <div
-        ref={carruselRef}
-        className="no-scrollbar relative z-10 mt-12 overflow-x-auto pt-6 pb-24"
-      >
-        <div className="animate-float-cadena relative flex w-max snap-x snap-proximity items-stretch px-5 md:px-[calc(max(0px,50vw-36rem)+2rem)]">
-          {/* Línea de cadena que une los iconos de cada etapa */}
+      <div ref={carruselRef} className="no-scrollbar relative z-10 mt-12 overflow-x-auto pb-24 pt-6">
+        <div className="relative flex w-max snap-x snap-proximity items-stretch px-5 md:px-[calc(max(0px,50vw-36rem)+2rem)]">
+          {/* Línea de cadena: base punteada + flujo animado hacia el cliente */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-5 top-[3rem] h-[3px] md:inset-x-[calc(max(0px,50vw-36rem)+2rem)]"
+            className="pointer-events-none absolute inset-x-5 top-[2.875rem] md:inset-x-[calc(max(0px,50vw-36rem)+2rem)]"
           >
-            <div className="cadena-dashes absolute inset-x-0 top-0 h-[2px]" />
-            <div className="cadena-corriente absolute inset-x-0 -top-px h-[3px]" />
-            <span className="cadena-chispa" />
-            <span className="cadena-chispa" style={{ animationDelay: '0.73s' }} />
-            <span className="cadena-chispa" style={{ animationDelay: '1.47s' }} />
+            <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 border-t border-dashed border-neutral-300" />
+            <div className="cadena-flujo absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2" />
           </div>
           {etapasCadena.map((etapa, indice) => {
             const siguiente = etapasCadena[indice + 1]
             return (
-              <div key={etapa.id} className="flex items-stretch gap-4">
+              <div key={etapa.id} className="flex items-stretch gap-8">
                 <motion.div
                   className="shrink-0 snap-start"
-                  initial={reduce ? false : { opacity: 0, y: 48, scale: 0.95 }}
-                  whileInView={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ root: carruselRef, amount: 0.3, once: false }}
-                  transition={{ type: 'spring', stiffness: 150, damping: 16, mass: 0.9 }}
+                  initial={reduce ? false : { opacity: 0, y: 24 }}
+                  whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                  viewport={{ root: carruselRef, amount: 0.25, once: true }}
+                  transition={{ duration: 0.5, delay: indice * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <EtapaCard etapa={etapa} />
                 </motion.div>
                 {siguiente && (
                   <span
                     aria-hidden="true"
-                    className="mt-[2.6rem] flex shrink-0 items-start self-start"
+                    className="mt-[2.5rem] flex shrink-0 items-start self-start"
                   >
                     <span
                       className={clsx(
-                        'animate-nodo-pulso h-3.5 w-3.5 rounded-full border-2 border-white',
-                        ESTILOS_ETAPA[siguiente.id]?.circulo ?? 'bg-enel-blue',
+                        'h-3 w-3 rounded-full border-2 border-white shadow-sm',
+                        COLORES_ETAPA[siguiente.id]?.nodo ?? 'bg-enel-blue',
                       )}
-                      style={{ animationDelay: `${indice * 0.3}s` }}
                     />
                   </span>
                 )}

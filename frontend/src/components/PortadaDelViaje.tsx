@@ -1,60 +1,20 @@
 import { useEffect } from 'react'
-import { ArrowDown, BookOpen, CaretRight, MapPin, PlayCircle } from '@phosphor-icons/react'
+import { ArrowDown, MapPin, PlayCircle } from '@phosphor-icons/react'
 
 import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
 import { Reveal } from '@/components/ui/Reveal'
 import { VideoEmbed } from '@/components/ui/VideoEmbed'
+import { SenderoRuta } from '@/components/SenderoRuta'
 import { track } from '@/lib/analytics'
 import { useViajeStore } from '@/store/useViajeStore'
 import { PASOS_VIAJE } from '@/lib/data/viaje'
 import { videoDeSeccion } from '@/lib/data/videos'
-import { clsx } from 'clsx'
 
 import fotoMUT from '@/assets/images/MUT.jpg'
-
-const PIEZAS = [
-  { col: 'lg:col-span-4', start: 'lg:col-start-1', rot: 1.2, topo: 'lg:mt-0', grande: true },
-  { col: 'lg:col-span-2', start: 'lg:col-start-5', rot: -5, topo: 'lg:mt-16' },
-  { col: 'lg:col-span-3', start: 'lg:col-start-1', rot: -2.8, topo: 'lg:mt-10' },
-  { col: 'lg:col-span-3', start: 'lg:col-start-4', rot: 2.2, topo: 'lg:mt-2' },
-  { col: 'lg:col-span-3', start: 'lg:col-start-4', rot: -3.8, topo: 'lg:mt-14' },
-  { col: 'lg:col-span-3', start: 'lg:col-start-1', rot: 3, topo: 'lg:mt-6' },
-  { col: 'lg:col-span-4', start: 'lg:col-start-4', rot: -1.5, topo: 'lg:mt-18', grande: true },
-  { col: 'lg:col-span-3', start: 'lg:col-start-1', rot: 3.2, topo: 'lg:mt-2' },
-  { col: 'lg:col-span-3', start: 'lg:col-start-4', rot: -2.5, topo: 'lg:mt-22' },
-  { col: 'lg:col-span-4', start: 'lg:col-start-1', rot: 1.5, topo: 'lg:mt-8', grande: true },
-  { col: 'lg:col-span-2', start: 'lg:col-start-5', rot: -4, topo: 'lg:mt-4' },
-  { col: 'lg:col-span-6', start: 'lg:col-start-1', rot: 0.8, topo: 'lg:mt-16' },
-]
-
-const ENTRADAS = [
-  { x: -300, y: 0, rotate: -15, scale: 0.6 },
-  { x: 0, y: -250, rotate: 12, scale: 0.5 },
-  { x: 300, y: 50, rotate: -8, scale: 0.7 },
-  { x: -200, y: -100, rotate: 20, scale: 0.4 },
-  { x: 150, y: 200, rotate: -18, scale: 0.6 },
-  { x: -350, y: 150, rotate: 10, scale: 0.5 },
-  { x: 0, y: 300, rotate: -12, scale: 0.7 },
-  { x: 250, y: -200, rotate: 15, scale: 0.4 },
-  { x: -150, y: 250, rotate: -20, scale: 0.6 },
-  { x: 350, y: -50, rotate: 8, scale: 0.5 },
-  { x: -100, y: -300, rotate: -14, scale: 0.7 },
-  { x: 200, y: 100, rotate: 18, scale: 0.4 },
-]
-
-const STICKER_EDITORIAL = 'bg-amber-300 text-enel-navy'
-
-const STAMPAS = [
-  'border-enel-navy/80 bg-[#f0eee6] text-enel-navy',
-  'border-enel-navy bg-enel-navy text-white',
-  'border-enel-blue bg-enel-blue/10 text-enel-navy',
-  'border-amber-400 bg-amber-100 text-enel-navy',
-]
 
 const PASOS_SIN_PORTADA = PASOS_VIAJE.filter((paso) => paso.id !== 'portada')
 
 export function PortadaDelViaje() {
-  const pasoActual = useViajeStore((estado) => estado.pasoActual)
   const mostrarRuta = useViajeStore((estado) => estado.mostrarRuta)
   const abrirRuta = useViajeStore((estado) => estado.abrirRuta)
   const navegar = useViajeStore((estado) => estado.navegar)
@@ -220,10 +180,10 @@ export function PortadaDelViaje() {
         {mostrarRuta && (
           <motion.section
             id="mapa-del-viaje"
-            initial={{ opacity: 0, scale: 0.92, y: 60 }}
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -40 }}
-            transition={{ type: 'spring', bounce: 0.15, duration: 1.2 }}
+            exit={{ opacity: 0, scale: 0.97, y: -32 }}
+            transition={{ type: 'spring', bounce: 0.1, duration: 0.7 }}
             className="relative overflow-hidden bg-[#f0eee6] py-20 md:py-28"
           >
             <div
@@ -237,7 +197,6 @@ export function PortadaDelViaje() {
             <div aria-hidden="true" className="pointer-events-none absolute inset-0">
               <div className="bg-enel-blue/10 absolute -top-28 -left-28 h-96 w-96 rounded-full blur-3xl" />
               <div className="absolute top-1/3 -right-32 h-[26rem] w-[26rem] rounded-full bg-emerald-300/25 blur-3xl" />
-              <div className="absolute -bottom-24 left-1/4 h-80 w-80 rounded-full bg-amber-200/60 blur-3xl" />
               <div className="bg-enel-pink/15 absolute top-1/4 -left-16 h-64 w-64 rounded-full blur-3xl" />
               <div className="absolute right-[5%] top-[15%] h-48 w-48 rounded-full bg-violet-400/20 blur-3xl" />
               <div className="absolute bottom-[10%] right-[8%] h-56 w-56 rounded-full bg-sky-400/15 blur-3xl" />
@@ -259,87 +218,7 @@ export function PortadaDelViaje() {
                 </p>
               </Reveal>
 
-              <div className="mt-16 grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-6">
-                {PASOS_SIN_PORTADA.map((paso, indice) => {
-                  const pieza = PIEZAS[indice % PIEZAS.length] ?? PIEZAS[0]!
-                  const entrada = ENTRADAS[indice % ENTRADAS.length] ?? ENTRADAS[0]!
-                  const esOscura = indice % STAMPAS.length === 1
-                  const floatDelay = indice * 0.7
-                  return (
-                    <motion.div
-                      key={paso.id}
-                      className={clsx(pieza.col, pieza.start, pieza.topo)}
-                      initial={reduce ? false : { opacity: 0, x: entrada.x, y: entrada.y, rotate: entrada.rotate, scale: entrada.scale }}
-                      animate={reduce ? undefined : { opacity: 1, x: 0, y: 0, rotate: pieza.rot, scale: 1 }}
-                      transition={{
-                        type: 'spring',
-                        bounce: 0.3,
-                        duration: 1.2,
-                        delay: indice * 0.08,
-                      }}
-                    >
-                      <motion.button
-                        type="button"
-                        onClick={() => {
-                          track('viaje.nodo', { paso: paso.id })
-                          const el = document.getElementById(paso.id)
-                          if (el) el.scrollIntoView({ behavior: 'smooth' })
-                        }}
-                        initial={reduce ? false : { rotate: pieza.rot }}
-                        whileHover={reduce ? undefined : { rotate: 0, scale: 1.04, y: -6 }}
-                        whileTap={reduce ? undefined : { scale: 0.96 }}
-                        animate={reduce ? undefined : { y: [0, -6, 0] }}
-                        transition={{
-                          y: { duration: 3.5 + (indice % 3) * 0.5, ease: 'easeInOut', repeat: Infinity, delay: floatDelay },
-                        }}
-                        className={clsx(
-                          'group relative flex h-full w-full flex-col rounded-[20px] border-2 text-left shadow-[6px_6px_0_0_rgba(10,25,47,0.07)] transition-shadow hover:shadow-[8px_8px_0_0_rgba(235,0,83,0.14)]',
-                          pieza.grande ? 'p-6 md:p-7' : 'p-5',
-                          STAMPAS[indice % STAMPAS.length],
-                        )}
-                        aria-current={pasoActual === paso.id ? 'page' : undefined}
-                        data-analytics-component="mapa-viaje"
-                        data-analytics-estado={paso.id}
-                      >
-                        <span
-                          className={clsx(
-                            'inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.14em] uppercase shadow-sm',
-                            STICKER_EDITORIAL,
-                          )}
-                        >
-                          <BookOpen size={11} weight="fill" />
-                          Capítulo
-                        </span>
-
-                        <h3
-                          className={clsx(
-                            'mt-4 leading-snug font-semibold',
-                            pieza.grande ? 'text-xl md:text-2xl' : 'text-[15px]',
-                          )}
-                        >
-                          {paso.nombre}
-                        </h3>
-                        <p
-                          className={clsx(
-                            'mt-1.5 flex-1 text-[13px] leading-relaxed md:text-sm',
-                            esOscura ? 'text-white/60' : 'text-neutral-500',
-                          )}
-                        >
-                          {paso.descripcion}
-                        </p>
-                        <span className="text-enel-blue mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase">
-                          {pasoActual === paso.id ? 'Estás aquí' : 'Ir'}
-                          <CaretRight
-                            size={12}
-                            weight="bold"
-                            className="opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100"
-                          />
-                        </span>
-                      </motion.button>
-                    </motion.div>
-                  )
-                })}
-              </div>
+              <SenderoRuta pasos={PASOS_SIN_PORTADA} />
             </div>
           </motion.section>
         )}

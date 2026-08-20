@@ -11,7 +11,12 @@
   --color-enel-pink: #eb0053;
   --color-enel-violeta: #cec4f8;
   --color-enel-violeta-soft: #b1a3f0;
-  --color-enel-violeta-soft: #b13f0 
+
+  /* Colores del gradiente oficial de la marca Enel (logo flux) */
+  --color-enel-rojo: #e41f13;
+  --color-enel-naranja: #ea561f;
+  --color-enel-celeste: #00a9dd;
+  --color-enel-verde: #009767; 
 
   /* Regla de radios (shape lock): interactivos = full-pill,
      tarjetas = 16px (rounded-2xl), bandas destacadas = 24px (rounded-3xl). */
@@ -115,87 +120,24 @@ body {
   }
 }
 
-/* Flotar la cadena de valor completa como una unidad */
-@keyframes float-cadena {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-.animate-float-cadena {
-  animation: float-cadena 5s ease-in-out infinite;
-}
-
-/* Corriente eléctrica que recorre la línea de la cadena */
-@keyframes cadena-corriente {
+/* Flujo de la cadena de valor: guiones que avanzan hacia el cliente */
+@keyframes cadena-flujo {
   from {
     background-position: 0 0;
   }
   to {
-    background-position: 96px 0;
+    background-position: 28px 0;
   }
 }
-.cadena-corriente {
-  background-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #006fbb 42%,
-    #ffd02f 50%,
-    #006fbb 58%,
-    transparent 100%
-  );
-  background-size: 96px 100%;
-  background-repeat: repeat-x;
-  animation: cadena-corriente 1.8s linear infinite;
-}
-
-/* Trazos de la línea en movimiento: la corriente fluye */
-@keyframes cadena-dashes {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 16px 0;
-  }
-}
-.cadena-dashes {
+.cadena-flujo {
   background-image: repeating-linear-gradient(
     90deg,
-    rgba(0, 111, 187, 0.55) 0 6px,
-    transparent 6px 16px
+    rgba(0, 111, 187, 0.75) 0 8px,
+    transparent 8px 28px
   );
-  animation: cadena-dashes 0.9s linear infinite;
-}
-
-/* Chispas amarillas que saltan a lo largo de la línea */
-@keyframes cadena-chispa {
-  0% {
-    left: 0%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    left: 100%;
-    opacity: 0;
-  }
-}
-.cadena-chispa {
-  position: absolute;
-  top: -1px;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: #ffd02f;
-  box-shadow: 0 0 10px 2px rgba(255, 208, 47, 0.85);
-  animation: cadena-chispa 2.2s linear infinite;
+  background-size: 28px 100%;
+  background-repeat: repeat-x;
+  animation: cadena-flujo 1.4s linear infinite;
 }
 
 /* Pulso eléctrico en los nodos de unión */
@@ -212,6 +154,51 @@ body {
 }
 .animate-nodo-pulso {
   animation: nodo-pulso 2.4s ease-in-out infinite;
+}
+
+/* Chispa amarilla que recorre el sendero de la ruta */
+@keyframes sendero-chispa {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+/* Corriente punteada que fluye sobre el sendero completo (fondo) */
+@keyframes march-sendero {
+  from {
+    stroke-dashoffset: 17;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.animate-march-sendero {
+  animation: march-sendero 1.2s linear infinite;
+}
+
+/* Parpadeo eléctrico de la descarga */
+@keyframes chispa-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+.chispa-sendero-sat {
+  animation:
+    sendero-chispa 4.5s linear infinite,
+    chispa-flicker 0.16s steps(2, end) infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 208, 47, 0.95));
+}
+.chispa-sendero-sat-rev {
+  animation:
+    sendero-chispa 6s linear infinite reverse,
+    chispa-flicker 0.22s steps(2, end) infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 208, 47, 0.95));
 }
 
 /* Diferir render de items fuera de pantalla (carruseles largos) */
