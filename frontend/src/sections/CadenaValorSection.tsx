@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import {
   ArrowRight,
-  CaretLeft,
-  CaretRight,
   Compass,
   HandCoins,
   HardHat,
@@ -35,7 +33,8 @@ const COLORES_ETAPA: Record<string, { icono: string; dot: string; nodo: string }
     nodo: 'bg-enel-rojo',
   },
   strategy: {
-    icono: 'bg-enel-naranja/10 text-enel-naranja group-hover:bg-enel-naranja group-hover:text-white',
+    icono:
+      'bg-enel-naranja/10 text-enel-naranja group-hover:bg-enel-naranja group-hover:text-white',
     dot: 'bg-enel-naranja/60',
     nodo: 'bg-enel-naranja',
   },
@@ -45,7 +44,8 @@ const COLORES_ETAPA: Record<string, { icono: string; dot: string; nodo: string }
     nodo: 'bg-enel-blue',
   },
   engineering: {
-    icono: 'bg-enel-celeste/10 text-enel-celeste group-hover:bg-enel-celeste group-hover:text-white',
+    icono:
+      'bg-enel-celeste/10 text-enel-celeste group-hover:bg-enel-celeste group-hover:text-white',
     dot: 'bg-enel-celeste/60',
     nodo: 'bg-enel-celeste',
   },
@@ -67,45 +67,102 @@ const ESTILO_DEFAULT: { icono: string; dot: string; nodo: string } = {
   nodo: 'bg-enel-blue',
 }
 
-function EtapaCard({ etapa }: { etapa: EtapaCadena }) {
+function EtapaFila({
+  etapa,
+  indice,
+  abierta,
+  ultima,
+  onToggle,
+}: {
+  etapa: EtapaCadena
+  indice: number
+  abierta: boolean
+  ultima: boolean
+  onToggle: () => void
+}) {
   const Icono = ICONOS_ETAPA[etapa.id] ?? ArrowRight
   const estilo = COLORES_ETAPA[etapa.id] ?? ESTILO_DEFAULT
   return (
     <article
-      data-card
-      data-analytics-component="cadena-valor"
-      data-analytics-etapa={etapa.id}
-      className="group border-enel-fog/70 relative flex h-full w-[300px] flex-col rounded-2xl border bg-white p-6 shadow-[0_12px_28px_-24px_rgba(20,20,19,0.3)] transition-[border-color,box-shadow] duration-300 ease-out hover:border-enel-blue/40 hover:shadow-[0_20px_40px_-28px_rgba(20,20,19,0.35)] active:scale-[0.98] md:w-[340px]"
+      className={clsx(
+        'group rounded-2xl px-3 transition-colors duration-300 ease-out md:px-5',
+        !ultima && 'border-enel-navy/10 border-b',
+        abierta ? 'bg-white' : 'hover:bg-white/60',
+      )}
     >
-      <span
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={abierta}
+        aria-controls={`cadena-detalle-${etapa.id}`}
+        data-analytics-component="cadena-valor"
+        data-analytics-etapa={etapa.id}
+        className="grid w-full cursor-pointer grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-x-4 py-6 text-left md:grid-cols-[3.5rem_minmax(0,1fr)_minmax(0,1fr)_auto] md:gap-x-8 md:py-8"
+      >
+        <span className="text-sm font-medium tracking-tight text-neutral-400 tabular-nums">
+          {String(indice + 1).padStart(2, '0')}
+        </span>
+
+        <span className="min-w-0">
+          <h3 className="text-enel-navy text-2xl font-medium tracking-tight md:text-3xl">
+            {etapa.titulo}
+          </h3>
+          <p className="mt-1 text-sm leading-snug text-neutral-500 md:hidden">
+            {etapa.descripcion}
+          </p>
+        </span>
+
+        <p className="hidden max-w-sm text-[15px] leading-snug text-neutral-500 md:block">
+          {etapa.descripcion}
+        </p>
+
+        <span
+          className={clsx(
+            'border-enel-navy/10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border bg-white transition-transform duration-300 ease-out group-hover:translate-x-1',
+            abierta && 'rotate-90',
+          )}
+        >
+          <ArrowRight size={16} weight="bold" className="text-enel-navy" />
+        </span>
+      </button>
+
+      <div
+        id={`cadena-detalle-${etapa.id}`}
         className={clsx(
-          'flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300',
-          estilo.icono,
+          'grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          abierta ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
       >
-        <Icono size={20} weight="regular" />
-      </span>
-
-      <h3 className="text-enel-navy mt-5 text-xl leading-snug font-semibold tracking-tight md:text-2xl">
-        {etapa.titulo}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-neutral-600">{etapa.descripcion}</p>
-
-      <div className="mt-auto pt-6">
-        <div className="border-enel-fog/70 border-t" />
-        <ul className="mt-4 space-y-2.5">
-          {etapa.actividades.map((actividad) => (
-            <li
-              key={actividad}
-              className="flex items-start gap-2.5 text-[13px] leading-snug text-neutral-600"
-            >
+        <div className="min-h-0 overflow-hidden" aria-hidden={!abierta}>
+          <div className="pr-2 pb-8 pl-10 md:pb-12 md:pl-[5.5rem]">
+            <div className="flex items-start gap-4">
               <span
-                className={clsx('mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full', estilo.dot)}
-              />
-              {actividad}
-            </li>
-          ))}
-        </ul>
+                className={clsx(
+                  'mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                  estilo.icono,
+                )}
+              >
+                <Icono size={18} weight="regular" />
+              </span>
+              <div>
+                <p className="max-w-2xl text-[15px] leading-relaxed text-neutral-600">
+                  {etapa.detalle}
+                </p>
+                <ul className="mt-5 flex flex-wrap gap-2.5">
+                  {etapa.actividades.map((actividad) => (
+                    <li
+                      key={actividad}
+                      className="border-enel-navy/10 flex items-center gap-2 rounded-full border bg-white px-4 py-1.5 text-[13px] font-medium text-neutral-600"
+                    >
+                      <span className={clsx('h-1.5 w-1.5 shrink-0 rounded-full', estilo.dot)} />
+                      {actividad}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </article>
   )
@@ -113,54 +170,16 @@ function EtapaCard({ etapa }: { etapa: EtapaCadena }) {
 
 export function CadenaValorSection() {
   const reduce = useReducedMotion()
-  const carruselRef = useRef<HTMLDivElement>(null)
-  const [puedeIzq, setPuedeIzq] = useState(false)
-  const [puedeDer, setPuedeDer] = useState(true)
+  const [activa, setActiva] = useState<string | null>('customer')
 
-  const actualizarControles = useCallback(() => {
-    const el = carruselRef.current
-    if (!el) return
-    const maxScroll = el.scrollWidth - el.clientWidth
-    setPuedeIzq(el.scrollLeft > 8)
-    setPuedeDer(el.scrollLeft < maxScroll - 8)
-  }, [])
-
-  useEffect(() => {
-    const el = carruselRef.current
-    if (!el) return
-    actualizarControles()
-    const observador = new ResizeObserver(actualizarControles)
-    observador.observe(el)
-    el.addEventListener('scroll', actualizarControles, { passive: true })
-    window.addEventListener('resize', actualizarControles)
-    return () => {
-      observador.disconnect()
-      el.removeEventListener('scroll', actualizarControles)
-      window.removeEventListener('resize', actualizarControles)
-    }
-  }, [actualizarControles])
-
-  const desplazar = useCallback((direccion: 1 | -1) => {
-    const el = carruselRef.current
-    if (!el) return
-    const ancho = el.querySelector<HTMLElement>('[data-card]')?.offsetWidth ?? 340
-    el.scrollBy({ left: direccion * (ancho + 48), behavior: 'smooth' })
+  const toggle = useCallback((id: string) => {
+    setActiva((prev) => (prev === id ? null : id))
   }, [])
 
   return (
     <section id="cadena" className="relative overflow-hidden bg-[#f0eee6]">
-      {/* Fondo Cuadernillo Global */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply"
-        style={{
-          backgroundImage: 'radial-gradient(rgba(10, 25, 47, 0.35) 1.5px, transparent 1.5px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
-
       <motion.div
-        className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-24 md:px-8 md:pt-32"
+        className="relative z-10 mx-auto w-full max-w-5xl px-5 pt-12 md:px-8 md:pt-16"
         initial={reduce ? false : { opacity: 0, y: 32 }}
         whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -175,72 +194,53 @@ export function CadenaValorSection() {
               Seis etapas que llevan la energía desde la estrategia hasta el cliente.
             </p>
           </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => desplazar(-1)}
-              disabled={!puedeIzq}
-              aria-label="Etapa anterior"
-              className="border-enel-fog hover:border-enel-blue hover:text-enel-blue disabled:border-enel-navy/10 disabled:text-enel-navy/25 text-enel-navy flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border bg-white transition-[border-color,color,transform] duration-300 ease-out active:scale-90 disabled:cursor-not-allowed"
-            >
-              <CaretLeft size={16} weight="bold" />
-            </button>
-            <button
-              type="button"
-              onClick={() => desplazar(1)}
-              disabled={!puedeDer}
-              aria-label="Siguiente etapa"
-              className="border-enel-fog hover:border-enel-blue hover:text-enel-blue disabled:border-enel-navy/10 disabled:text-enel-navy/25 text-enel-navy flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border bg-white transition-[border-color,color,transform] duration-300 ease-out active:scale-90 disabled:cursor-not-allowed"
-            >
-              <CaretRight size={16} weight="bold" />
-            </button>
-          </div>
         </div>
-      </motion.div>
 
-      {/* Carrusel Horizontal de Navegación Manual */}
-      <div ref={carruselRef} className="no-scrollbar relative z-10 mt-12 overflow-x-auto pb-24 pt-6">
-        <div className="relative flex w-max snap-x snap-proximity items-stretch px-5 md:px-[calc(max(0px,50vw-36rem)+2rem)]">
-          {/* Línea de cadena: base punteada + flujo animado hacia el cliente */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-5 top-[2.875rem] md:inset-x-[calc(max(0px,50vw-36rem)+2rem)]"
-          >
-            <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 border-t border-dashed border-neutral-300" />
-            <div className="cadena-flujo absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2" />
-          </div>
+        {/* Línea de cadena: nodos clickeables conectados por flujo animado */}
+        <div className="mt-12 hidden items-center md:flex">
           {etapasCadena.map((etapa, indice) => {
             const siguiente = etapasCadena[indice + 1]
             return (
-              <div key={etapa.id} className="flex items-stretch gap-8">
-                <motion.div
-                  className="shrink-0 snap-start"
-                  initial={reduce ? false : { opacity: 0, y: 24 }}
-                  whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-                  viewport={{ root: carruselRef, amount: 0.25, once: true }}
-                  transition={{ duration: 0.5, delay: indice * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <EtapaCard etapa={etapa} />
-                </motion.div>
-                {siguiente && (
-                  <span
-                    aria-hidden="true"
-                    className="mt-[2.5rem] flex shrink-0 items-start self-start"
-                  >
-                    <span
-                      className={clsx(
-                        'h-3 w-3 rounded-full border-2 border-white shadow-sm',
-                        COLORES_ETAPA[siguiente.id]?.nodo ?? 'bg-enel-blue',
-                      )}
-                    />
-                  </span>
-                )}
-              </div>
+              <Fragment key={etapa.id}>
+                <button
+                  type="button"
+                  onClick={() => toggle(etapa.id)}
+                  aria-label={`Ir a ${etapa.titulo}`}
+                  aria-pressed={activa === etapa.id}
+                  className={clsx(
+                    'h-3.5 w-3.5 shrink-0 cursor-pointer rounded-full transition-all duration-300 ease-out',
+                    COLORES_ETAPA[etapa.id]?.nodo ?? 'bg-enel-blue',
+                    activa === etapa.id
+                      ? 'scale-125 ring-4 ring-white'
+                      : 'opacity-60 hover:scale-125 hover:opacity-100',
+                  )}
+                />
+                {siguiente && <div className="cadena-flujo mx-3 h-[3px] flex-1 opacity-40" />}
+              </Fragment>
             )
           })}
         </div>
-      </div>
+
+        <div className="mt-6 md:mt-4">
+          {etapasCadena.map((etapa, indice) => (
+            <motion.div
+              key={etapa.id}
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: indice * 0.05, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <EtapaFila
+                etapa={etapa}
+                indice={indice}
+                abierta={activa === etapa.id}
+                ultima={indice === etapasCadena.length - 1}
+                onToggle={() => toggle(etapa.id)}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   )
 }
