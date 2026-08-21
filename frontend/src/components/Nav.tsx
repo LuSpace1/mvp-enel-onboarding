@@ -3,6 +3,7 @@ import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
 import { List, X } from '@phosphor-icons/react'
 
 import { track } from '@/lib/analytics'
+import { desplazarASeccion } from '@/lib/scroll'
 import { clsx } from 'clsx'
 
 import { useViajeStore } from '@/store/useViajeStore'
@@ -30,27 +31,15 @@ const ITEMS: NavItem[] = [
 
 const INDICE_POR_ID = new Map(PASOS_VIAJE.map((paso, indice) => [paso.id, indice]))
 
-const ALTURA_HEADER = 128
-
-function desplazarA(id: string) {
-  const el = document.getElementById(id)
-  if (!el) return
-  const top = el.getBoundingClientRect().top + window.scrollY
-  const espacioVisible = window.innerHeight - ALTURA_HEADER
-  const extraCentrado = Math.max(0, (espacioVisible - el.offsetHeight) / 2)
-  const destino = Math.max(0, top - ALTURA_HEADER - extraCentrado)
-  window.scrollTo({ top: destino, behavior: 'smooth' })
-}
-
 function irA(id: string, abrirRuta: () => void) {
   track('nav.clic', { paso: id })
   if (id === 'mapa-del-viaje') {
     abrirRuta()
     setTimeout(() => {
-      desplazarA(id)
+      desplazarASeccion(id)
     }, 100)
   } else {
-    desplazarA(id)
+    desplazarASeccion(id)
   }
 }
 
@@ -75,7 +64,7 @@ export function Nav() {
           type="button"
           onClick={() => {
             track('nav.inicio')
-            desplazarA('portada')
+            desplazarASeccion('portada')
           }}
           className="flex items-center gap-2"
           aria-label="Volver al inicio"
