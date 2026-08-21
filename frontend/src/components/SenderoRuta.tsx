@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { CaretRight, Lightning } from '@phosphor-icons/react'
-import { AnimatePresence, animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from 'motion/react'
 import { clsx } from 'clsx'
 
 import type { PasoViaje } from '@/lib/data/viaje'
@@ -59,8 +67,10 @@ function longitudesCamino(puntos: readonly { x: number; y: number }[]): number[]
     for (let t = 1; t <= muestras; t++) {
       const tt = t / muestras
       const u = 1 - tt
-      const x = u * u * u * p1.x + 3 * u * u * tt * c1x + 3 * u * tt * tt * c2x + tt * tt * tt * p2.x
-      const y = u * u * u * p1.y + 3 * u * u * tt * c1y + 3 * u * tt * tt * c2y + tt * tt * tt * p2.y
+      const x =
+        u * u * u * p1.x + 3 * u * u * tt * c1x + 3 * u * tt * tt * c2x + tt * tt * tt * p2.x
+      const y =
+        u * u * u * p1.y + 3 * u * u * tt * c1y + 3 * u * tt * tt * c2y + tt * tt * tt * p2.y
       acc += Math.hypot(x - prevX, y - prevY)
       prevX = x
       prevY = y
@@ -155,7 +165,14 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
           aria-label="Sendero con los capítulos del viaje numerados"
         >
           <defs>
-            <linearGradient id="cableGrad" x1="0" y1="0" x2={ANCHO} y2={ALTO} gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="cableGrad"
+              x1="0"
+              y1="0"
+              x2={ANCHO}
+              y2={ALTO}
+              gradientUnits="userSpaceOnUse"
+            >
               <stop offset="0%" stopColor="#006fbb" />
               <stop offset="60%" stopColor="#2f9be2" />
               <stop offset="100%" stopColor="#8bd0f6" />
@@ -324,7 +341,12 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                     opacity: 1,
                     scale: 1,
                     y: 0,
-                    transition: { type: 'spring', duration: 0.5, bounce: 0.2, delay: indice * 0.07 },
+                    transition: {
+                      type: 'spring',
+                      duration: 0.5,
+                      bounce: 0.2,
+                      delay: indice * 0.07,
+                    },
                   },
                   hover: {
                     scale: 1.08,
@@ -342,7 +364,7 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                 {esActual && (
                   <span
                     aria-hidden="true"
-                    className="animate-nodo-pulso absolute inset-0 -m-2 rounded-full border-2 border-enel-pink"
+                    className="animate-nodo-pulso border-enel-pink absolute inset-0 -m-2 rounded-full border-2"
                   />
                 )}
                 <motion.span
@@ -352,7 +374,7 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                     'relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 text-base font-bold transition-[color,background-color,border-color,box-shadow]',
                     esActual
                       ? 'border-enel-pink bg-enel-pink text-white shadow-[0_0_26px_-4px_rgba(235,0,83,0.7)]'
-                      : 'border-enel-blue/60 bg-gradient-to-b from-white to-enel-mist text-enel-blue group-hover:border-enel-blue group-hover:shadow-[0_0_22px_-6px_rgba(0,111,187,0.55)]',
+                      : 'border-enel-blue/60 to-enel-mist text-enel-blue group-hover:border-enel-blue bg-gradient-to-b from-white group-hover:shadow-[0_0_22px_-6px_rgba(0,111,187,0.55)]',
                   )}
                 >
                   {indice + 1}
@@ -360,7 +382,7 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
 
                 <span
                   className={clsx(
-                    'absolute z-10 whitespace-nowrap text-sm font-bold text-enel-navy',
+                    'text-enel-navy absolute z-10 text-sm font-bold whitespace-nowrap',
                     nombreArriba ? 'bottom-full mb-3' : 'top-full mt-3',
                   )}
                 >
@@ -394,7 +416,7 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                     transformOrigin: `${alCentro ? 'center' : aLaDerecha ? 'right' : 'left'} ${nombreArriba ? 'top' : 'bottom'}`,
                   }}
                   className={clsx(
-                    'pointer-events-none absolute z-20 w-56 overflow-hidden rounded-2xl border border-enel-fog/70 bg-white/90 p-4 shadow-[0_16px_40px_-16px_rgba(10,25,47,0.25)] backdrop-blur-md',
+                    'border-enel-fog/70 pointer-events-none absolute z-20 w-56 overflow-hidden rounded-2xl border bg-white/90 p-4 shadow-[0_16px_40px_-16px_rgba(10,25,47,0.25)] backdrop-blur-md',
                     nombreArriba ? 'top-full mt-3' : 'bottom-full mb-3',
                     alCentro ? 'left-1/2 -translate-x-1/2' : aLaDerecha ? 'right-0' : 'left-0',
                   )}
@@ -431,7 +453,7 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                   whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: indice * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                  className="hover:border-enel-fog hover:bg-white/70 group flex w-full items-start gap-4 rounded-2xl border border-transparent p-2 text-left transition-colors"
+                  className="hover:border-enel-fog group flex w-full items-start gap-4 rounded-2xl border border-transparent p-2 text-left transition-colors hover:bg-white/70"
                   data-analytics-component="mapa-viaje"
                   data-analytics-estado={paso.id}
                 >
@@ -453,13 +475,18 @@ export function SenderoRuta({ pasos }: { pasos: PasoViaje[] }) {
                     {esActual && (
                       <span
                         aria-hidden="true"
-                        className="animate-nodo-pulso absolute inset-0 -m-1.5 rounded-full border-2 border-enel-pink"
+                        className="animate-nodo-pulso border-enel-pink absolute inset-0 -m-1.5 rounded-full border-2"
                       />
                     )}
                   </span>
                   <span className="flex-1">
                     <span className="flex flex-wrap items-center gap-2">
-                      <span className={clsx('font-bold', esActual ? 'text-enel-blue' : 'text-enel-navy')}>
+                      <span
+                        className={clsx(
+                          'font-bold',
+                          esActual ? 'text-enel-blue' : 'text-enel-navy',
+                        )}
+                      >
                         {paso.nombre}
                       </span>
                       <AnimatePresence>

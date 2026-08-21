@@ -242,7 +242,7 @@ export function StormIntro() {
   const yEnel = useTransform(prog, [0.48, 0.58], [120, 0])
   const scaleEnel = useTransform(prog, [0.48, 0.58], [0.7, 1])
   const rotateEnel = useTransform(prog, [0.48, 0.58], [-4, 0])
-  const opDist = useTransform(prog, [0.50, 0.62], [0, 1])
+  const opDist = useTransform(prog, [0.5, 0.62], [0, 1])
   const sxLinea = useTransform(prog, [0.56, 0.68], [0, 1])
 
   const escalaDestello = useTransform(prog, [0.56, 0.66], [0, 6.5])
@@ -410,7 +410,7 @@ export function StormIntro() {
               transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col items-center gap-3"
             >
-              <span className="text-[13px] font-semibold tracking-[0.28em] uppercase text-white/80 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+              <span className="text-[13px] font-semibold tracking-[0.28em] text-white/80 uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
                 Desplázate
               </span>
               <div className="relative flex flex-col items-center">

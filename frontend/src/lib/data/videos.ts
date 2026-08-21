@@ -55,9 +55,7 @@ export const videosMock: VideoLink[] = [
   },
 ]
 
-const VIDEO_POR_SECCION = new Map(
-  videosMock.map((video) => [video.section_identifier, video]),
-)
+const VIDEO_POR_SECCION = new Map(videosMock.map((video) => [video.section_identifier, video]))
 
 export function videoDeSeccion(sectionIdentifier: string): VideoLink | undefined {
   const real = useVideosStore

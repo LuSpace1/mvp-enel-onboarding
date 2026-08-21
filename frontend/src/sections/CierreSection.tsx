@@ -75,7 +75,7 @@ export function CierreSection() {
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="bg-enel-blue/8 absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
-        <div className="absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-enel-pink/8 blur-[120px]" />
+        <div className="bg-enel-pink/8 absolute -right-40 -bottom-40 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
       </div>
 
       <motion.div
@@ -87,14 +87,16 @@ export function CierreSection() {
       >
         <Reveal>
           <div className="max-w-3xl">
-            <span className="text-enel-blue rounded-full border border-enel-blue/20 bg-enel-blue/5 px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] uppercase">
+            <span className="text-enel-blue border-enel-blue/20 bg-enel-blue/5 rounded-full border px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] uppercase">
               Sigue explorando
             </span>
             <h2 className="text-enel-navy mt-6 text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
               Bienvenido al equipo <span className="texto-gradiente-azul">Enel</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg">
-              Si es tu primer día, aquí tienes todo lo que necesitas para arrancar con el pie derecho. Si ya eres parte de la familia, usa estos recursos para reforzar lo que sabes y seguir creciendo.
+              Si es tu primer día, aquí tienes todo lo que necesitas para arrancar con el pie
+              derecho. Si ya eres parte de la familia, usa estos recursos para reforzar lo que sabes
+              y seguir creciendo.
             </p>
           </div>
         </Reveal>
@@ -115,12 +117,12 @@ export function CierreSection() {
                     alt="Enel Distribución"
                     className="aspect-[4/3] w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-enel-navy/15 via-transparent to-transparent" />
+                  <div className="from-enel-navy/15 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
                 </div>
 
                 <div
                   aria-hidden="true"
-                  className="mx-auto mt-5 h-4 w-[60%] rounded-full bg-enel-navy/10 blur-lg"
+                  className="bg-enel-navy/10 mx-auto mt-5 h-4 w-[60%] rounded-full blur-lg"
                 />
               </motion.div>
             </div>
@@ -143,8 +145,11 @@ export function CierreSection() {
                     delay: 0.15 + indice * 0.06,
                     ease: [0.23, 1, 0.32, 1],
                   }}
-                  className="group relative rounded-2xl bg-black/[0.03] p-[2px] ring-1 ring-black/5 transition-all duration-300 hover:ring-enel-blue/20 hover:shadow-[0_16px_48px_rgba(235,0,83,0.08)]"
-                  style={{ animation: 'float-subtle 4s ease-in-out infinite', animationDelay: `${indice * 0.4}s` }}
+                  className="group hover:ring-enel-blue/20 relative rounded-2xl bg-black/[0.03] p-[2px] ring-1 ring-black/5 transition-all duration-300 hover:shadow-[0_16px_48px_rgba(235,0,83,0.08)]"
+                  style={{
+                    animation: 'float-subtle 4s ease-in-out infinite',
+                    animationDelay: `${indice * 0.4}s`,
+                  }}
                 >
                   <div className="relative overflow-hidden rounded-[calc(1rem-2px)] bg-white p-5">
                     <div
@@ -196,11 +201,11 @@ export function CierreSection() {
             <a
               href="#portada"
               onClick={() => track('cierre.volver')}
-              className="group bg-enel-navy inline-flex h-12 items-center gap-3 rounded-full px-7 text-sm font-semibold text-white shadow-lg transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:bg-enel-blue hover:shadow-xl active:scale-[0.97]"
+              className="group bg-enel-navy hover:bg-enel-blue inline-flex h-12 items-center gap-3 rounded-full px-7 text-sm font-semibold text-white shadow-lg transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.97]"
             >
               <ArrowUp size={16} weight="bold" />
               Volver al inicio
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:bg-white/15 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-white/15">
                 <ArrowUpRight size={13} weight="bold" />
               </span>
             </a>

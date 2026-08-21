@@ -51,7 +51,10 @@ export function PortadaDelViaje() {
 
   return (
     <>
-      <section id="portada" className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-16 md:min-h-[80dvh] md:py-24">
+      <section
+        id="portada"
+        className="bg-enel-navy relative flex min-h-[72dvh] items-center overflow-hidden py-16 md:min-h-[80dvh] md:py-24"
+      >
         <div className="pointer-events-none absolute inset-0">
           <motion.img
             src={fotoMUT}
@@ -133,17 +136,13 @@ export function PortadaDelViaje() {
                         boxShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
                       }
                 }
-                whileHover={
-                  reduce
-                    ? undefined
-                    : { scale: 1.06, y: -3 }
-                }
+                whileHover={reduce ? undefined : { scale: 1.06, y: -3 }}
                 whileTap={reduce ? undefined : { scale: 0.97 }}
-                className="relative inline-flex h-14 items-center gap-2.5 rounded-full border-2 border-enel-pink bg-gradient-to-r from-enel-pink to-[#ff2d78] px-8 text-[15px] font-bold text-white shadow-xl transition"
+                className="border-enel-pink from-enel-pink relative inline-flex h-14 items-center gap-2.5 rounded-full border-2 bg-gradient-to-r to-[#ff2d78] px-8 text-[15px] font-bold text-white shadow-xl transition"
                 data-analytics-component="portada"
                 data-analytics-accion="iniciar"
               >
-                <span className="absolute -inset-0.5 -z-10 rounded-full bg-enel-pink/20 blur-md" />
+                <span className="bg-enel-pink/20 absolute -inset-0.5 -z-10 rounded-full blur-md" />
                 Comenzar el viaje
                 <ArrowDown size={18} weight="bold" className="animate-bounce" />
               </motion.button>
@@ -198,13 +197,35 @@ export function PortadaDelViaje() {
               <div className="bg-enel-blue/10 absolute -top-28 -left-28 h-96 w-96 rounded-full blur-3xl" />
               <div className="absolute top-1/3 -right-32 h-[26rem] w-[26rem] rounded-full bg-emerald-300/25 blur-3xl" />
               <div className="bg-enel-pink/15 absolute top-1/4 -left-16 h-64 w-64 rounded-full blur-3xl" />
-              <div className="absolute right-[5%] top-[15%] h-48 w-48 rounded-full bg-violet-400/20 blur-3xl" />
-              <div className="absolute bottom-[10%] right-[8%] h-56 w-56 rounded-full bg-sky-400/15 blur-3xl" />
-              <svg className="absolute top-1/3 -left-8 h-64 w-2 opacity-[0.08]" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50%" y1="0" x2="50%" y2="100%" stroke="currentColor" strokeWidth="2" strokeDasharray="6 10" />
+              <div className="absolute top-[15%] right-[5%] h-48 w-48 rounded-full bg-violet-400/20 blur-3xl" />
+              <div className="absolute right-[8%] bottom-[10%] h-56 w-56 rounded-full bg-sky-400/15 blur-3xl" />
+              <svg
+                className="absolute top-1/3 -left-8 h-64 w-2 opacity-[0.08]"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="50%"
+                  y1="0"
+                  x2="50%"
+                  y2="100%"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeDasharray="6 10"
+                />
               </svg>
-              <svg className="absolute right-4 top-[40%] h-48 w-2 opacity-[0.08]" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50%" y1="0" x2="50%" y2="100%" stroke="currentColor" strokeWidth="2" strokeDasharray="6 10" />
+              <svg
+                className="absolute top-[40%] right-4 h-48 w-2 opacity-[0.08]"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="50%"
+                  y1="0"
+                  x2="50%"
+                  y2="100%"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeDasharray="6 10"
+                />
               </svg>
             </div>
 
