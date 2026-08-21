@@ -1,6 +1,7 @@
 import { lazy, memo, Suspense, useEffect } from 'react'
 import { Toaster } from 'sonner'
 import { Nav } from '@/components/Nav'
+import { Indice } from '@/components/Indice'
 import { PasoHeader } from '@/components/PasoPantalla'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useVideosStore } from '@/store/useVideosStore'
@@ -156,6 +157,7 @@ export function Viaje() {
   return (
     <div className="text-enel-navy min-h-svh bg-[#f0eee6] font-sans">
       <Nav />
+      <Indice />
       {(!import.meta.env.PROD || !introYaVisto()) && (
         <Suspense fallback={null}>
           <StormIntro />
