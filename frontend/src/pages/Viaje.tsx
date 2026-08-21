@@ -31,6 +31,11 @@ const MapaConcesionSection = lazy(() =>
     default: modulo.MapaConcesionSection,
   })),
 )
+const VistaConcesionSection = lazy(() =>
+  import('@/sections/VistaConcesionSection').then((modulo) => ({
+    default: modulo.VistaConcesionSection,
+  })),
+)
 const CadenaValorSection = lazy(() =>
   import('@/sections/CadenaValorSection').then((modulo) => ({
     default: modulo.CadenaValorSection,
@@ -118,6 +123,10 @@ const Secciones = memo(function Secciones() {
 
       <SectionObserver id="mapa">
         <MapaConcesionSection />
+      </SectionObserver>
+
+      <SectionObserver id="concesion-detalle">
+        <VistaConcesionSection />
       </SectionObserver>
 
       <SectionObserver id="cadena">

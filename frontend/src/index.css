@@ -384,17 +384,13 @@ body {
   pointer-events: none;
 }
 
-/* Nombres de zonas sobre el mapa general; se ocultan al abrir una zona */
+/* Nombres de zonas sobre el mapa; en zoom se reducen y suben a la franja superior */
 .zona-label-svg {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: 36px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
   fill: var(--zc, #57534e);
-  stroke: #f7f5ee;
-  stroke-width: 7px;
-  stroke-linejoin: round;
-  paint-order: stroke;
   opacity: var(--zo, 0);
   transition: opacity 0.35s ease;
   pointer-events: none;
